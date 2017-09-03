@@ -35,19 +35,12 @@
       "name": "pulseeffects",
       "buildsystem": "meson",
       "builddir": true,
-      "sources": [
-        {
-          "type": "git",
-          "url": "https://github.com/wwmm/pulseeffects.git",
-          "branch": "v2.3.4",
-          "commit": "803b917c197e120be7405d3d1a4cec928233b708"
-        },
-        {
-          "type": "patch",
-          "path": "fix-i18n.patch",
-          "use-git": true
-        }
-      ],
+      "sources": [{
+        "type": "git",
+        "url": "https://github.com/wwmm/pulseeffects.git",
+        "branch": "v2.3.5",
+        "commit": "9042c6ad6b88a4382b48b162ff8ea57c431d7f3d"
+      }],
       "post-install": [
         "install -Dm644 ../LICENSE.md /app/share/licenses/pulseeffects/LICENSE"
       ],
