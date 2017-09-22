@@ -38,8 +38,8 @@
       "sources": [{
         "type": "git",
         "url": "https://github.com/wwmm/pulseeffects.git",
-        "branch": "v2.3.5",
-        "commit": "9042c6ad6b88a4382b48b162ff8ea57c431d7f3d"
+        "branch": "v3.0.0",
+        "commit": "69dbaebac4dcc07bd1af401848b7dde5804fabc6"
       }],
       "post-install": [
         "install -Dm644 ../LICENSE.md /app/share/licenses/pulseeffects/LICENSE"
@@ -156,8 +156,8 @@
           ],
           "sources": [{
             "type": "archive",
-            "url": "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.12.1.tar.xz",
-            "sha256": "9044b9d8b3ff44457fa9e36faa59c56684b587b34dee449bfe15ec0c32a3a6d2"
+            "url": "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.12.3.tar.xz",
+            "sha256": "d388f492440897f02b01eebb033ca2d41078a3d85c0eddc030cdea5a337a216e"
           }],
           "post-install": [
             "install -Dm644 COPYING /app/share/licenses/gstreamer/COPYING"
@@ -173,8 +173,8 @@
           ],
           "sources": [{
             "type": "archive",
-            "url": "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.12.1.tar.xz",
-            "sha256": "0cce9fadb574a840b3c9d31b69faf57aad6c5543c3b134a7b935de866c9e0465"
+            "url": "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.12.3.tar.xz",
+            "sha256": "d3d37b8489d37fa0018973d850bd2067b98af335fef2fa543ee7d40359e3cea5"
           }],
           "post-install": [
             "install -Dm644 COPYING /app/share/licenses/gst-plugins-base/COPYING",
@@ -197,8 +197,8 @@
           ],
           "sources": [{
             "type": "archive",
-            "url": "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.12.1.tar.xz",
-            "sha256": "121e8e46a7f0e622f09ec9be012607b89d737dd72d48b0f2f0680821ae2cf54b"
+            "url": "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.12.3.tar.xz",
+            "sha256": "13e7f479296891fef5a686438f20ba7d534680becf2269ecc5ee24aa83b45f03"
           }],
           "post-install": [
             "install -Dm644 COPYING /app/share/licenses/gst-plugins-good/COPYING"
@@ -213,8 +213,8 @@
           ],
           "sources": [{
             "type": "archive",
-            "url": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.1.tar.xz",
-            "sha256": "7def8049d1c44e50199023159dfada60af58fd503ef58a020b79044bda705b97"
+            "url": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.3.tar.xz",
+            "sha256": "36d059761852bed0f1a7fcd3ef64a8aeecab95d2bca53cd6aa0f08054b1cbfec"
           }],
           "post-install": [
             "install -Dm644 COPYING /app/share/licenses/gst-plugins-bad/COPYING",
@@ -269,8 +269,8 @@
           "build-options": { "env": { "PYTHON": "python3" } },
           "sources": [{
             "type": "archive",
-            "url": "https://gstreamer.freedesktop.org/src/gst-python/gst-python-1.12.1.tar.xz",
-            "sha256": "1721be4f201eb0a73075dd7d39bf2251798124cb948440d4cf4f02d6fa0078a1"
+            "url": "https://gstreamer.freedesktop.org/src/gst-python/gst-python-1.12.3.tar.xz",
+            "sha256": "c3f529dec1294633132690806703b80bad5752eff482eaf81f209c2aba012ba7"
           }],
           "post-install": [
             /* Use newer gi overrides with python-gobject from runtime */
