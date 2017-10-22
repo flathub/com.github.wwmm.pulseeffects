@@ -34,8 +34,8 @@
       "sources": [{
         "type": "git",
         "url": "https://github.com/wwmm/pulseeffects.git",
-        "branch": "v3.0.4",
-        "commit": "f5c7af7095109c26064ff2f7bf79d9909b8e2884"
+        "branch": "v3.0.5",
+        "commit": "3d6703709927949ba9cfd019e016d698ec867636"
       }],
       "post-install": [
         "install -Dm644 ../LICENSE.md /app/share/licenses/com.github.wwmm.pulseeffects/LICENSE"
