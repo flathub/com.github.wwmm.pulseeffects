@@ -94,7 +94,7 @@
           "name": "scipy",
           "buildsystem": "simple",
           "build-commands": [
-            "PATH=$PATH:/usr/lib/sdk/gfortran-62/bin python3 setup.py build",
+            "PATH=$PATH:/usr/lib/sdk/gfortran-62/bin python3 setup.py build -j 0",
             "python3 setup.py install --prefix=/app --root=/ --optimize=1"
           ],
           "build-options": {
