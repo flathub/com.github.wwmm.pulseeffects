@@ -17,7 +17,8 @@
     "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
     "--filesystem=xdg-run/dconf",
     "--filesystem=~/.config/dconf:ro",
-    "--talk-name=ca.desrt.dconf"
+    "--talk-name=ca.desrt.dconf",
+    "--env=LV2_PATH=/app/lib/lv2"
   ],
   "cleanup": [
     "*.a",
@@ -215,7 +216,6 @@
             "--disable-fluidsynth",
             "--disable-kate",
             "--disable-kms",
-            "--disable-lv2",
             "--disable-libde265",
             "--disable-libmms",
             "--disable-srtp",
@@ -276,6 +276,7 @@
             "/share/gtk-doc"
           ],
           "modules": [
+            /* LADSPA Plugins */
             {
               "name": "ladspa-sdk",
               "make-args": [ "targets" ],
@@ -345,6 +346,156 @@
                 }],
                 "cleanup": [ "*" ]
               }]
+            },
+            /* LV2 Plugins */
+            {
+              "name": "lv2",
+              "buildsystem": "simple",
+              "build-commands": [
+                "python3 ./waf configure --prefix=/app --lv2dir=/app/lib/lv2",
+                "python3 ./waf build -j 4",
+                "python3 ./waf install"
+              ],
+              "sources": [{
+                "type": "archive",
+                "url": "http://lv2plug.in/spec/lv2-1.14.0.tar.bz2",
+                "sha256": "b8052683894c04efd748c81b95dd065d274d4e856c8b9e58b7c3da3db4e71d32"
+              }],
+              "post-install": [
+                "install -Dm644 COPYING /app/share/licenses/lv2/COPYING"
+              ],
+              "cleanup": [ "/bin", "/share/lv2specgen" ]
+            },
+            {
+              "name": "lilv",
+              "buildsystem": "simple",
+              "build-commands": [
+                "python3 ./waf configure --prefix=/app",
+                "python3 ./waf build -j 4",
+                "python3 ./waf install"
+              ],
+              "sources": [{
+                "type": "archive",
+                "url": "https://download.drobilla.net/lilv-0.24.2.tar.bz2",
+                "sha256": "f7ec65b1c1f1734ded3a6c051bbaf50f996a0b8b77e814a33a34e42bce50a522"
+              }],
+              "post-install": [
+                "install -Dm644 COPYING /app/share/licenses/lilv/COPYING"
+              ],
+              "cleanup": [ "/bin", "/etc", "/share/man" ],
+              "modules": [
+                {
+                  "name": "serd",
+                  "buildsystem": "simple",
+                  "build-commands": [
+                    "python3 ./waf configure --prefix=/app",
+                    "python3 ./waf build -j 4",
+                    "python3 ./waf install"
+                  ],
+                  "sources": [{
+                    "type": "archive",
+                    "url": "https://download.drobilla.net/serd-0.28.0.tar.bz2",
+                    "sha256": "1df21a8874d256a9f3d51a18b8c6e2539e8092b62cc2674b110307e93f898aec"
+                  }],
+                  "post-install": [
+                    "install -Dm644 COPYING /app/share/licenses/serd/COPYING"
+                  ],
+                  "cleanup": [ "/bin", "/share/man" ]
+                },
+                {
+                  "name": "sord",
+                  "buildsystem": "simple",
+                  "build-commands": [
+                    "python3 ./waf configure --prefix=/app",
+                    "python3 ./waf build -j 4",
+                    "python3 ./waf install"
+                  ],
+                  "sources": [{
+                    "type": "archive",
+                    "url": "https://download.drobilla.net/sord-0.16.0.tar.bz2",
+                    "sha256": "9d3cb2c9966e93f537f37377171f162023cea6784ca069699be4a7770c8a035a"
+                  }],
+                  "post-install": [
+                    "install -Dm644 COPYING /app/share/licenses/sord/COPYING"
+                  ],
+                  "cleanup": [ "/bin", "/share/man" ]
+                },
+                {
+                  "name": "sratom",
+                  "buildsystem": "simple",
+                  "build-commands": [
+                    "python3 ./waf configure --prefix=/app",
+                    "python3 ./waf build -j 4",
+                    "python3 ./waf install"
+                  ],
+                  "sources": [{
+                    "type": "archive",
+                    "url": "https://download.drobilla.net/sratom-0.6.0.tar.bz2",
+                    "sha256": "440ac2b1f4f0b7878f8b95698faa1e8f8c50929a498f68ec5d066863626a3d43"
+                  }],
+                  "post-install": [
+                    "install -Dm644 COPYING /app/share/licenses/sratom/COPYING"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "calf",
+              "sources": [{
+                "type": "archive",
+                "url": "https://calf-studio-gear.org/files/calf-0.90.0.tar.gz",
+                "sha256": "2b32007c4769b0bcc9898c088d26562b1ab1d57a68130d0235e7d27da4d83236"
+              }],
+              "post-install": [
+                "install -Dm644 COPYING /app/share/licenses/calf/COPYING"
+              ],
+              "cleanup": [ "/bin", "/share/bash-completion", "/share/calf", "/share/doc", "/share/man" ],
+              "modules": [
+                {
+                  "name": "fluidsynth",
+                  "buildsystem": "cmake",
+                  "config-opts": [
+                    "-DCMAKE_INSTALL_PREFIX=/app",
+                    "-DCMAKE_INSTALL_LIBDIR=lib",
+                    "-DCMAKE_BUILD_TYPE=Release",
+                    "-Denable-ladspa=ON",
+                    "-DLIB_SUFFIX=''"
+                  ],
+                  "sources": [{
+                    "type": "git",
+                    "url": "https://github.com/FluidSynth/fluidsynth.git",
+                    "branch": "v1.1.8",
+                    "commit": "12e7afe3a806a6b397f28e0ca4bc6bab9ebe7047"
+                  }],
+                  "post-install": [
+                    "install -Dm644 LICENSE /app/share/licenses/fluidsynth/LICENSE"
+                  ],
+                  "cleanup": [ "/bin", "/share/man" ]
+                }
+              ]
+            },
+            {
+              /* Ladspa versions are used by pulseeffects */
+              "name": "zam-plugins",
+              "no-autogen": true,
+              "make-install-args": [ "PREFIX=/app" ],
+              "sources": [
+                {
+                  "type": "git",
+                  "url": "https://github.com/zamaudio/zam-plugins.git",
+                  "branch": "3.9",
+                  "commit": "4976cf204074c1dfaf344821e83e8d896b35107d"
+                },
+                {
+                  "type": "patch",
+                  "path": "zam-plugins-disable-unused.patch"
+                }
+              ],
+              "post-install": [
+                "install -Dm644 LICENSE /app/share/licenses/zam-plugins/LICENSE"
+              ],
+              /* Note: gst-inspect-1.0 cannot find lv2 versions */
+              "cleanup": [ "/lib/lv2", "/lib/vst" ]
             }
           ]
         }
