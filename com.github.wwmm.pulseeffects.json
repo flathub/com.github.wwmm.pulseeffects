@@ -566,6 +566,7 @@
               "name": "lsp-plugins",
               "subdir": "lsp-plugins",
               "no-autogen": true,
+              "skip-arches": [ "i386" ],
               "sources": [
                 {
                   "type": "archive",
