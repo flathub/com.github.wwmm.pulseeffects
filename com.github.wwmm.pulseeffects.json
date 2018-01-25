@@ -18,6 +18,7 @@
     "--filesystem=xdg-run/dconf",
     "--filesystem=~/.config/dconf:ro",
     "--talk-name=ca.desrt.dconf",
+    /* LV2 Plugin PATH */
     "--env=LV2_PATH=/app/lib/lv2"
   ],
   "cleanup": [
@@ -35,8 +36,8 @@
       "sources": [{
         "type": "git",
         "url": "https://github.com/wwmm/pulseeffects.git",
-        "branch": "v3.1.6",
-        "commit": "acfe4d13c3e7b8f313d34d6fbdf73f7cc19da741"
+        "branch": "v3.1.7",
+        "commit": "8fd1ee2b7e56d404d4bbc14cf4dad3dea3f455a1"
       }],
       "post-install": [
         "install -Dm644 ../LICENSE.md /app/share/licenses/com.github.wwmm.pulseeffects/LICENSE"
@@ -83,8 +84,8 @@
           },
           "sources": [{
             "type": "archive",
-            "url": "https://github.com/numpy/numpy/releases/download/v1.13.3/numpy-1.13.3.tar.gz",
-            "sha256": "4c6b4eef790528bebb7ec9590d74cc193868940fe68e4109a91c196df72d8094"
+            "url": "https://github.com/numpy/numpy/releases/download/v1.14.0/numpy-1.14.0.tar.gz",
+            "sha256": "c45d99134bb07600e916537c51c22e87f9e0c44b05d71018ab4907e195f007ce"
           }],
           "post-install": [
             "install -Dm644 LICENSE.txt /app/share/licenses/numpy/LICENSE"
@@ -306,6 +307,38 @@
               "cleanup": [ "*" ]
             },
             {
+              /* Single precision */
+              "name": "fftw3f",
+              "config-opts": [
+                "--prefix=/app",
+                "--enable-shared",
+                "--enable-threads",
+                "--enable-openmp",
+                "--disable-doc",
+                "--enable-sse",
+                "--enable-avx",
+                "--enable-float"
+              ],
+              "build-options": {
+                "arch": {
+                  "x86_64": {
+                    "cflags": "-fPIC",
+                    "cxxflags": "-fPIC"
+                  }
+                }
+              },
+              "sources": [{
+                "type": "archive",
+                "url": "http://www.fftw.org/fftw-3.3.6-pl2.tar.gz",
+                "sha256": "a5de35c5c824a78a058ca54278c706cdf3d4abba1c56b63531c2cb05f5d57da2"
+              }],
+              "post-install": [
+                "install -Dm644 COPYING /app/share/licenses/fftw/COPYING",
+                "install -m644 COPYRIGHT /app/share/licenses/fftw/COPYRIGHT"
+              ],
+              "cleanup": [ "/bin", "/share/man" ]
+            },
+            {
               "name": "swh-plugins",
               "config-opts": [ "--prefix=/app" ],
               "sources": [
@@ -323,29 +356,60 @@
               "post-install": [
                 "install -Dm644 COPYING /app/share/licenses/swh-plugins/COPYING"
               ],
-              "cleanup": [ "/share/ladspa" ],
-              "modules": [{
-                "name": "fftw",
-                "config-opts": [
-                  "--prefix=/app",
-                  "--disable-doc",
-                  "--enable-float"
-                ],
-                "build-options": {
-                  "arch": {
-                    "x86_64": {
-                      "cflags": "-fPIC",
-                      "cxxflags": "-fPIC"
+              "cleanup": [ "/share/ladspa" ]
+            },
+            {
+              "name": "rubberband",
+              "sources": [{
+                "type": "archive",
+                "url": "https://code.breakfastquay.com/attachments/download/34/rubberband-1.8.1.tar.bz2",
+                "sha256": "ff0c63b0b5ce41f937a8a3bc560f27918c5fe0b90c6bc1cb70829b86ada82b75"
+              }],
+              "post-install": [
+                "install -Dm644 COPYING /app/share/licenses/rubberband/COPYING"
+              ],
+              "cleanup": [ "/bin", "/share/ladspa" ],
+              "modules": [
+                {
+                  /* Double precision */
+                  "name": "fftw3",
+                  "config-opts": [
+                    "--prefix=/app",
+                    "--enable-shared",
+                    "--enable-threads",
+                    "--enable-openmp",
+                    "--disable-doc",
+                    "--enable-sse2",
+                    "--enable-avx"
+                  ],
+                  "build-options": {
+                    "arch": {
+                      "x86_64": {
+                        "cflags": "-fPIC",
+                        "cxxflags": "-fPIC"
+                      }
                     }
-                  }
+                  },
+                  "sources": [{
+                    "type": "archive",
+                    "url": "http://www.fftw.org/fftw-3.3.6-pl2.tar.gz",
+                    "sha256": "a5de35c5c824a78a058ca54278c706cdf3d4abba1c56b63531c2cb05f5d57da2"
+                  }],
+                  "cleanup": [ "/bin", "/share/man" ]
                 },
-                "sources": [{
-                  "type": "archive",
-                  "url": "http://www.fftw.org/fftw-3.3.6-pl2.tar.gz",
-                  "sha256": "a5de35c5c824a78a058ca54278c706cdf3d4abba1c56b63531c2cb05f5d57da2"
-                }],
-                "cleanup": [ "*" ]
-              }]
+                {
+                  "name": "vamp-plugin-sdk",
+                  "sources": [{
+                    "type": "archive",
+                    "url": "https://code.soundsoftware.ac.uk/attachments/download/2206/vamp-plugin-sdk-2.7.1.tar.gz",
+                    "sha256": "c6fef3ff79d2bf9575ce4ce4f200cbf219cbe0a21cfbad5750e86ff8ae53cb0b"
+                  }],
+                  "post-install": [
+                    "install -Dm644 COPYING /app/share/licenses/vamp-plugin-sdk/COPYING"
+                  ],
+                  "cleanup": [ "/bin" ]
+                }
+              ]
             },
             /* LV2 Plugins */
             {
@@ -449,7 +513,8 @@
               "post-install": [
                 "install -Dm644 COPYING /app/share/licenses/calf/COPYING"
               ],
-              "cleanup": [ "/bin", "/share/bash-completion", "/share/calf", "/share/doc", "/share/man" ],
+              "cleanup": [ "/bin", "/share/applications", "/share/bash-completion",
+                           "/share/calf", "/share/doc", "/share/man" ],
               "modules": [
                 {
                   "name": "fluidsynth",
