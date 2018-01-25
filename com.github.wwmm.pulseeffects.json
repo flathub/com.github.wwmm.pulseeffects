@@ -561,6 +561,25 @@
               ],
               /* Note: gst-inspect-1.0 cannot find lv2 versions */
               "cleanup": [ "/lib/lv2", "/lib/vst" ]
+            },
+            {
+              "name": "lsp-plugins",
+              "subdir": "lsp-plugins",
+              "no-autogen": true,
+              "sources": [
+                {
+                  "type": "archive",
+                  "url": "https://sourceforge.net/code-snapshots/svn/l/ls/lsp-plugins/svn/lsp-plugins-svn-13-trunk.zip",
+                  "sha256": "f92fe19282b5cd27d325dc0f50d3f250a9d8fc62cf8e5c6b0cc1d7f585b2bfd0"
+                },
+                {
+                  "type": "patch",
+                  "path": "lsp-plugins.patch"
+                }
+              ],
+              "post-install": [
+                "install -Dm644 LICENSE.txt /app/share/licenses/lsp-plugins/LICENSE.txt"
+              ]
             }
           ]
         }
