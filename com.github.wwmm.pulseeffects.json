@@ -361,8 +361,8 @@
               "name": "rubberband",
               "sources": [{
                 "type": "archive",
-                "url": "http://code.breakfastquay.com/attachments/download/34/rubberband-1.8.1.tar.bz2",
-                "sha256": "ff0c63b0b5ce41f937a8a3bc560f27918c5fe0b90c6bc1cb70829b86ada82b75"
+                "url": "https://bitbucket.org/breakfastquay/rubberband/get/v1.8.1.tar.gz",
+                "sha256": "9bea85fc2e4d8c3044e3b87c6ecff4282a61a888bafe0ce07cee11fc0ea68f16"
               }],
               "post-install": [
                 "install -Dm644 COPYING /app/share/licenses/rubberband/COPYING"
@@ -399,9 +399,10 @@
                 {
                   "name": "vamp-plugin-sdk",
                   "sources": [{
-                    "type": "archive",
-                    "url": "https://code.soundsoftware.ac.uk/attachments/download/2206/vamp-plugin-sdk-2.7.1.tar.gz",
-                    "sha256": "c6fef3ff79d2bf9575ce4ce4f200cbf219cbe0a21cfbad5750e86ff8ae53cb0b"
+                    "type": "git",
+                    "url": "https://github.com/c4dm/vamp-plugin-sdk",
+                    "branch": "vamp-plugin-sdk-v2.7.1",
+                    "commit": "10be490c9902d874e9d772d94bf91448303d9b06"
                   }],
                   "post-install": [
                     "install -Dm644 COPYING /app/share/licenses/vamp-plugin-sdk/COPYING"
@@ -563,14 +564,13 @@
             },
             {
               "name": "lsp-plugins",
-              "subdir": "lsp-plugins",
               "no-autogen": true,
-              "skip-arches": [ "i386" ],
+              "only-arches": [ "x86_64" ],
               "sources": [
                 {
                   "type": "archive",
-                  "url": "https://sourceforge.net/code-snapshots/svn/l/ls/lsp-plugins/svn/lsp-plugins-svn-13-trunk.zip",
-                  "sha256": "f92fe19282b5cd27d325dc0f50d3f250a9d8fc62cf8e5c6b0cc1d7f585b2bfd0"
+                  "url": "https://sourceforge.net/projects/lsp-plugins/files/scr/scr-1.0.4/lsp-plugins-src-scr-1.0.4.tar.gz",
+                  "sha256": "29df4a42f029cde2036ce499a24b00854069a5f2da78940809d64094809e8bf8"
                 },
                 {
                   "type": "patch",
