@@ -63,9 +63,10 @@
             "-DCBLAS=ON"
           ],
           "sources": [{
-            "type": "archive",
-            "url": "http://www.netlib.org/lapack/lapack-3.7.1.tgz",
-            "sha256": "f6c53fd9f56932f3ddb3d5e24c1c07e4cd9b3b08e7f89de9c867125eecc9a1c8"
+            "type": "git",
+            "url": "https://github.com/Reference-LAPACK/lapack-release",
+            "branch": "lapack-3.8.0",
+            "commit": "ba3779a6813d84d329b73aac86afc4e041170609"
           }],
           "post-install": [
             "install -Dm644 ../LICENSE /app/share/licenses/lapack/LICENSE"
