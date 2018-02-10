@@ -1,6 +1,6 @@
-diff -urN a/lsp-plugins/Makefile b/lsp-plugins/Makefile
---- a/lsp-plugins/Makefile	2018-01-01 21:32:16.000000000 +0100
-+++ b/lsp-plugins/Makefile	2018-01-25 18:11:17.036172544 +0100
+diff -urN a/Makefile b/Makefile
+--- a/Makefile	2018-01-26 21:44:10.471163537 +0100
++++ b/Makefile	2018-02-07 17:37:15.452336504 +0100
 @@ -1,6 +1,6 @@
 -BIN_PATH                = /usr/local/bin
 -LIB_PATH                = /usr/local/lib
@@ -42,9 +42,9 @@ diff -urN a/lsp-plugins/Makefile b/lsp-plugins/Makefile
  	@$(UTL_GENTTL) $(DESTDIR)$(LV2_PATH)/$(ARTIFACT_ID).lv2
  	
  install_vst: all
-diff -urN a/lsp-plugins/src/container/Makefile b/lsp-plugins/src/container/Makefile
---- a/lsp-plugins/src/container/Makefile	2017-05-24 23:41:11.000000000 +0200
-+++ b/lsp-plugins/src/container/Makefile	2018-01-25 18:09:37.629903211 +0100
+diff -urN a/src/container/Makefile b/src/container/Makefile
+--- a/src/container/Makefile	2018-01-26 21:44:10.457163653 +0100
++++ b/src/container/Makefile	2018-02-07 17:38:53.470646837 +0100
 @@ -4,7 +4,7 @@
  OBJ_HELPERS             = $(OBJDIR)/CairoCanvas.o
  
@@ -54,9 +54,9 @@ diff -urN a/lsp-plugins/src/container/Makefile b/lsp-plugins/src/container/Makef
  ifdef VST_SDK
  MODULES                += $(LIB_VST)
  endif
-diff -urN a/lsp-plugins/src/Makefile b/lsp-plugins/src/Makefile
---- a/lsp-plugins/src/Makefile	2017-05-24 23:41:11.000000000 +0200
-+++ b/lsp-plugins/src/Makefile	2018-01-25 18:06:47.626306154 +0100
+diff -urN a/src/Makefile b/src/Makefile
+--- a/src/Makefile	2018-01-26 21:44:10.455163670 +0100
++++ b/src/Makefile	2018-02-07 17:40:15.563556637 +0100
 @@ -1,5 +1,5 @@
 -SUBDIRS                 = core metadata plugins ui utils container doc
 -MODULES                 = $(SUBDIRS) jack_stub
