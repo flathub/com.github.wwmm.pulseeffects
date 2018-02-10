@@ -36,7 +36,7 @@
       "sources": [{
         "type": "git",
         "url": "https://github.com/wwmm/pulseeffects.git",
-        "branch": "v3.2.0",
+        "tag": "v3.2.0",
         "commit": "14f6e8ac46773311a114d7edc178833d41ea6a99"
       }],
       "post-install": [
@@ -345,7 +345,7 @@
                 {
                   "type": "git",
                   "url": "https://github.com/swh/ladspa.git",
-                  "branch": "v0.4.17",
+                  "tag": "v0.4.17",
                   "commit": "8b50f3434b8b30dff16020d17608ced9ee04477b"
                 },
                 {
@@ -402,7 +402,7 @@
                   "sources": [{
                     "type": "git",
                     "url": "https://github.com/c4dm/vamp-plugin-sdk",
-                    "branch": "vamp-plugin-sdk-v2.7.1",
+                    "tag": "vamp-plugin-sdk-v2.7.1",
                     "commit": "10be490c9902d874e9d772d94bf91448303d9b06"
                   }],
                   "post-install": [
@@ -530,7 +530,7 @@
                   "sources": [{
                     "type": "git",
                     "url": "https://github.com/FluidSynth/fluidsynth.git",
-                    "branch": "v1.1.8",
+                    "tag": "v1.1.8",
                     "commit": "12e7afe3a806a6b397f28e0ca4bc6bab9ebe7047"
                   }],
                   "post-install": [
@@ -549,7 +549,7 @@
                 {
                   "type": "git",
                   "url": "https://github.com/zamaudio/zam-plugins.git",
-                  "branch": "3.9",
+                  "tag": "3.9",
                   "commit": "4976cf204074c1dfaf344821e83e8d896b35107d"
                 },
                 {
