@@ -1,0 +1,32 @@
+diff --git a/ext/bs2b/meson.build b/ext/bs2b/meson.build
+new file mode 100644
+index 000000000..6007ea622
+--- /dev/null
++++ b/ext/bs2b/meson.build
+@@ -0,0 +1,15 @@
++bs2b_sources = [ 'gstbs2b.c', ]
++
++bs2b_dep = dependency('libbs2b', version : '>=3.1.0', required : false)
++
++if bs2b_dep.found()
++  gstbs2b = library('gstbs2b',
++    bs2b_sources,
++    c_args : gst_plugins_bad_args,
++    link_args : noseh_link_args,
++    include_directories : [configinc, libsinc],
++    dependencies : [gstaudio_dep, gstbase_dep, bs2b_dep],
++    install : true,
++    install_dir : plugins_install_dir,
++  )
++endif
+diff --git a/ext/meson.build b/ext/meson.build
+index f6ec86421..208933bb7 100644
+--- a/ext/meson.build
++++ b/ext/meson.build
+@@ -1,5 +1,5 @@
+ subdir('assrender')
+-#subdir('bs2b')
++subdir('bs2b')
+ subdir('bz2')
+ subdir('chromaprint')
+ subdir('curl')

@@ -1,0 +1,68 @@
+diff --git a/ext/ladspa/meson.build b/ext/ladspa/meson.build
+new file mode 100644
+index 000000000..c0469ac09
+--- /dev/null
++++ b/ext/ladspa/meson.build
+@@ -0,0 +1,20 @@
++ladspa_sources = [
++  'gstladspa.c',
++  'gstladspafilter.c',
++  'gstladspasource.c',
++  'gstladspasink.c',
++  'gstladspautils.c',
++]
++
++ladspa_dep = dependency('lrdf', required : false)
++if ladspa_dep.found()
++  gstrsvg = library('gstladspa',
++    ladspa_sources,
++    c_args : gst_plugins_bad_args,
++    link_args : noseh_link_args,
++    include_directories : [configinc, libsinc],
++    dependencies : [gstaudio_dep, gstbase_dep, gmodule_dep, ladspa_dep, mathlib],
++    install : true,
++    install_dir : plugins_install_dir,
++  )
++endif
+diff --git a/ext/lv2/meson.build b/ext/lv2/meson.build
+new file mode 100644
+index 000000000..bcb6442d8
+--- /dev/null
++++ b/ext/lv2/meson.build
+@@ -0,0 +1,19 @@
++lv2_sources = [
++  'gstlv2.c',
++  'gstlv2filter.c',
++  'gstlv2source.c',
++  'gstlv2utils.c',
++]
++
++lv2_dep = dependency('lilv-0', version : '>= 0.22', required : false)
++if lv2_dep.found()
++  gstrsvg = library('gstlv2',
++    lv2_sources,
++    c_args : gst_plugins_bad_args,
++    link_args : noseh_link_args,
++    include_directories : [configinc],
++    dependencies : [gstaudio_dep, gstbase_dep, lv2_dep, mathlib],
++    install : true,
++    install_dir : plugins_install_dir,
++  )
++endif
+diff --git a/ext/meson.build b/ext/meson.build
+index f6ec86421..90072e9c4 100644
+--- a/ext/meson.build
++++ b/ext/meson.build
+@@ -21,10 +21,10 @@ subdir('gtk')
+ subdir('hls')
+ subdir('iqa')
+ subdir('kate')
+-#subdir('ladspa')
++subdir('ladspa')
+ subdir('libde265')
+ subdir('libmms')
+-#subdir('lv2')
++subdir('lv2')
+ #subdir('modplug')
+ subdir('mpeg2enc')
+ subdir('mplex')
