@@ -544,19 +544,14 @@
               /* Ladspa versions are used by pulseeffects */
               "name": "zam-plugins",
               "no-autogen": true,
-              "make-install-args": [ "PREFIX=/app" ],
-              "sources": [
-                {
-                  "type": "git",
-                  "url": "https://github.com/zamaudio/zam-plugins.git",
-                  "tag": "3.9",
-                  "commit": "4976cf204074c1dfaf344821e83e8d896b35107d"
-                },
-                {
-                  "type": "patch",
-                  "path": "zam-plugins-disable-unused.patch"
-                }
-              ],
+              "make-args": [ "PREFIX=/app", "PLUGINS=ZaMaximX2" ],
+              "make-install-args": [ "PREFIX=/app", "PLUGINS=ZaMaximX2" ],
+              "sources": [{
+                "type": "git",
+                "url": "https://github.com/zamaudio/zam-plugins.git",
+                "tag": "3.9",
+                "commit": "4976cf204074c1dfaf344821e83e8d896b35107d"
+              }],
               "post-install": [
                 "install -Dm644 LICENSE /app/share/licenses/zam-plugins/LICENSE"
               ],
