@@ -3,7 +3,7 @@
   "runtime": "org.gnome.Platform",
   "runtime-version": "3.26",
   "sdk": "org.gnome.Sdk",
-  "sdk-extensions": ["org.freedesktop.Sdk.Extension.gfortran-62"],
+  "sdk-extensions": ["org.freedesktop.Sdk.Extension.gcc7"],
   "command": "pulseeffects",
   "rename-icon": "pulseeffects",
   "finish-args": [
@@ -48,20 +48,26 @@
           "buildsystem": "simple",
           "build-commands": [
             "mkdir -p /app/lib",
-            "cp -d /usr/lib/sdk/gfortran-62/lib/libquadmath.so* /usr/lib/sdk/gfortran-62/lib/libgfortran.so* /app/lib"
+            "cp -d /usr/lib/sdk/gcc7/lib/libquadmath.so* /usr/lib/sdk/gcc7/lib/libgfortran.so* /app/lib/"
           ]
         },
         {
           "name": "lapack",
           "buildsystem": "cmake",
           "builddir": true,
+          "build-options": {
+            "env": {
+              "CC": "/usr/lib/sdk/gcc7/bin/gcc",
+              "CXX": "/usr/lib/sdk/gcc7/bin/g++"
+            }
+          },
           "config-opts": [
             "-DCMAKE_INSTALL_PREFIX=/app",
             "-DCMAKE_INSTALL_LIBDIR=lib",
             "-DCMAKE_BUILD_TYPE=Release",
             "-DBUILD_SHARED_LIBS=ON",
             "-DBUILD_TESTING=OFF",
-            "-DCMAKE_Fortran_COMPILER=/usr/lib/sdk/gfortran-62/bin/gfortran",
+            "-DCMAKE_Fortran_COMPILER=/usr/lib/sdk/gcc7/bin/gfortran",
             "-DLAPACKE=ON",
             "-DCBLAS=ON"
           ],
@@ -80,11 +86,17 @@
           "name": "numpy",
           "buildsystem": "simple",
           "build-commands": [
-            "PATH=$PATH:/usr/lib/sdk/gfortran-62/bin python3 setup.py build -j 0",
+            "PATH=$PATH:/usr/lib/sdk/gcc7/bin python3 setup.py build -j 0",
             "python3 setup.py install --prefix=/app --root=/ --optimize=1"
           ],
           "build-options": {
-            "env": { "ATLAS": "None", "BLAS": "/app/lib", "LAPACK": "/app/lib" }
+            "env": { 
+              "ATLAS": "None",
+              "BLAS": "/app/lib",
+              "LAPACK": "/app/lib",
+              "CC": "/usr/lib/sdk/gcc7/bin/gcc",
+              "CXX": "/usr/lib/sdk/gcc7/bin/g++"
+            }
           },
           "sources": [{
             "type": "archive",
@@ -100,12 +112,18 @@
           "name": "scipy",
           "buildsystem": "simple",
           "build-commands": [
-            "PATH=$PATH:/usr/lib/sdk/gfortran-62/bin python3 setup.py build -j 0",
+            "PATH=$PATH:/usr/lib/sdk/gcc7/bin python3 setup.py build -j 0",
             "python3 setup.py install --prefix=/app --root=/ --optimize=1"
           ],
           "build-options": {
             "ldflags": "-shared",
-            "env": { "ATLAS": "None", "BLAS": "/app/lib", "LAPACK": "/app/lib" }
+            "env": { 
+              "ATLAS": "None",
+              "BLAS": "/app/lib",
+              "LAPACK": "/app/lib",
+              "CC": "/usr/lib/sdk/gcc7/bin/gcc",
+              "CXX": "/usr/lib/sdk/gcc7/bin/g++"
+            }
           },
           "sources": [{
             "type": "archive",
