@@ -46,7 +46,10 @@
         {
           "name": "gfortran",
           "buildsystem": "simple",
-          "build-commands": [ "/usr/lib/sdk/gfortran-62/install.sh" ]
+          "build-commands": [
+            "mkdir -p /app/lib",
+            "cp -d /usr/lib/sdk/gfortran-62/lib/libquadmath.so* /usr/lib/sdk/gfortran-62/lib/libgfortran.so* /app/lib"
+          ]
         },
         {
           "name": "lapack",
