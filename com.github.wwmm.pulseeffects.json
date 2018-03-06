@@ -351,20 +351,28 @@
               /* Single precision */
               "name": "fftw3f",
               "config-opts": [
+                "F77=/usr/lib/sdk/gcc7/bin/gfortran",
                 "--prefix=/app",
+                "--disable-doc",
                 "--enable-shared",
                 "--enable-threads",
-                "--enable-openmp",
-                "--disable-doc",
-                "--enable-sse",
-                "--enable-avx",
                 "--enable-float"
               ],
               "build-options": {
                 "arch": {
+                  "i386": {
+                    "config-opts": [
+                      "--enable-avx",
+                      "--enable-openmp",
+                      "--enable-sse"
+                    ]
+                  },
                   "x86_64": {
-                    "cflags": "-fPIC",
-                    "cxxflags": "-fPIC"
+                    "config-opts": [
+                      "--enable-avx",
+                      "--enable-openmp",
+                      "--enable-sse"
+                    ]
                   }
                 }
               },
@@ -415,19 +423,27 @@
                   /* Double precision */
                   "name": "fftw3",
                   "config-opts": [
+                    "F77=/usr/lib/sdk/gcc7/bin/gfortran",
                     "--prefix=/app",
-                    "--enable-shared",
-                    "--enable-threads",
-                    "--enable-openmp",
                     "--disable-doc",
-                    "--enable-sse2",
-                    "--enable-avx"
+                    "--enable-shared",
+                    "--enable-threads"
                   ],
                   "build-options": {
                     "arch": {
+                      "i386": {
+                        "config-opts": [
+                          "--enable-avx",
+                          "--enable-openmp",
+                          "--enable-sse2"
+                        ]
+                      },
                       "x86_64": {
-                        "cflags": "-fPIC",
-                        "cxxflags": "-fPIC"
+                        "config-opts": [
+                          "--enable-avx",
+                          "--enable-openmp",
+                          "--enable-sse2"
+                        ]
                       }
                     }
                   },
