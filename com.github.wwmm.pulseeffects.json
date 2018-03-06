@@ -46,9 +46,27 @@
         {
           "name": "gfortran",
           "buildsystem": "simple",
-          "build-commands": [
-            "mkdir -p /app/lib",
-            "cp -d /usr/lib/sdk/gcc7/lib/libquadmath.so* /usr/lib/sdk/gcc7/lib/libgfortran.so* /app/lib/"
+          "build-commands": [ "./install_gfortran.sh" ],
+          "sources": [
+            {
+              "type": "script",
+              "only-arches": [ "i386", "x86_64" ],
+              "commands": [
+                "mkdir -p /app/lib",
+                "cp -d /usr/lib/sdk/gcc7/lib/libquadmath.so* /app/lib/",
+                "cp -d /usr/lib/sdk/gcc7/lib/libgfortran.so* /app/lib/"
+              ],
+              "dest-filename": "install_gfortran.sh"
+            },
+            {
+              "type": "script",
+              "skip-arches": [ "i386", "x86_64" ],
+              "commands": [
+                "mkdir -p /app/lib",
+                "cp -d /usr/lib/sdk/gcc7/lib/libgfortran.so* /app/lib/"
+              ],
+              "dest-filename": "install_gfortran.sh"
+            }
           ]
         },
         {
