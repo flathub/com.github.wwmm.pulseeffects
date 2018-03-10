@@ -603,6 +603,12 @@
               "no-autogen": true,
               "make-args": [ "PREFIX=/app", "PLUGINS=ZaMaximX2" ],
               "make-install-args": [ "PREFIX=/app", "PLUGINS=ZaMaximX2" ],
+              "build-options": {
+                "arch": {
+                  "aarch64": { "make-args": [ "NOOPT=true" ] },
+                  "arm": { "make-args": [ "NOOPT=true" ] }
+                }
+              },
               "sources": [{
                 "type": "git",
                 "url": "https://github.com/zamaudio/zam-plugins.git",
