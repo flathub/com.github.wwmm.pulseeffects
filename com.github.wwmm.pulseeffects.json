@@ -106,7 +106,7 @@
           "name": "numpy",
           "buildsystem": "simple",
           "build-commands": [
-            "python3 setup.py build -j 0",
+            "python3 setup.py build --fcompiler=gnu95 -j 0",
             "python3 setup.py install --prefix=/app --root=/ --optimize=1"
           ],
           "build-options": {
@@ -133,7 +133,7 @@
           "name": "scipy",
           "buildsystem": "simple",
           "build-commands": [
-            "python3 setup.py build -j 0",
+            "python3 setup.py build --fcompiler=gnu95 -j 0",
             "python3 setup.py install --prefix=/app --root=/ --optimize=1"
           ],
           "build-options": {
