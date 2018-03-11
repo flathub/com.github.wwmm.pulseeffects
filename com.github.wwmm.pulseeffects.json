@@ -106,10 +106,11 @@
           "name": "numpy",
           "buildsystem": "simple",
           "build-commands": [
-            "PATH=$PATH:/usr/lib/sdk/gcc7/bin python3 setup.py build -j 0",
+            "python3 setup.py build -j 0",
             "python3 setup.py install --prefix=/app --root=/ --optimize=1"
           ],
           "build-options": {
+            "append-path": "/usr/lib/sdk/gcc7/bin",
             "env": { 
               "ATLAS": "None",
               "BLAS": "/app/lib",
@@ -132,10 +133,11 @@
           "name": "scipy",
           "buildsystem": "simple",
           "build-commands": [
-            "PATH=$PATH:/usr/lib/sdk/gcc7/bin python3 setup.py build -j 0",
+            "python3 setup.py build -j 0",
             "python3 setup.py install --prefix=/app --root=/ --optimize=1"
           ],
           "build-options": {
+            "append-path": "/usr/lib/sdk/gcc7/bin",
             "ldflags": "-shared",
             "env": { 
               "ATLAS": "None",
