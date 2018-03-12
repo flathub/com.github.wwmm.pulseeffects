@@ -339,7 +339,7 @@
                 },
                 {
                   "type": "patch",
-                  "path": "ladspa-sdk-fix-memleak.patch",
+                  "path": "patch/ladspa-sdk/001-fix-memleak.patch",
                   "strip-components": 0
                 },
                 {
@@ -401,7 +401,7 @@
                 },
                 {
                   "type": "patch",
-                  "path": "swh-plugins-disable-unused.patch"
+                  "path": "patch/swh-plugins/001-disable-unused-plugins.patch"
                 }
               ],
               "post-install": [
@@ -635,7 +635,7 @@
                 },
                 {
                   "type": "patch",
-                  "path": "lsp-plugins.patch"
+                  "path": "patch/lsp-plugins/001-fix-makefile.patch"
                 }
               ],
               "post-install": [
