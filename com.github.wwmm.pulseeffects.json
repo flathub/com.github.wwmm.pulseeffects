@@ -54,7 +54,8 @@
               "commands": [
                 "mkdir -p /app/lib",
                 "cp -d /usr/lib/sdk/gcc7/lib/libquadmath.so* /app/lib/",
-                "cp -d /usr/lib/sdk/gcc7/lib/libgfortran.so* /app/lib/"
+                "cp -d /usr/lib/sdk/gcc7/lib/libgfortran.so* /app/lib/",
+                "cp -d /usr/lib/sdk/gcc7/lib/libgcc_s.so* /app/lib/"
               ],
               "dest-filename": "install_gfortran.sh"
             },
@@ -63,7 +64,8 @@
               "skip-arches": [ "i386", "x86_64" ],
               "commands": [
                 "mkdir -p /app/lib",
-                "cp -d /usr/lib/sdk/gcc7/lib/libgfortran.so* /app/lib/"
+                "cp -d /usr/lib/sdk/gcc7/lib/libgfortran.so* /app/lib/",
+                "cp -d /usr/lib/sdk/gcc7/lib/libgcc_s.so* /app/lib/"
               ],
               "dest-filename": "install_gfortran.sh"
             }
