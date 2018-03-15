@@ -1,0 +1,28 @@
+From 576f4e0c64584da727a66512d0f4512ac894250a Mon Sep 17 00:00:00 2001
+From: Matthew Waters <matthew@centricular.com>
+Date: Mon, 5 Feb 2018 14:56:07 +1100
+Subject: gl/build/meson: fix gl_api variable names
+
+---
+ gst-libs/gst/gl/meson.build | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/gst-libs/gst/gl/meson.build b/gst-libs/gst/gl/meson.build
+index c6e9e03..18075c1 100644
+--- a/gst-libs/gst/gl/meson.build
++++ b/gst-libs/gst/gl/meson.build
+@@ -370,9 +370,9 @@ if gles2_dep.found() and gl_dep.found()
+   # https://github.com/mesonbuild/meson/issues/2364 is fixed
+   if not cc.compiles(gl_include_block + '\n' + 'void f (void) {}',dependencies : [gles2_dep, gl_dep])
+     message ('Cannot include both OpenGL and OpenGL ES headers')
+-    if need_gles2 != 'yes'
++    if need_api_gles2 != 'yes'
+       gles2_dep = unneeded_dep
+-    elif need_opengl != 'yes'
++    elif need_api_opengl != 'yes'
+       gl_dep = unneeded_dep
+     else
+       error('Both OpenGL and OpenGL ES were requested but cannot be included together')
+-- 
+cgit v1.1
+

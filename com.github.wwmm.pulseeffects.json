@@ -3,7 +3,7 @@
   "runtime": "org.gnome.Platform",
   "runtime-version": "3.26",
   "sdk": "org.gnome.Sdk",
-  "sdk-extensions": ["org.freedesktop.Sdk.Extension.gfortran-62"],
+  "sdk-extensions": ["org.freedesktop.Sdk.Extension.gcc7"],
   "command": "pulseeffects",
   "rename-icon": "pulseeffects",
   "finish-args": [
@@ -18,6 +18,8 @@
     "--filesystem=xdg-run/dconf",
     "--filesystem=~/.config/dconf:ro",
     "--talk-name=ca.desrt.dconf",
+    /* LADSPA Plugin PATH */
+    "--env=LADSPA_PATH=/app/lib/ladspa",
     /* LV2 Plugin PATH */
     "--env=LV2_PATH=/app/lib/lv2"
   ],
@@ -46,22 +48,48 @@
         {
           "name": "gfortran",
           "buildsystem": "simple",
-          "build-commands": [
-            "mkdir -p /app/lib",
-            "cp -d /usr/lib/sdk/gfortran-62/lib/libquadmath.so* /usr/lib/sdk/gfortran-62/lib/libgfortran.so* /app/lib"
+          "build-commands": [ "./install_gfortran.sh" ],
+          "sources": [
+            {
+              "type": "script",
+              "only-arches": [ "i386", "x86_64" ],
+              "commands": [
+                "mkdir -p /app/lib",
+                "cp -d /usr/lib/sdk/gcc7/lib/libquadmath.so* /app/lib/",
+                "cp -d /usr/lib/sdk/gcc7/lib/libgfortran.so* /app/lib/",
+                "cp -d /usr/lib/sdk/gcc7/lib/libgcc_s.so* /app/lib/"
+              ],
+              "dest-filename": "install_gfortran.sh"
+            },
+            {
+              "type": "script",
+              "skip-arches": [ "i386", "x86_64" ],
+              "commands": [
+                "mkdir -p /app/lib",
+                "cp -d /usr/lib/sdk/gcc7/lib/libgfortran.so* /app/lib/",
+                "cp -d /usr/lib/sdk/gcc7/lib/libgcc_s.so* /app/lib/"
+              ],
+              "dest-filename": "install_gfortran.sh"
+            }
           ]
         },
         {
           "name": "lapack",
           "buildsystem": "cmake",
           "builddir": true,
+          "build-options": {
+            "env": {
+              "CC": "/usr/lib/sdk/gcc7/bin/gcc",
+              "CXX": "/usr/lib/sdk/gcc7/bin/g++"
+            }
+          },
           "config-opts": [
             "-DCMAKE_INSTALL_PREFIX=/app",
             "-DCMAKE_INSTALL_LIBDIR=lib",
             "-DCMAKE_BUILD_TYPE=Release",
             "-DBUILD_SHARED_LIBS=ON",
             "-DBUILD_TESTING=OFF",
-            "-DCMAKE_Fortran_COMPILER=/usr/lib/sdk/gfortran-62/bin/gfortran",
+            "-DCMAKE_Fortran_COMPILER=/usr/lib/sdk/gcc7/bin/gfortran",
             "-DLAPACKE=ON",
             "-DCBLAS=ON"
           ],
@@ -80,11 +108,18 @@
           "name": "numpy",
           "buildsystem": "simple",
           "build-commands": [
-            "PATH=$PATH:/usr/lib/sdk/gfortran-62/bin python3 setup.py build -j 0",
+            "python3 setup.py build --fcompiler=gnu95 -j 0",
             "python3 setup.py install --prefix=/app --root=/ --optimize=1"
           ],
           "build-options": {
-            "env": { "ATLAS": "None", "BLAS": "/app/lib", "LAPACK": "/app/lib" }
+            "append-path": "/usr/lib/sdk/gcc7/bin",
+            "env": { 
+              "ATLAS": "None",
+              "BLAS": "/app/lib",
+              "LAPACK": "/app/lib",
+              "CC": "/usr/lib/sdk/gcc7/bin/gcc",
+              "CXX": "/usr/lib/sdk/gcc7/bin/g++"
+            }
           },
           "sources": [{
             "type": "archive",
@@ -100,12 +135,19 @@
           "name": "scipy",
           "buildsystem": "simple",
           "build-commands": [
-            "PATH=$PATH:/usr/lib/sdk/gfortran-62/bin python3 setup.py build -j 0",
+            "python3 setup.py build --fcompiler=gnu95 -j 0",
             "python3 setup.py install --prefix=/app --root=/ --optimize=1"
           ],
           "build-options": {
+            "append-path": "/usr/lib/sdk/gcc7/bin",
             "ldflags": "-shared",
-            "env": { "ATLAS": "None", "BLAS": "/app/lib", "LAPACK": "/app/lib" }
+            "env": { 
+              "ATLAS": "None",
+              "BLAS": "/app/lib",
+              "LAPACK": "/app/lib",
+              "CC": "/usr/lib/sdk/gcc7/bin/gcc",
+              "CXX": "/usr/lib/sdk/gcc7/bin/g++"
+            }
           },
           "sources": [{
             "type": "archive",
@@ -118,166 +160,44 @@
         },
         {
           "name": "gst-plugins-bad",
-          "config-opts": [
-            "--disable-accurip",
-            "--disable-adpcmdec",
-            "--disable-adpcmenc",
-            "--disable-aiff",
-            "--disable-videoframe_audiolevel",
-            "--disable-asfmux",
-            "--disable-audiobuffersplit",
-            "--disable-audiofxbad",
-            "--disable-audiomixer",
-            "--disable-audiomixmatrix",
-            "--disable-compositor",
-            "--disable-audiovisualizers",
-            "--disable-autoconvert",
-            "--disable-bayer",
-            "--disable-camerabin2",
-            "--disable-coloreffects",
-            "--disable-debugutils",
-            "--disable-dvbsuboverlay",
-            "--disable-dvdspu",
-            "--disable-faceoverlay",
-            "--disable-festival",
-            "--disable-fieldanalysis",
-            "--disable-freeverb",
-            "--disable-frei0r",
-            "--disable-gaudieffects",
-            "--disable-geometrictransform",
-            "--disable-gdp",
-            "--disable-id3tag",
-            "--disable-inter",
-            "--disable-interlace",
-            "--disable-ivfparse",
-            "--disable-ivtc",
-            "--disable-jp2kdecimator",
-            "--disable-jpegformat",
-            "--disable-librfb",
-            "--disable-midi",
-            "--disable-mpegdemux",
-            "--disable-mpegtsdemux",
-            "--disable-mpegtsmux",
-            "--disable-mpegpsmux",
-            "--disable-mxf",
-            "--disable-netsim",
-            "--disable-onvif",
-            "--disable-pcapparse",
-            "--disable-pnm",
-            "--disable-rawparse",
-            "--disable-removesilence",
-            "--disable-sdp",
-            "--disable-segmentclip",
-            "--disable-siren",
-            "--disable-smooth",
-            "--disable-speed",
-            "--disable-subenc",
-            "--disable-stereo",
-            "--disable-timecode",
-            "--disable-videofilters",
-            "--disable-videoparsers",
-            "--disable-videosignal",
-            "--disable-vmnc",
-            "--disable-y4m",
-            "--disable-yadif",
-            "--disable-directsound",
-            "--disable-wasapi",
-            "--disable-direct3d",
-            "--disable-winscreencap",
-            "--disable-winks",
-            "--disable-android_media",
-            "--disable-apple_media",
-            "--disable-bluez",
-            "--disable-avc",
-            "--disable-shm",
-            "--disable-vcd",
-            "--disable-opensles",
-            "--disable-uvch264",
-            "--disable-nvenc",
-            "--disable-tinyalsa",
-            "--disable-msdk",
-            "--disable-assrender",
-            "--disable-voamrwbenc",
-            "--disable-voaacenc",
-            "--disable-bz2",
-            "--disable-chromaprint",
-            "--disable-curl",
-            "--disable-dash",
-            "--disable-dc1394",
-            "--disable-decklink",
-            "--disable-directfb",
-            "--disable-wayland",
-            "--disable-webp",
-            "--disable-daala",
-            "--disable-dts",
-            "--disable-resindvd",
-            "--disable-faac",
-            "--disable-faad",
-            "--disable-fbdev",
-            "--disable-fdk_aac",
-            "--disable-flite",
-            "--disable-gsm",
-            "--disable-fluidsynth",
-            "--disable-kate",
-            "--disable-kms",
-            "--disable-libde265",
-            "--disable-libmms",
-            "--disable-srtp",
-            "--disable-dtls",
-            "--disable-ttml",
-            "--disable-modplug",
-            "--disable-mpeg2enc",
-            "--disable-mplex",
-            "--disable-musepack",
-            "--disable-neon",
-            "--disable-ofa",
-            "--disable-openal",
-            "--disable-opencv",
-            "--disable-openexr",
-            "--disable-openh264",
-            "--disable-openjpeg",
-            "--disable-openni2",
-            "--disable-opus",
-            "--disable-rsvg",
-            "--disable-gl",
-            "--disable-gtk3",
-            "--disable-qt",
-            "--disable-vulkan",
-            "--disable-teletextdec",
-            "--disable-wildmidi",
-            "--disable-smoothstreaming",
-            "--disable-sndfile",
-            "--disable-soundtouch",
-            "--disable-spc",
-            "--disable-gme",
-            "--disable-dvb",
-            "--disable-acm",
-            "--disable-vdpau",
-            "--disable-sbc",
-            "--disable-schro",
-            "--disable-zbar",
-            "--disable-rtmp",
-            "--disable-spandsp",
-            "--disable-hls",
-            "--disable-x265",
-            "--disable-webrtcdsp"
+          "buildsystem": "simple",
+          "build-commands": [
+            "meson _build --prefix=/app",
+            "ninja -C _build ext/bs2b/libgstbs2b.so ext/ladspa/libgstladspa.so ext/lv2/libgstlv2.so",
+            "install -Dm755 -t /app/lib/gstreamer-1.0 _build/ext/bs2b/libgstbs2b.so",
+            "install -Dm755 -t /app/lib/gstreamer-1.0 _build/ext/ladspa/libgstladspa.so",
+            "install -Dm755 -t /app/lib/gstreamer-1.0 _build/ext/lv2/libgstlv2.so"
           ],
           "sources": [
             {
               "type": "archive",
               "url": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.4.tar.xz",
               "sha256": "0c7857be16686d5c1ba6e34bd338664d3d4599d32714a8eca5c8a41a101e2d08"
+            },
+            {
+              "type": "patch",
+              "path": "patch/gst-plugins-bad/001-meson-backport.patch"
+            },
+            {
+              "type": "patch",
+              "path": "patch/gst-plugins-bad/002-meson-fix-ladspa.patch"
+            },
+            {
+              "type": "patch",
+              "path": "patch/gst-plugins-bad/003-meson-add-bs2b.patch"
+            },
+            {
+              "type": "patch",
+              "path": "patch/gst-plugins-bad/004-meson-fix-gl-check.patch"
+            },
+            {
+              "type": "patch",
+              "path": "patch/gst-plugins-bad/005-meson-fix-gl-variable-names.patch"
             }
           ],
           "post-install": [
             "install -Dm644 COPYING /app/share/licenses/gst-plugins-bad/COPYING",
             "install -m644 COPYING.LIB /app/share/licenses/gst-plugins-bad"
-          ],
-          "cleanup": [
-            "/lib/girepository-1.0",
-            "/lib/gstreamer-1.0/include",
-            "/share/gir-1.0",
-            "/share/gtk-doc"
           ],
           "modules": [
             /* LADSPA Plugins */
@@ -299,7 +219,7 @@
                 },
                 {
                   "type": "patch",
-                  "path": "ladspa-sdk-fix-memleak.patch",
+                  "path": "patch/ladspa-sdk/001-fix-memleak.patch",
                   "strip-components": 0
                 },
                 {
@@ -313,20 +233,28 @@
               /* Single precision */
               "name": "fftw3f",
               "config-opts": [
+                "F77=/usr/lib/sdk/gcc7/bin/gfortran",
                 "--prefix=/app",
+                "--disable-doc",
                 "--enable-shared",
                 "--enable-threads",
-                "--enable-openmp",
-                "--disable-doc",
-                "--enable-sse",
-                "--enable-avx",
                 "--enable-float"
               ],
               "build-options": {
                 "arch": {
+                  "i386": {
+                    "config-opts": [
+                      "--enable-avx",
+                      "--enable-openmp",
+                      "--enable-sse"
+                    ]
+                  },
                   "x86_64": {
-                    "cflags": "-fPIC",
-                    "cxxflags": "-fPIC"
+                    "config-opts": [
+                      "--enable-avx",
+                      "--enable-openmp",
+                      "--enable-sse"
+                    ]
                   }
                 }
               },
@@ -353,7 +281,7 @@
                 },
                 {
                   "type": "patch",
-                  "path": "swh-plugins-disable-unused.patch"
+                  "path": "patch/swh-plugins/001-disable-unused-plugins.patch"
                 }
               ],
               "post-install": [
@@ -377,19 +305,27 @@
                   /* Double precision */
                   "name": "fftw3",
                   "config-opts": [
+                    "F77=/usr/lib/sdk/gcc7/bin/gfortran",
                     "--prefix=/app",
-                    "--enable-shared",
-                    "--enable-threads",
-                    "--enable-openmp",
                     "--disable-doc",
-                    "--enable-sse2",
-                    "--enable-avx"
+                    "--enable-shared",
+                    "--enable-threads"
                   ],
                   "build-options": {
                     "arch": {
+                      "i386": {
+                        "config-opts": [
+                          "--enable-avx",
+                          "--enable-openmp",
+                          "--enable-sse2"
+                        ]
+                      },
                       "x86_64": {
-                        "cflags": "-fPIC",
-                        "cxxflags": "-fPIC"
+                        "config-opts": [
+                          "--enable-avx",
+                          "--enable-openmp",
+                          "--enable-sse2"
+                        ]
                       }
                     }
                   },
@@ -549,6 +485,12 @@
               "no-autogen": true,
               "make-args": [ "PREFIX=/app", "PLUGINS=ZaMaximX2" ],
               "make-install-args": [ "PREFIX=/app", "PLUGINS=ZaMaximX2" ],
+              "build-options": {
+                "arch": {
+                  "aarch64": { "make-args": [ "NOOPT=true" ] },
+                  "arm": { "make-args": [ "NOOPT=true" ] }
+                }
+              },
               "sources": [{
                 "type": "git",
                 "url": "https://github.com/zamaudio/zam-plugins.git",
@@ -573,7 +515,7 @@
                 },
                 {
                   "type": "patch",
-                  "path": "lsp-plugins.patch"
+                  "path": "patch/lsp-plugins/001-fix-makefile.patch"
                 }
               ],
               "post-install": [
@@ -583,11 +525,26 @@
             /* Other Plugin Types */
             {
               "name": "bs2b",
-              "sources": [{
-                "type": "archive",
-                "url": "https://downloads.sourceforge.net/sourceforge/bs2b/libbs2b-3.1.0.tar.gz",
-                "sha256": "6aaafd81aae3898ee40148dd1349aab348db9bfae9767d0e66e0b07ddd4b2528"
-              }],
+              "rm-configure": true,
+              "sources": [
+                {
+                  "type": "archive",
+                  "url": "https://downloads.sourceforge.net/sourceforge/bs2b/libbs2b-3.1.0.tar.gz",
+                  "sha256": "6aaafd81aae3898ee40148dd1349aab348db9bfae9767d0e66e0b07ddd4b2528"
+                },
+                {
+                  "type": "script",
+                  "dest-filename": "autogen.sh",
+                  "commands": [
+                    "cp -p /usr/share/automake-*/config.{sub,guess} build-aux",
+                    "autoreconf -vfi"
+                  ]
+                },
+                {
+                  "type": "patch",
+                  "path": "patch/bs2b/001-fix-automake-dist-lzma.patch"
+                }
+              ],
               "post-install": [
                 "install -Dm644 COPYING /app/share/licenses/bs2b/COPYING"
               ],
