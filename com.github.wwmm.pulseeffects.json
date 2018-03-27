@@ -95,8 +95,8 @@
           ],
           "sources": [{
             "type": "git",
-            "url": "https://github.com/Reference-LAPACK/lapack-release",
-            "branch": "lapack-3.8.0",
+            "url": "https://github.com/Reference-LAPACK/lapack",
+            "tag": "v3.8.0",
             "commit": "ba3779a6813d84d329b73aac86afc4e041170609"
           }],
           "post-install": [
