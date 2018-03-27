@@ -494,8 +494,8 @@
               "sources": [{
                 "type": "git",
                 "url": "https://github.com/zamaudio/zam-plugins.git",
-                "tag": "3.9",
-                "commit": "4976cf204074c1dfaf344821e83e8d896b35107d"
+                "tag": "3.10",
+                "commit": "a3321af1892a6994d64fb705e48ae8adf8d7df20"
               }],
               "post-install": [
                 "install -Dm644 LICENSE /app/share/licenses/zam-plugins/LICENSE"
