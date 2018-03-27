@@ -123,8 +123,8 @@
           },
           "sources": [{
             "type": "archive",
-            "url": "https://github.com/numpy/numpy/releases/download/v1.14.0/numpy-1.14.0.tar.gz",
-            "sha256": "c45d99134bb07600e916537c51c22e87f9e0c44b05d71018ab4907e195f007ce"
+            "url": "https://github.com/numpy/numpy/releases/download/v1.14.1/numpy-1.14.1.tar.gz",
+            "sha256": "8708a775be9a9a457b80a49193c57bd9d51a8a195ed1f1c4b8e89eaf3aa646ee"
           }],
           "post-install": [
             "install -Dm644 LICENSE.txt /app/share/licenses/numpy/LICENSE"
