@@ -1,0 +1,53 @@
+From 178d700eb20c79b1db6c66bc7dcd63609b6ae48c Mon Sep 17 00:00:00 2001
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Date: Mon, 18 Dec 2017 16:09:53 -0500
+Subject: [PATCH 1/4] meson: Enable ladspa plugins compilation
+
+---
+ ext/ladspa/meson.build | 20 ++++++++++++++++++++
+ ext/meson.build        |  2 +-
+ 2 files changed, 21 insertions(+), 1 deletion(-)
+ create mode 100644 ext/ladspa/meson.build
+
+diff --git a/ext/ladspa/meson.build b/ext/ladspa/meson.build
+new file mode 100644
+index 000000000..c0469ac09
+--- /dev/null
++++ b/ext/ladspa/meson.build
+@@ -0,0 +1,20 @@
++ladspa_sources = [
++  'gstladspa.c',
++  'gstladspafilter.c',
++  'gstladspasource.c',
++  'gstladspasink.c',
++  'gstladspautils.c',
++]
++
++ladspa_dep = dependency('lrdf', required : false)
++if ladspa_dep.found()
++  gstrsvg = library('gstladspa',
++    ladspa_sources,
++    c_args : gst_plugins_bad_args,
++    link_args : noseh_link_args,
++    include_directories : [configinc, libsinc],
++    dependencies : [gstaudio_dep, gstbase_dep, gmodule_dep, ladspa_dep, mathlib],
++    install : true,
++    install_dir : plugins_install_dir,
++  )
++endif
+diff --git a/ext/meson.build b/ext/meson.build
+index f6ec86421..c4950cf34 100644
+--- a/ext/meson.build
++++ b/ext/meson.build
+@@ -21,7 +21,7 @@ subdir('gtk')
+ subdir('hls')
+ subdir('iqa')
+ subdir('kate')
+-#subdir('ladspa')
++subdir('ladspa')
+ subdir('libde265')
+ subdir('libmms')
+ #subdir('lv2')
+-- 
+2.16.3
+

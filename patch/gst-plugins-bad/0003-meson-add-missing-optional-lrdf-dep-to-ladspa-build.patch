@@ -1,0 +1,26 @@
+From 7bde195bfd606ff2197595f6050591722d317f95 Mon Sep 17 00:00:00 2001
+From: Nirbheek Chauhan <nirbheek@centricular.com>
+Date: Tue, 27 Mar 2018 14:25:24 +0530
+Subject: [PATCH 3/4] meson: Add missing optional lrdf dep to ladspa build
+
+https://bugzilla.gnome.org/show_bug.cgi?id=794350
+---
+ ext/ladspa/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ext/ladspa/meson.build b/ext/ladspa/meson.build
+index b8a3ca0f9..356a1f6f1 100644
+--- a/ext/ladspa/meson.build
++++ b/ext/ladspa/meson.build
+@@ -19,7 +19,7 @@ if cc.has_header('ladspa.h')
+     c_args : gst_plugins_bad_args + ladspa_cargs,
+     link_args : noseh_link_args,
+     include_directories : [configinc, libsinc],
+-    dependencies : [gstaudio_dep, gstbase_dep, gmodule_dep, mathlib],
++    dependencies : [gstaudio_dep, gstbase_dep, gmodule_dep, lrdf_dep, mathlib],
+     install : true,
+     install_dir : plugins_install_dir,
+   )
+-- 
+2.16.3
+

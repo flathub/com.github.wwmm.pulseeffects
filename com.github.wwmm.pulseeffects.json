@@ -176,23 +176,31 @@
             },
             {
               "type": "patch",
-              "path": "patch/gst-plugins-bad/001-meson-backport.patch"
+              "path": "patch/gst-plugins-bad/0001-meson-enable-ladspa-plugins-compilation.patch"
             },
             {
               "type": "patch",
-              "path": "patch/gst-plugins-bad/002-meson-fix-ladspa.patch"
+              "path": "patch/gst-plugins-bad/0002-meson-fix-ladspa-dependencies.patch"
             },
             {
               "type": "patch",
-              "path": "patch/gst-plugins-bad/003-meson-add-bs2b.patch"
+              "path": "patch/gst-plugins-bad/0003-meson-add-missing-optional-lrdf-dep-to-ladspa-build.patch"
             },
             {
               "type": "patch",
-              "path": "patch/gst-plugins-bad/004-meson-fix-gl-check.patch"
+              "path": "patch/gst-plugins-bad/0004-meson-enable-bs2b-compilation.patch"
             },
             {
               "type": "patch",
-              "path": "patch/gst-plugins-bad/005-meson-fix-gl-variable-names.patch"
+              "path": "patch/gst-plugins-bad/0005-meson-enable-building-lv2.patch"
+            },
+            {
+              "type": "patch",
+              "path": "patch/gst-plugins-bad/0006-meson-fix-gl-check.patch"
+            },
+            {
+              "type": "patch",
+              "path": "patch/gst-plugins-bad/0007-meson-fix-gl-variable-names.patch"
             }
           ],
           "post-install": [
