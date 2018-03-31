@@ -1,7 +1,7 @@
 {
   "app-id": "com.github.wwmm.pulseeffects",
   "runtime": "org.gnome.Platform",
-  "runtime-version": "3.26",
+  "runtime-version": "3.28",
   "sdk": "org.gnome.Sdk",
   "sdk-extensions": ["org.freedesktop.Sdk.Extension.gcc7"],
   "command": "pulseeffects",
@@ -95,8 +95,8 @@
           ],
           "sources": [{
             "type": "git",
-            "url": "https://github.com/Reference-LAPACK/lapack-release",
-            "branch": "lapack-3.8.0",
+            "url": "https://github.com/Reference-LAPACK/lapack",
+            "tag": "v3.8.0",
             "commit": "ba3779a6813d84d329b73aac86afc4e041170609"
           }],
           "post-install": [
@@ -123,8 +123,8 @@
           },
           "sources": [{
             "type": "archive",
-            "url": "https://github.com/numpy/numpy/releases/download/v1.14.0/numpy-1.14.0.tar.gz",
-            "sha256": "c45d99134bb07600e916537c51c22e87f9e0c44b05d71018ab4907e195f007ce"
+            "url": "https://github.com/numpy/numpy/releases/download/v1.14.1/numpy-1.14.1.tar.gz",
+            "sha256": "8708a775be9a9a457b80a49193c57bd9d51a8a195ed1f1c4b8e89eaf3aa646ee"
           }],
           "post-install": [
             "install -Dm644 LICENSE.txt /app/share/licenses/numpy/LICENSE"
@@ -151,8 +151,8 @@
           },
           "sources": [{
             "type": "archive",
-            "url": "https://github.com/scipy/scipy/releases/download/v1.0.0/scipy-1.0.0.tar.xz",
-            "sha256": "06b23f2a5db5418957facc86ead86b7752147c0461f3156f88a3da87f3dc6739"
+            "url": "https://github.com/scipy/scipy/releases/download/v1.0.1/scipy-1.0.1.tar.xz",
+            "sha256": "0c7625eef0363df0759cd616c02ea8689dbc40e82208057682446bba02e727c4"
           }],
           "post-install": [
             "install -Dm644 LICENSE.txt /app/share/licenses/scipy/LICENSE"
@@ -171,28 +171,36 @@
           "sources": [
             {
               "type": "archive",
-              "url": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.4.tar.xz",
-              "sha256": "0c7857be16686d5c1ba6e34bd338664d3d4599d32714a8eca5c8a41a101e2d08"
+              "url": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.5.tar.xz",
+              "sha256": "40f82fa775ce8ecfc930fd13073e8643b90cba9b6f8dd2462ec45a93120c7d81"
             },
             {
               "type": "patch",
-              "path": "patch/gst-plugins-bad/001-meson-backport.patch"
+              "path": "patch/gst-plugins-bad/0001-meson-enable-ladspa-plugins-compilation.patch"
             },
             {
               "type": "patch",
-              "path": "patch/gst-plugins-bad/002-meson-fix-ladspa.patch"
+              "path": "patch/gst-plugins-bad/0002-meson-fix-ladspa-dependencies.patch"
             },
             {
               "type": "patch",
-              "path": "patch/gst-plugins-bad/003-meson-add-bs2b.patch"
+              "path": "patch/gst-plugins-bad/0003-meson-add-missing-optional-lrdf-dep-to-ladspa-build.patch"
             },
             {
               "type": "patch",
-              "path": "patch/gst-plugins-bad/004-meson-fix-gl-check.patch"
+              "path": "patch/gst-plugins-bad/0004-meson-enable-bs2b-compilation.patch"
             },
             {
               "type": "patch",
-              "path": "patch/gst-plugins-bad/005-meson-fix-gl-variable-names.patch"
+              "path": "patch/gst-plugins-bad/0005-meson-enable-building-lv2.patch"
+            },
+            {
+              "type": "patch",
+              "path": "patch/gst-plugins-bad/0006-meson-fix-gl-check.patch"
+            },
+            {
+              "type": "patch",
+              "path": "patch/gst-plugins-bad/0007-meson-fix-gl-variable-names.patch"
             }
           ],
           "post-install": [
@@ -454,7 +462,7 @@
                 "install -Dm644 COPYING /app/share/licenses/calf/COPYING"
               ],
               "cleanup": [ "/bin", "/share/applications", "/share/bash-completion",
-                           "/share/calf", "/share/doc", "/share/man" ],
+                           "/share/calf", "/share/doc", "/share/icons", "/share/man" ],
               "modules": [
                 {
                   "name": "fluidsynth",
@@ -469,8 +477,8 @@
                   "sources": [{
                     "type": "git",
                     "url": "https://github.com/FluidSynth/fluidsynth.git",
-                    "tag": "v1.1.8",
-                    "commit": "12e7afe3a806a6b397f28e0ca4bc6bab9ebe7047"
+                    "tag": "v1.1.10",
+                    "commit": "f5a0fee6f7f2b2ab4c866df1acb649333464b3fd"
                   }],
                   "post-install": [
                     "install -Dm644 LICENSE /app/share/licenses/fluidsynth/LICENSE"
@@ -494,8 +502,8 @@
               "sources": [{
                 "type": "git",
                 "url": "https://github.com/zamaudio/zam-plugins.git",
-                "tag": "3.9",
-                "commit": "4976cf204074c1dfaf344821e83e8d896b35107d"
+                "tag": "3.10",
+                "commit": "a3321af1892a6994d64fb705e48ae8adf8d7df20"
               }],
               "post-install": [
                 "install -Dm644 LICENSE /app/share/licenses/zam-plugins/LICENSE"

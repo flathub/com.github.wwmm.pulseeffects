@@ -1,29 +1,17 @@
-diff --git a/ext/ladspa/meson.build b/ext/ladspa/meson.build
-new file mode 100644
-index 000000000..c0469ac09
---- /dev/null
-+++ b/ext/ladspa/meson.build
-@@ -0,0 +1,20 @@
-+ladspa_sources = [
-+  'gstladspa.c',
-+  'gstladspafilter.c',
-+  'gstladspasource.c',
-+  'gstladspasink.c',
-+  'gstladspautils.c',
-+]
-+
-+ladspa_dep = dependency('lrdf', required : false)
-+if ladspa_dep.found()
-+  gstrsvg = library('gstladspa',
-+    ladspa_sources,
-+    c_args : gst_plugins_bad_args,
-+    link_args : noseh_link_args,
-+    include_directories : [configinc, libsinc],
-+    dependencies : [gstaudio_dep, gstbase_dep, gmodule_dep, ladspa_dep, mathlib],
-+    install : true,
-+    install_dir : plugins_install_dir,
-+  )
-+endif
+From e6f1e2c27734f6323b8207e19ea5ea26cfc4cb08 Mon Sep 17 00:00:00 2001
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Date: Mon, 18 Dec 2017 11:34:13 -0500
+Subject: [PATCH 5/5] meson: Enable building LV2
+
+Note that I only support lilv 0.22+ for now, because it's simple and old
+enough. If anyone needs to use the 0.16 support it will need to be
+added.
+---
+ ext/lv2/meson.build | 19 +++++++++++++++++++
+ ext/meson.build     |  2 +-
+ 2 files changed, 20 insertions(+), 1 deletion(-)
+ create mode 100644 ext/lv2/meson.build
+
 diff --git a/ext/lv2/meson.build b/ext/lv2/meson.build
 new file mode 100644
 index 000000000..bcb6442d8
@@ -50,15 +38,11 @@ index 000000000..bcb6442d8
 +  )
 +endif
 diff --git a/ext/meson.build b/ext/meson.build
-index f6ec86421..90072e9c4 100644
+index b14054f8a..0ba5608d3 100644
 --- a/ext/meson.build
 +++ b/ext/meson.build
-@@ -21,10 +21,10 @@ subdir('gtk')
- subdir('hls')
- subdir('iqa')
- subdir('kate')
--#subdir('ladspa')
-+subdir('ladspa')
+@@ -24,7 +24,7 @@ subdir('kate')
+ subdir('ladspa')
  subdir('libde265')
  subdir('libmms')
 -#subdir('lv2')
@@ -66,3 +50,6 @@ index f6ec86421..90072e9c4 100644
  #subdir('modplug')
  subdir('mpeg2enc')
  subdir('mplex')
+-- 
+2.16.3
+

@@ -1,3 +1,25 @@
+From 79e702555e76d43862c45911fcfe81572f2c2471 Mon Sep 17 00:00:00 2001
+From: Patrik Nilsson <asavartzeth@gmail.com>
+Date: Mon, 5 Mar 2018 17:43:26 +0100
+Subject: [PATCH 2/4] meson: fix ladspa dependencies
+
+There are two issues, both related to dependency checking with the meson
+support for the ladspa plugin.
+
+With autotools, lrdf is handled like an optional dependency. But with
+meson it is required. This makes the meson support less flexible and
+inconsistent with autotools.
+
+When autotools is used it properly checks if ladspa.h is available.
+But with meson it does not, instead it treats lrdf as the main
+dependency. This could cause a build failure if lrdf is installed, but
+the ladspa sdk is not.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=794350
+---
+ ext/ladspa/meson.build | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
+
 diff --git a/ext/ladspa/meson.build b/ext/ladspa/meson.build
 index c0469ac09..b8a3ca0f9 100644
 --- a/ext/ladspa/meson.build
@@ -28,3 +50,6 @@ index c0469ac09..b8a3ca0f9 100644
      install : true,
      install_dir : plugins_install_dir,
    )
+-- 
+2.16.3
+

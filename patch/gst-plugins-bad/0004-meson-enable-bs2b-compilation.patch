@@ -1,3 +1,17 @@
+From 650f4973bf596e91866cde9e6bc56ab6ccddc776 Mon Sep 17 00:00:00 2001
+From: Patrik Nilsson <asavartzeth@gmail.com>
+Date: Mon, 5 Mar 2018 18:23:09 +0100
+Subject: [PATCH 4/4] meson: enable bs2b compilation
+
+Add meson build system support to bs2b plugin.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=794346
+---
+ ext/bs2b/meson.build | 15 +++++++++++++++
+ ext/meson.build      |  2 +-
+ 2 files changed, 16 insertions(+), 1 deletion(-)
+ create mode 100644 ext/bs2b/meson.build
+
 diff --git a/ext/bs2b/meson.build b/ext/bs2b/meson.build
 new file mode 100644
 index 000000000..6007ea622
@@ -20,7 +34,7 @@ index 000000000..6007ea622
 +  )
 +endif
 diff --git a/ext/meson.build b/ext/meson.build
-index f6ec86421..208933bb7 100644
+index c4950cf34..b14054f8a 100644
 --- a/ext/meson.build
 +++ b/ext/meson.build
 @@ -1,5 +1,5 @@
@@ -30,3 +44,6 @@ index f6ec86421..208933bb7 100644
  subdir('bz2')
  subdir('chromaprint')
  subdir('curl')
+-- 
+2.16.3
+
