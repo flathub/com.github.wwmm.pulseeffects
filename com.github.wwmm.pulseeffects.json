@@ -171,8 +171,8 @@
           "sources": [
             {
               "type": "archive",
-              "url": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.4.tar.xz",
-              "sha256": "0c7857be16686d5c1ba6e34bd338664d3d4599d32714a8eca5c8a41a101e2d08"
+              "url": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.5.tar.xz",
+              "sha256": "40f82fa775ce8ecfc930fd13073e8643b90cba9b6f8dd2462ec45a93120c7d81"
             },
             {
               "type": "patch",
