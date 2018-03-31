@@ -462,7 +462,7 @@
                 "install -Dm644 COPYING /app/share/licenses/calf/COPYING"
               ],
               "cleanup": [ "/bin", "/share/applications", "/share/bash-completion",
-                           "/share/calf", "/share/doc", "/share/man" ],
+                           "/share/calf", "/share/doc", "/share/icons", "/share/man" ],
               "modules": [
                 {
                   "name": "fluidsynth",
