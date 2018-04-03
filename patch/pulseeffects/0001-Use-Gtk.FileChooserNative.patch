@@ -1,0 +1,67 @@
+From 2ca1efcd2b7ea0923328ae2c7ca375f07a4c779a Mon Sep 17 00:00:00 2001
+From: AsavarTzeth <asavartzeth@gmail.com>
+Date: Tue, 3 Apr 2018 11:28:02 +0200
+Subject: [PATCH] Use Gtk.FileChooserNative
+
+Gtk.FileChooserNative will use a file chooser dialog that is native to
+the desktop environment (when supported). It will also work in sandboxed
+environments, such as Flatpak.
+
+Mainly this solves the sandbox problem. Users should now be able to
+import presets, no matter how they install the application.
+
+Fixes #195
+---
+ PulseEffects/presets_manager.py | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
+
+diff --git a/PulseEffects/presets_manager.py b/PulseEffects/presets_manager.py
+index 5cb8feb..4a8596b 100644
+--- a/PulseEffects/presets_manager.py
++++ b/PulseEffects/presets_manager.py
+@@ -208,23 +208,23 @@ class PresetsManager():
+                 self.save_preset(path)
+ 
+     def on_import_preset_clicked(self, obj):
+-        dialog = Gtk.FileChooserDialog(_('Import Presets'), self.app.window,
+-                                       Gtk.FileChooserAction.OPEN,
+-                                       (Gtk.STOCK_CANCEL,
+-                                        Gtk.ResponseType.CANCEL,
+-                                        Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
++        chooser = Gtk.FileChooserNative.new(_('Import Presets'),
++                                            self.app.window,
++                                            Gtk.FileChooserAction.OPEN,
++                                            Gtk.STOCK_OPEN,
++                                            Gtk.STOCK_CANCEL)
+ 
+         filter_preset = Gtk.FileFilter()
+         filter_preset.set_name('preset')
+         filter_preset.add_pattern('*.preset')
+-        dialog.add_filter(filter_preset)
++        chooser.add_filter(filter_preset)
+ 
+-        dialog.set_select_multiple(True)
++        chooser.set_select_multiple(True)
+ 
+-        response = dialog.run()
++        response = chooser.run()
+ 
+-        if response == Gtk.ResponseType.OK:
+-            gfiles = dialog.get_files()
++        if response == Gtk.ResponseType.ACCEPT:
++            gfiles = chooser.get_files()
+ 
+             for g in gfiles:
+                 name = g.get_basename()
+@@ -233,7 +233,7 @@ class PresetsManager():
+ 
+                 g.copy(output, Gio.FileCopyFlags.OVERWRITE, None, None, None)
+ 
+-        dialog.destroy()
++        chooser.destroy()
+ 
+         self.init_listbox()
+ 
+-- 
+2.16.3
+
