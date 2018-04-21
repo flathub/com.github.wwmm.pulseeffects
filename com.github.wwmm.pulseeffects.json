@@ -169,10 +169,11 @@
           "buildsystem": "simple",
           "build-commands": [
             "meson _build --prefix=/app",
-            "ninja -C _build ext/bs2b/libgstbs2b.so ext/ladspa/libgstladspa.so ext/lv2/libgstlv2.so",
+            "ninja -C _build ext/bs2b/libgstbs2b.so ext/ladspa/libgstladspa.so ext/lv2/libgstlv2.so ext/webrtcdsp/libgstwebrtcdsp.so",
             "install -Dm755 -t /app/lib/gstreamer-1.0 _build/ext/bs2b/libgstbs2b.so",
             "install -Dm755 -t /app/lib/gstreamer-1.0 _build/ext/ladspa/libgstladspa.so",
-            "install -Dm755 -t /app/lib/gstreamer-1.0 _build/ext/lv2/libgstlv2.so"
+            "install -Dm755 -t /app/lib/gstreamer-1.0 _build/ext/lv2/libgstlv2.so",
+            "install -Dm755 -t /app/lib/gstreamer-1.0 _build/ext/webrtcdsp/libgstwebrtcdsp.so"
           ],
           "sources": [
             {
@@ -547,6 +548,17 @@
                 "install -Dm644 COPYING /app/share/licenses/bs2b/COPYING"
               ],
               "cleanup": [ "/bin" ]
+            },
+            {
+              "name": "webrtc-audio-processing",
+              "sources": [{
+                "type": "archive",
+                "url": "https://freedesktop.org/software/pulseaudio/webrtc-audio-processing/webrtc-audio-processing-0.3.tar.xz",
+                "sha256": "756e291d4f557d88cd50c4fe3b8454ec238362d22cedb3e6173240d90f0a80fa"
+              }],
+              "post-install": [
+                "install -Dm644 COPYING /app/share/licenses/webrtc-audio-processing/COPYING"
+              ]
             }
           ]
         }
