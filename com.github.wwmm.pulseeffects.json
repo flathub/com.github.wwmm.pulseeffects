@@ -35,18 +35,12 @@
       "name": "pulseeffects",
       "buildsystem": "meson",
       "builddir": true,
-      "sources": [
-        {
-          "type": "git",
-          "url": "https://github.com/wwmm/pulseeffects.git",
-          "tag": "v3.2.1",
-          "commit": "e3f29ae0c5e5a4df78dee3f7cdc40e6413d48019"
-        },
-        {
-          "type": "patch",
-          "path": "patch/pulseeffects/0001-Use-Gtk.FileChooserNative.patch"
-        }
-      ],
+      "sources": [{
+        "type": "git",
+        "url": "https://github.com/wwmm/pulseeffects.git",
+        "tag": "v3.2.2",
+        "commit": "018169e6fba3c86b18d23cb7179bed87c00b53c3"
+      }],
       "post-install": [
         "install -Dm644 ../LICENSE.md /app/share/licenses/com.github.wwmm.pulseeffects/LICENSE"
       ],
@@ -267,26 +261,6 @@
                 "install -m644 COPYRIGHT /app/share/licenses/fftw/COPYRIGHT"
               ],
               "cleanup": [ "/bin", "/share/man" ]
-            },
-            {
-              "name": "swh-plugins",
-              "config-opts": [ "--prefix=/app" ],
-              "sources": [
-                {
-                  "type": "git",
-                  "url": "https://github.com/swh/ladspa.git",
-                  "tag": "v0.4.17",
-                  "commit": "8b50f3434b8b30dff16020d17608ced9ee04477b"
-                },
-                {
-                  "type": "patch",
-                  "path": "patch/swh-plugins/001-disable-unused-plugins.patch"
-                }
-              ],
-              "post-install": [
-                "install -Dm644 COPYING /app/share/licenses/swh-plugins/COPYING"
-              ],
-              "cleanup": [ "/share/ladspa" ]
             },
             {
               "name": "rubberband",
