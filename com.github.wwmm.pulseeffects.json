@@ -35,18 +35,12 @@
       "name": "pulseeffects",
       "buildsystem": "meson",
       "builddir": true,
-      "sources": [
-        {
-          "type": "git",
-          "url": "https://github.com/wwmm/pulseeffects.git",
-          "tag": "v3.2.1",
-          "commit": "e3f29ae0c5e5a4df78dee3f7cdc40e6413d48019"
-        },
-        {
-          "type": "patch",
-          "path": "patch/pulseeffects/0001-Use-Gtk.FileChooserNative.patch"
-        }
-      ],
+      "sources": [{
+        "type": "git",
+        "url": "https://github.com/wwmm/pulseeffects.git",
+        "tag": "v3.2.2",
+        "commit": "018169e6fba3c86b18d23cb7179bed87c00b53c3"
+      }],
       "post-install": [
         "install -Dm644 ../LICENSE.md /app/share/licenses/com.github.wwmm.pulseeffects/LICENSE"
       ],
@@ -169,44 +163,29 @@
           "buildsystem": "simple",
           "build-commands": [
             "meson _build --prefix=/app",
-            "ninja -C _build ext/bs2b/libgstbs2b.so ext/ladspa/libgstladspa.so ext/lv2/libgstlv2.so",
+            "ninja -C _build ext/bs2b/libgstbs2b.so ext/ladspa/libgstladspa.so ext/lv2/libgstlv2.so ext/webrtcdsp/libgstwebrtcdsp.so",
             "install -Dm755 -t /app/lib/gstreamer-1.0 _build/ext/bs2b/libgstbs2b.so",
             "install -Dm755 -t /app/lib/gstreamer-1.0 _build/ext/ladspa/libgstladspa.so",
-            "install -Dm755 -t /app/lib/gstreamer-1.0 _build/ext/lv2/libgstlv2.so"
+            "install -Dm755 -t /app/lib/gstreamer-1.0 _build/ext/lv2/libgstlv2.so",
+            "install -Dm755 -t /app/lib/gstreamer-1.0 _build/ext/webrtcdsp/libgstwebrtcdsp.so"
           ],
           "sources": [
             {
               "type": "archive",
-              "url": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.5.tar.xz",
-              "sha256": "40f82fa775ce8ecfc930fd13073e8643b90cba9b6f8dd2462ec45a93120c7d81"
+              "url": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.0.tar.xz",
+              "sha256": "ed5e2badb6f2858f60017b93334d91fe58a0e3f85ed2f37f2e931416fafb4f9f"
             },
             {
               "type": "patch",
-              "path": "patch/gst-plugins-bad/0001-meson-enable-ladspa-plugins-compilation.patch"
+              "path": "patch/gst-plugins-bad/0001-meson-fix-ladspa-dependencies.patch"
             },
             {
               "type": "patch",
-              "path": "patch/gst-plugins-bad/0002-meson-fix-ladspa-dependencies.patch"
+              "path": "patch/gst-plugins-bad/0002-meson-add-missing-optional-lrdf-dep-to-ladspa-build.patch"
             },
             {
               "type": "patch",
-              "path": "patch/gst-plugins-bad/0003-meson-add-missing-optional-lrdf-dep-to-ladspa-build.patch"
-            },
-            {
-              "type": "patch",
-              "path": "patch/gst-plugins-bad/0004-meson-enable-bs2b-compilation.patch"
-            },
-            {
-              "type": "patch",
-              "path": "patch/gst-plugins-bad/0005-meson-enable-building-lv2.patch"
-            },
-            {
-              "type": "patch",
-              "path": "patch/gst-plugins-bad/0006-meson-fix-gl-check.patch"
-            },
-            {
-              "type": "patch",
-              "path": "patch/gst-plugins-bad/0007-meson-fix-gl-variable-names.patch"
+              "path": "patch/gst-plugins-bad/0003-meson-enable-bs2b-compilation.patch"
             }
           ],
           "post-install": [
@@ -282,26 +261,6 @@
                 "install -m644 COPYRIGHT /app/share/licenses/fftw/COPYRIGHT"
               ],
               "cleanup": [ "/bin", "/share/man" ]
-            },
-            {
-              "name": "swh-plugins",
-              "config-opts": [ "--prefix=/app" ],
-              "sources": [
-                {
-                  "type": "git",
-                  "url": "https://github.com/swh/ladspa.git",
-                  "tag": "v0.4.17",
-                  "commit": "8b50f3434b8b30dff16020d17608ced9ee04477b"
-                },
-                {
-                  "type": "patch",
-                  "path": "patch/swh-plugins/001-disable-unused-plugins.patch"
-                }
-              ],
-              "post-install": [
-                "install -Dm644 COPYING /app/share/licenses/swh-plugins/COPYING"
-              ],
-              "cleanup": [ "/share/ladspa" ]
             },
             {
               "name": "rubberband",
@@ -563,6 +522,17 @@
                 "install -Dm644 COPYING /app/share/licenses/bs2b/COPYING"
               ],
               "cleanup": [ "/bin" ]
+            },
+            {
+              "name": "webrtc-audio-processing",
+              "sources": [{
+                "type": "archive",
+                "url": "https://freedesktop.org/software/pulseaudio/webrtc-audio-processing/webrtc-audio-processing-0.3.tar.xz",
+                "sha256": "756e291d4f557d88cd50c4fe3b8454ec238362d22cedb3e6173240d90f0a80fa"
+              }],
+              "post-install": [
+                "install -Dm644 COPYING /app/share/licenses/webrtc-audio-processing/COPYING"
+              ]
             }
           ]
         }
