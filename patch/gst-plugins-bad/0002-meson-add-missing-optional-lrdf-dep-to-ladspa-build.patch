@@ -1,7 +1,7 @@
-From 7bde195bfd606ff2197595f6050591722d317f95 Mon Sep 17 00:00:00 2001
+From 839fc6b1a3ad80e488dceaf314fca5068f364230 Mon Sep 17 00:00:00 2001
 From: Nirbheek Chauhan <nirbheek@centricular.com>
 Date: Tue, 27 Mar 2018 14:25:24 +0530
-Subject: [PATCH 3/4] meson: Add missing optional lrdf dep to ladspa build
+Subject: [PATCH 2/3] meson: Add missing optional lrdf dep to ladspa build
 
 https://bugzilla.gnome.org/show_bug.cgi?id=794350
 ---
@@ -22,5 +22,5 @@ index b8a3ca0f9..356a1f6f1 100644
      install_dir : plugins_install_dir,
    )
 -- 
-2.16.3
+2.17.0
 
