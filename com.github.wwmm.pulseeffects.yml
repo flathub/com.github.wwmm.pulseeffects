@@ -111,8 +111,8 @@ modules:
             CXX: /usr/lib/sdk/gcc7/bin/g++
         sources:
           - type: archive
-            url: 'https://github.com/numpy/numpy/releases/download/v1.14.1/numpy-1.14.1.tar.gz'
-            sha256: 8708a775be9a9a457b80a49193c57bd9d51a8a195ed1f1c4b8e89eaf3aa646ee
+            url: 'https://github.com/numpy/numpy/releases/download/v1.14.3/numpy-1.14.3.tar.gz'
+            sha256: cfcfc7a9a8ba4275c60a815c683d59ac5e7aa9362d76573b6cc4324ffb1235fa
         post-install:
           - install -Dm644 -t /app/share/licenses/numpy LICENSE.txt
         cleanup:
