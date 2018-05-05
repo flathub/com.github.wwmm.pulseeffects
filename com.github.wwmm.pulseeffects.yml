@@ -1,0 +1,458 @@
+app-id: com.github.wwmm.pulseeffects
+runtime: org.gnome.Platform
+runtime-version: 3.28
+sdk: org.gnome.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.gcc7
+command: pulseeffects
+rename-icon: pulseeffects
+finish-args:
+    # X11 + XShm access
+  - --share=ipc
+  - --socket=x11
+    # Wayland access
+  - --socket=wayland
+    # Sound access
+  - --socket=pulseaudio
+    # Dconf access
+  - --env=DCONF_USER_CONFIG_DIR=.config/dconf
+  - --filesystem=xdg-run/dconf
+  - --filesystem=~/.config/dconf:ro
+  - --talk-name=ca.desrt.dconf
+    # LADSPA Plugin PATH
+  - --env=LADSPA_PATH=/app/lib/ladspa
+    # LV2 Plugin PATH
+  - --env=LV2_PATH=/app/lib/lv2
+build-options:
+  cflags: -O2 -g
+  env: { V: '1' }
+cleanup:
+  - '*.a'
+  - '*.h'
+  - '*.la'
+  - /include
+  - /lib/pkgconfig
+modules:
+  - name: pulseeffects
+    buildsystem: meson
+    builddir: true
+    sources:
+      - type: git
+        url: 'https://github.com/wwmm/pulseeffects.git'
+        tag: v3.2.3
+        commit: 5d5ab0d56090ac7f0faee5ebd4826bd0a1e4ce6f
+    post-install:
+      - install -Dm644 -t /app/share/licenses/com.github.wwmm.pulseeffects ../LICENSE.md
+    modules:
+
+      - name: gfortran
+        buildsystem: simple
+        build-commands:
+          - ./install_gfortran.sh
+        sources:
+          - type: script
+            only-arches:
+              - i386
+              - x86_64
+            commands:
+              - mkdir -p /app/lib
+              - cp -dt /app/lib/
+                       /usr/lib/sdk/gcc7/lib/libquadmath.so*
+                       /usr/lib/sdk/gcc7/lib/libgfortran.so*
+                       /usr/lib/sdk/gcc7/lib/libgcc_s.so*
+            dest-filename: install_gfortran.sh
+          - type: script
+            skip-arches:
+              - i386
+              - x86_64
+            commands:
+              - mkdir -p /app/lib
+              - cp -dt /app/lib/
+                       /usr/lib/sdk/gcc7/lib/libgfortran.so*
+                       /usr/lib/sdk/gcc7/lib/libgcc_s.so*
+            dest-filename: install_gfortran.sh
+
+      - name: lapack
+        buildsystem: cmake
+        builddir: true
+        build-options:
+          env:
+            CC: /usr/lib/sdk/gcc7/bin/gcc
+            CXX: /usr/lib/sdk/gcc7/bin/g++
+          config-opts:
+            - -DCMAKE_BUILD_TYPE=Release
+            - -DBUILD_SHARED_LIBS=ON
+            - -DBUILD_TESTING=OFF
+            - -DCMAKE_Fortran_COMPILER=/usr/lib/sdk/gcc7/bin/gfortran
+            - -DLAPACKE=ON
+            - -DCBLAS=ON
+        sources:
+          - type: git
+            url: 'https://github.com/Reference-LAPACK/lapack'
+            tag: v3.8.0
+            commit: ba3779a6813d84d329b73aac86afc4e041170609
+        post-install:
+          - install -Dm644 -t /app/share/licenses/lapack ../LICENSE
+        cleanup:
+          - /lib/cmake
+
+      - name: numpy
+        buildsystem: simple
+        build-commands:
+          - python3 setup.py build --fcompiler=gnu95 -j 0
+          - python3 setup.py install --prefix=/app --root=/ --optimize=1
+        build-options:
+          append-path: /usr/lib/sdk/gcc7/bin
+          env:
+            ATLAS: None
+            BLAS: /app/lib
+            LAPACK: /app/lib
+            CC: /usr/lib/sdk/gcc7/bin/gcc
+            CXX: /usr/lib/sdk/gcc7/bin/g++
+        sources:
+          - type: archive
+            url: 'https://github.com/numpy/numpy/releases/download/v1.14.3/numpy-1.14.3.tar.gz'
+            sha256: cfcfc7a9a8ba4275c60a815c683d59ac5e7aa9362d76573b6cc4324ffb1235fa
+        post-install:
+          - install -Dm644 -t /app/share/licenses/numpy LICENSE.txt
+        cleanup:
+          - '*.h'
+          - /bin
+          - libnpymath.a
+          - '*/core/include'
+
+      - name: scipy
+        buildsystem: simple
+        build-commands:
+          - python3 setup.py build --fcompiler=gnu95 -j 0
+          - python3 setup.py install --prefix=/app --root=/ --optimize=1
+        build-options:
+          append-path: /usr/lib/sdk/gcc7/bin
+          ldflags: -shared
+          env:
+            ATLAS: None
+            BLAS: /app/lib
+            LAPACK: /app/lib
+            CC: /usr/lib/sdk/gcc7/bin/gcc
+            CXX: /usr/lib/sdk/gcc7/bin/g++
+        sources:
+          - type: archive
+            url: 'https://github.com/scipy/scipy/releases/download/v1.0.1/scipy-1.0.1.tar.xz'
+            sha256: 0c7625eef0363df0759cd616c02ea8689dbc40e82208057682446bba02e727c4
+        post-install:
+          - install -Dm644 -t /app/share/licenses/scipy LICENSE.txt
+
+      - name: gst-plugins-bad
+        builddir: true
+        buildsystem: meson
+        no-make-install: true
+        make-args:
+          - ext/bs2b/libgstbs2b.so
+          - ext/ladspa/libgstladspa.so
+          - ext/lv2/libgstlv2.so
+          - ext/webrtcdsp/libgstwebrtcdsp.so
+        sources:
+          - type: archive
+            url: 'https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.0.tar.xz'
+            sha256: ed5e2badb6f2858f60017b93334d91fe58a0e3f85ed2f37f2e931416fafb4f9f
+          - type: patch
+            path: patch/gst-plugins-bad/0001-meson-fix-ladspa-dependencies.patch
+          - type: patch
+            path: patch/gst-plugins-bad/0002-meson-add-missing-optional-lrdf-dep-to-ladspa-build.patch
+          - type: patch
+            path: patch/gst-plugins-bad/0003-meson-enable-bs2b-compilation.patch
+        post-install:
+          - install -Dm755 -t /app/lib/gstreamer-1.0
+                               ext/bs2b/libgstbs2b.so
+                               ext/ladspa/libgstladspa.so
+                               ext/lv2/libgstlv2.so
+                               ext/webrtcdsp/libgstwebrtcdsp.so
+          - install -Dm644 -t /app/share/licenses/gst-plugins-bad ../COPYING ../COPYING.LIB
+        modules:
+
+          # LADSPA Plugins
+          - name: ladspa-sdk
+            make-args:
+              - targets
+            make-install-args:
+              - INSTALL_BINARY_DIR=/app/bin
+              - INSTALL_INCLUDE_DIR=/app/include
+              - INSTALL_PLUGINS_DIR=/app/lib/ladspa
+            no-autogen: true
+            subdir: src
+            sources:
+              - type: archive
+                url: 'http://www.ladspa.org/download/ladspa_sdk_1.13.tgz'
+                sha256: b5ed3f4f253a0f6c1b7a1f4b8cf62376ca9f51d999650dd822650c43852d306b
+              - type: patch
+                path: patch/ladspa-sdk/001-fix-memleak.patch
+                strip-components: 0
+              - type: shell
+                commands:
+                  - sed -i 's|mkdirhier|mkdir -p|' src/makefile
+            cleanup:
+              - '*'
+
+            # Single precision build
+          - name: fftw3f
+            config-opts:
+              - F77=/usr/lib/sdk/gcc7/bin/gfortran
+              - --disable-doc
+              - --enable-shared
+              - --enable-threads
+              - --enable-float
+            build-options:
+              arch:
+                i386:
+                  config-opts:
+                    - --enable-avx
+                    - --enable-openmp
+                    - --enable-sse
+                x86_64:
+                  config-opts:
+                    - --enable-avx
+                    - --enable-openmp
+                    - --enable-sse
+            sources:
+              - type: archive
+                url: 'http://www.fftw.org/fftw-3.3.7.tar.gz'
+                md5: 0d5915d7d39b3253c1cc05030d79ac47
+            post-install:
+              - install -Dm644 -t /app/share/licenses/fftw COPYING COPYRIGHT
+            cleanup:
+              - /bin
+              - /share/man
+
+          - name: rubberband
+            sources:
+              - type: archive
+                url: 'https://bitbucket.org/breakfastquay/rubberband/get/v1.8.1.tar.gz'
+                sha256: 9bea85fc2e4d8c3044e3b87c6ecff4282a61a888bafe0ce07cee11fc0ea68f16
+            post-install:
+              - install -Dm644 -t /app/share/licenses/rubberband COPYING
+            cleanup:
+              - /bin
+              - /share/ladspa
+            modules:
+                # Double precision build
+              - name: fftw3
+                config-opts:
+                  - F77=/usr/lib/sdk/gcc7/bin/gfortran
+                  - --disable-doc
+                  - --enable-shared
+                  - --enable-threads
+                build-options:
+                  arch:
+                    i386:
+                      config-opts:
+                        - --enable-avx
+                        - --enable-openmp
+                        - --enable-sse2
+                    x86_64:
+                      config-opts:
+                        - --enable-avx
+                        - --enable-openmp
+                        - --enable-sse2
+                sources:
+                  - type: archive
+                    url: 'http://www.fftw.org/fftw-3.3.7.tar.gz'
+                    md5: 0d5915d7d39b3253c1cc05030d79ac47
+                cleanup:
+                  - /bin
+                  - /share/man
+
+              - name: vamp-plugin-sdk
+                sources:
+                  - type: git
+                    url: 'https://github.com/c4dm/vamp-plugin-sdk'
+                    tag: vamp-plugin-sdk-v2.7.1
+                    commit: 10be490c9902d874e9d772d94bf91448303d9b06
+                post-install:
+                  - install -Dm644 -t /app/share/licenses/vamp-plugin-sdk COPYING
+                cleanup:
+                  - /bin
+
+          # LV2 Plugins
+          - name: lv2
+            buildsystem: simple
+            build-commands:
+              - python3 ./waf configure --prefix=/app --lv2dir=/app/lib/lv2
+              - python3 ./waf build -j 4
+              - python3 ./waf install
+            sources:
+              - type: archive
+                url: 'http://lv2plug.in/spec/lv2-1.14.0.tar.bz2'
+                sha256: b8052683894c04efd748c81b95dd065d274d4e856c8b9e58b7c3da3db4e71d32
+            post-install:
+              - install -Dm644 -t /app/share/licenses/lv2 COPYING
+            cleanup:
+              - /bin
+              - /share/lv2specgen
+
+          - name: lilv
+            buildsystem: simple
+            build-commands:
+              - python3 ./waf configure --prefix=/app
+              - python3 ./waf build -j 4
+              - python3 ./waf install
+            sources:
+              - type: archive
+                url: 'https://download.drobilla.net/lilv-0.24.2.tar.bz2'
+                sha256: f7ec65b1c1f1734ded3a6c051bbaf50f996a0b8b77e814a33a34e42bce50a522
+            post-install:
+              - install -Dm644 -t /app/share/licenses/lilv COPYING
+            cleanup:
+              - /bin
+              - /etc
+              - /share/man
+            modules:
+
+              - name: serd
+                buildsystem: simple
+                build-commands:
+                  - python3 ./waf configure --prefix=/app
+                  - python3 ./waf build -j 4
+                  - python3 ./waf install
+                sources:
+                  - type: archive
+                    url: 'https://download.drobilla.net/serd-0.28.0.tar.bz2'
+                    sha256: 1df21a8874d256a9f3d51a18b8c6e2539e8092b62cc2674b110307e93f898aec
+                post-install:
+                  - install -Dm644 -t /app/share/licenses/serd COPYING
+                cleanup:
+                  - /bin
+                  - /share/man
+
+              - name: sord
+                buildsystem: simple
+                build-commands:
+                  - python3 ./waf configure --prefix=/app
+                  - python3 ./waf build -j 4
+                  - python3 ./waf install
+                sources:
+                  - type: archive
+                    url: 'https://download.drobilla.net/sord-0.16.0.tar.bz2'
+                    sha256: 9d3cb2c9966e93f537f37377171f162023cea6784ca069699be4a7770c8a035a
+                post-install:
+                  - install -Dm644 -t /app/share/licenses/sord COPYING
+                cleanup:
+                  - /bin
+                  - /share/man
+
+              - name: sratom
+                buildsystem: simple
+                build-commands:
+                  - python3 ./waf configure --prefix=/app
+                  - python3 ./waf build -j 4
+                  - python3 ./waf install
+                sources:
+                  - type: archive
+                    url: 'https://download.drobilla.net/sratom-0.6.0.tar.bz2'
+                    sha256: 440ac2b1f4f0b7878f8b95698faa1e8f8c50929a498f68ec5d066863626a3d43
+                post-install:
+                  - install -Dm644 -t /app/share/licenses/sratom COPYING
+
+          - name: calf
+            sources:
+              - type: archive
+                url: 'https://calf-studio-gear.org/files/calf-0.90.0.tar.gz'
+                sha256: 2b32007c4769b0bcc9898c088d26562b1ab1d57a68130d0235e7d27da4d83236
+            post-install:
+              - install -Dm644 -t /app/share/licenses/calf COPYING
+            cleanup:
+              - /bin
+              - /share/applications
+              - /share/bash-completion
+              - /share/calf
+              - /share/doc
+              - /share/icons
+              - /share/man
+            modules:
+
+              - name: fluidsynth
+                buildsystem: cmake-ninja
+                config-opts:
+                  - -DCMAKE_BUILD_TYPE=Release
+                  - -Denable-ladspa=ON
+                  - -DLIB_SUFFIX=''
+                sources:
+                  - type: git
+                    url: 'https://github.com/FluidSynth/fluidsynth.git'
+                    tag: v1.1.10
+                    commit: f5a0fee6f7f2b2ab4c866df1acb649333464b3fd
+                post-install:
+                  - install -Dm644 -t /app/share/licenses/fluidsynth LICENSE
+                cleanup:
+                  - /bin
+                  - /share/man
+
+            # Note: gst-inspect-1.0 cannot find the lv2 versions
+            # For that reason pulseeffects uses the ladspa versions
+          - name: zam-plugins
+            no-autogen: true
+            make-args:
+              - PREFIX=/app
+              - PLUGINS=ZaMaximX2
+            make-install-args:
+              - PREFIX=/app
+              - PLUGINS=ZaMaximX2
+            build-options:
+              arch:
+                aarch64:
+                  make-args:
+                    - NOOPT=true
+                arm:
+                  make-args:
+                    - NOOPT=true
+            sources:
+              - type: git
+                url: 'https://github.com/zamaudio/zam-plugins.git'
+                tag: 3.10
+                commit: a3321af1892a6994d64fb705e48ae8adf8d7df20
+            post-install:
+              - install -Dm644 -t /app/share/licenses/zam-plugins LICENSE
+            cleanup:
+              - /lib/lv2
+              - /lib/vst
+
+            # TODO Patch makefiles to support arm, aarch64 and i386
+            # For now architecture support for the "Delay Compensator" is limited
+          - name: lsp-plugins
+            no-autogen: true
+            only-arches:
+              - x86_64
+            sources:
+              - type: archive
+                url: 'https://sourceforge.net/projects/lsp-plugins/files/scr/scr-1.0.4/lsp-plugins-src-scr-1.0.4.tar.gz'
+                sha256: 29df4a42f029cde2036ce499a24b00854069a5f2da78940809d64094809e8bf8
+              - type: patch
+                path: patch/lsp-plugins/001-fix-makefile.patch
+            post-install:
+              - install -Dm644 -t /app/share/licenses/lsp-plugins LICENSE.txt
+
+          # Other Plugin Types
+          - name: bs2b
+            rm-configure: true
+            sources:
+              - type: archive
+                url: 'https://downloads.sourceforge.net/sourceforge/bs2b/libbs2b-3.1.0.tar.gz'
+                sha256: 6aaafd81aae3898ee40148dd1349aab348db9bfae9767d0e66e0b07ddd4b2528
+              - type: script
+                dest-filename: autogen.sh
+                commands:
+                  - cp -p /usr/share/automake-*/config.{sub,guess} build-aux
+                  - autoreconf -vfi
+              - type: patch
+                path: patch/bs2b/001-fix-automake-dist-lzma.patch
+            post-install:
+              - install -Dm644 -t /app/share/licenses/bs2b COPYING
+            cleanup:
+              - /bin
+
+          - name: webrtc-audio-processing
+            sources:
+              - type: archive
+                url: 'https://freedesktop.org/software/pulseaudio/webrtc-audio-processing/webrtc-audio-processing-0.3.tar.xz'
+                sha256: 756e291d4f557d88cd50c4fe3b8454ec238362d22cedb3e6173240d90f0a80fa
+            post-install:
+              - install -Dm644 -t /app/share/licenses/webrtc-audio-processing COPYING
