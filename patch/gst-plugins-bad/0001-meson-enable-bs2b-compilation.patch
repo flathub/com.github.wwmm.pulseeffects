@@ -1,7 +1,7 @@
-From 2f7380f0ec9f1f933a120d1655da779261677009 Mon Sep 17 00:00:00 2001
+From 59c041e04d54a5a2f325e3eaff405e49ccbbe922 Mon Sep 17 00:00:00 2001
 From: Patrik Nilsson <asavartzeth@gmail.com>
 Date: Mon, 5 Mar 2018 18:23:09 +0100
-Subject: [PATCH 3/3] meson: enable bs2b compilation
+Subject: [PATCH] meson: enable bs2b compilation
 
 Add meson build system support to bs2b plugin.
 
@@ -46,5 +46,5 @@ index cd193b7b3..150ed5170 100644
  subdir('chromaprint')
  subdir('curl')
 -- 
-2.17.0
+2.17.1
 
