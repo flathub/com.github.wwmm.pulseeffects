@@ -3,7 +3,7 @@ runtime: org.gnome.Platform
 runtime-version: 3.28
 sdk: org.gnome.Sdk
 sdk-extensions:
-  - org.freedesktop.Sdk.Extension.gcc7
+  - org.freedesktop.Sdk.Extension.gcc8
 command: pulseeffects
 rename-icon: pulseeffects
 finish-args:
@@ -36,111 +36,111 @@ modules:
   - name: pulseeffects
     buildsystem: meson
     builddir: true
+    build-options:
+      cxxflags: -O2 -g -no-pie
+      env:
+        CXX: /usr/lib/sdk/gcc8/bin/g++
     sources:
       - type: git
         url: 'https://github.com/wwmm/pulseeffects.git'
-        tag: v3.2.3
-        commit: 5d5ab0d56090ac7f0faee5ebd4826bd0a1e4ce6f
+        tag: v4.0.2
+        commit: 00306d2d29276fa93dc894320cad8b172d0334e8
+      - type: patch
+        path: patch/pulseeffects/0001-Add-AppStream-appdata-releases.patch
+      - type: patch
+        path: patch/pulseeffects/0002-Add-OARS-1.0-data-to-AppStream-file.patch
     post-install:
       - install -Dm644 -t /app/share/licenses/com.github.wwmm.pulseeffects ../LICENSE.md
     modules:
 
-      - name: gfortran
+      - name: boost
         buildsystem: simple
         build-commands:
-          - ./install_gfortran.sh
-        sources:
-          - type: script
-            only-arches:
-              - i386
-              - x86_64
-            commands:
-              - mkdir -p /app/lib
-              - cp -dt /app/lib/
-                       /usr/lib/sdk/gcc7/lib/libquadmath.so*
-                       /usr/lib/sdk/gcc7/lib/libgfortran.so*
-                       /usr/lib/sdk/gcc7/lib/libgcc_s.so*
-            dest-filename: install_gfortran.sh
-          - type: script
-            skip-arches:
-              - i386
-              - x86_64
-            commands:
-              - mkdir -p /app/lib
-              - cp -dt /app/lib/
-                       /usr/lib/sdk/gcc7/lib/libgfortran.so*
-                       /usr/lib/sdk/gcc7/lib/libgcc_s.so*
-            dest-filename: install_gfortran.sh
-
-      - name: lapack
-        buildsystem: cmake
-        builddir: true
-        build-options:
-          env:
-            CC: /usr/lib/sdk/gcc7/bin/gcc
-            CXX: /usr/lib/sdk/gcc7/bin/g++
-          config-opts:
-            - -DCMAKE_BUILD_TYPE=Release
-            - -DBUILD_SHARED_LIBS=ON
-            - -DBUILD_TESTING=OFF
-            - -DCMAKE_Fortran_COMPILER=/usr/lib/sdk/gcc7/bin/gfortran
-            - -DLAPACKE=ON
-            - -DCBLAS=ON
-        sources:
-          - type: git
-            url: 'https://github.com/Reference-LAPACK/lapack'
-            tag: v3.8.0
-            commit: ba3779a6813d84d329b73aac86afc4e041170609
-        post-install:
-          - install -Dm644 -t /app/share/licenses/lapack ../LICENSE
-        cleanup:
-          - /lib/cmake
-
-      - name: numpy
-        buildsystem: simple
-        build-commands:
-          - python3 setup.py build --fcompiler=gnu95 -j 0
-          - python3 setup.py install --prefix=/app --root=/ --optimize=1
-        build-options:
-          append-path: /usr/lib/sdk/gcc7/bin
-          env:
-            ATLAS: None
-            BLAS: /app/lib
-            LAPACK: /app/lib
-            CC: /usr/lib/sdk/gcc7/bin/gcc
-            CXX: /usr/lib/sdk/gcc7/bin/g++
+          - ./bootstrap.sh --prefix=/app --with-libraries=filesystem,system --with-toolset=gcc
+          - ./b2 --build-type=minimal -j $FLATPAK_BUILDER_N_JOBS
+            toolset=gcc variant=release link=shared threading=multi install
         sources:
           - type: archive
-            url: 'https://github.com/numpy/numpy/releases/download/v1.14.3/numpy-1.14.3.tar.gz'
-            sha256: cfcfc7a9a8ba4275c60a815c683d59ac5e7aa9362d76573b6cc4324ffb1235fa
+            url: 'https://dl.bintray.com/boostorg/release/1.67.0/source/boost_1_67_0.tar.gz'
+            sha256: 8aa4e330c870ef50a896634c931adf468b21f8a69b77007e45c444151229f665
         post-install:
-          - install -Dm644 -t /app/share/licenses/numpy LICENSE.txt
-        cleanup:
-          - '*.h'
-          - /bin
-          - libnpymath.a
-          - '*/core/include'
+          - install -Dm644 -t /app/share/licenses/boost LICENSE_1_0.txt
 
-      - name: scipy
-        buildsystem: simple
-        build-commands:
-          - python3 setup.py build --fcompiler=gnu95 -j 0
-          - python3 setup.py install --prefix=/app --root=/ --optimize=1
-        build-options:
-          append-path: /usr/lib/sdk/gcc7/bin
-          ldflags: -shared
-          env:
-            ATLAS: None
-            BLAS: /app/lib
-            LAPACK: /app/lib
-            CC: /usr/lib/sdk/gcc7/bin/gcc
-            CXX: /usr/lib/sdk/gcc7/bin/g++
+      - name: glibmm
+        config-opts:
+          - --disable-documentation
         sources:
           - type: archive
-            url: 'https://github.com/scipy/scipy/releases/download/v1.0.1/scipy-1.0.1.tar.xz'
-            sha256: 0c7625eef0363df0759cd616c02ea8689dbc40e82208057682446bba02e727c4
+            url: 'https://ftp.gnome.org/pub/GNOME/sources/glibmm/2.56/glibmm-2.56.0.tar.xz'
+            sha256: 6e74fcba0d245451c58fc8a196e9d103789bc510e1eee1a9b1e816c5209e79a9
         post-install:
-          - install -Dm644 -t /app/share/licenses/scipy LICENSE.txt
+          - install -Dm644 -t /app/share/licenses/glibmm COPYING COPYING.tools
+        cleanup:
+          - '/lib/glibmm-*'
+          - '/lib/giomm-*'
+        modules:
+
+          - name: libsigcplusplus
+            config-opts:
+              - --disable-documentation
+            sources:
+              - type: archive
+                url: 'https://github.com/libsigcplusplus/libsigcplusplus/releases/download/2.10.0/libsigcplusplus-2.10.0.tar.xz'
+                sha256: f843d6346260bfcb4426259e314512b99e296e8ca241d771d21ac64f28298d81
+            post-install:
+              - install -Dm644 -t /app/share/licenses/libsigcplusplus COPYING
+            cleanup:
+              - '/lib/sigc++-*'
+
+      - name: gtkmm
+        config-opts:
+          - --disable-documentation
+        sources:
+          - type: archive
+            url: 'https://ftp.gnome.org/pub/GNOME/sources/gtkmm/3.22/gtkmm-3.22.2.tar.xz'
+            sha256: 91afd98a31519536f5f397c2d79696e3d53143b80b75778521ca7b48cb280090
+        post-install:
+          - install -Dm644 -t /app/share/licenses/gtkmm COPYING COPYING.tools
+        cleanup:
+          - '/lib/gtkmm-*'
+          - '/lib/gdkmm-*'
+        modules:
+
+          - name: atkmm
+            config-opts:
+              - --disable-documentation
+            sources:
+              - type: archive
+                url: 'https://ftp.gnome.org/pub/GNOME/sources/atkmm/2.24/atkmm-2.24.2.tar.xz'
+                sha256: ff95385759e2af23828d4056356f25376cfabc41e690ac1df055371537e458bd
+            post-install:
+              - install -Dm644 -t /app/share/licenses/atkmm COPYING COPYING.tools
+            cleanup:
+              - '/lib/atkmm-*'
+
+          - name: cairomm
+            config-opts:
+              - --disable-documentation
+            sources:
+              - type: archive
+                url: 'https://www.cairographics.org/releases/cairomm-1.12.2.tar.gz'
+                sha256: 45c47fd4d0aa77464a75cdca011143fea3ef795c4753f6e860057da5fb8bd599
+            post-install:
+              - install -Dm644 -t /app/share/licenses/cairomm COPYING
+            cleanup:
+              - '/lib/cairomm-*'
+
+          - name: pangomm
+            config-opts:
+              - --disable-documentation
+            sources:
+              - type: archive
+                url: 'https://ftp.gnome.org/pub/GNOME/sources/pangomm/2.40/pangomm-2.40.1.tar.xz'
+                sha256: 9762ee2a2d5781be6797448d4dd2383ce14907159b30bc12bf6b08e7227be3af
+            post-install:
+              - install -Dm644 -t /app/share/licenses/pangomm COPYING COPYING.tools
+            cleanup:
+              - '/lib/pangomm-*'
 
       - name: gst-plugins-bad
         builddir: true
@@ -153,14 +153,10 @@ modules:
           - ext/webrtcdsp/libgstwebrtcdsp.so
         sources:
           - type: archive
-            url: 'https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.0.tar.xz'
-            sha256: ed5e2badb6f2858f60017b93334d91fe58a0e3f85ed2f37f2e931416fafb4f9f
+            url: 'https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.1.tar.xz'
+            sha256: 2a77c6908032aafdf2cd2e5823fec948f16a25c2d1497a953828d762dc20d61a
           - type: patch
-            path: patch/gst-plugins-bad/0001-meson-fix-ladspa-dependencies.patch
-          - type: patch
-            path: patch/gst-plugins-bad/0002-meson-add-missing-optional-lrdf-dep-to-ladspa-build.patch
-          - type: patch
-            path: patch/gst-plugins-bad/0003-meson-enable-bs2b-compilation.patch
+            path: patch/gst-plugins-bad/0001-meson-enable-bs2b-compilation.patch
         post-install:
           - install -Dm755 -t /app/lib/gstreamer-1.0
                                ext/bs2b/libgstbs2b.so
@@ -378,8 +374,8 @@ modules:
                 sources:
                   - type: git
                     url: 'https://github.com/FluidSynth/fluidsynth.git'
-                    tag: v1.1.10
-                    commit: f5a0fee6f7f2b2ab4c866df1acb649333464b3fd
+                    tag: v1.1.11
+                    commit: f65c6ba25fb2c7e37c89fc6a4afc5aa645e208c2
                 post-install:
                   - install -Dm644 -t /app/share/licenses/fluidsynth LICENSE
                 cleanup:
