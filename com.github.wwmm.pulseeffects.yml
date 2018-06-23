@@ -424,21 +424,6 @@ modules:
               - /lib/lv2
               - /lib/vst
 
-            # TODO Patch makefiles to support arm, aarch64 and i386
-            # For now architecture support for the "Delay Compensator" is limited
-          - name: lsp-plugins
-            no-autogen: true
-            only-arches:
-              - x86_64
-            sources:
-              - type: archive
-                url: 'https://sourceforge.net/projects/lsp-plugins/files/scr/scr-1.0.4/lsp-plugins-src-scr-1.0.4.tar.gz'
-                sha256: 29df4a42f029cde2036ce499a24b00854069a5f2da78940809d64094809e8bf8
-              - type: patch
-                path: patch/lsp-plugins/001-fix-makefile.patch
-            post-install:
-              - install -Dm644 -t /app/share/licenses/lsp-plugins LICENSE.txt
-
           # Other Plugin Types
           - name: bs2b
             rm-configure: true
