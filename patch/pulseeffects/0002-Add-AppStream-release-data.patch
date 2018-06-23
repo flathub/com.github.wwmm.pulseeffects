@@ -1,7 +1,7 @@
-From a6844a44278c760b664cc3ebe215f47f927047a1 Mon Sep 17 00:00:00 2001
+From 92f9501c3436212735a08daf0b31f1cea94b7bbc Mon Sep 17 00:00:00 2001
 From: AsavarTzeth <asavartzeth@gmail.com>
 Date: Tue, 12 Jun 2018 20:30:06 +0200
-Subject: [PATCH 1/2] Add AppStream appdata releases
+Subject: [PATCH 2/2] Add AppStream release data
 
 Release information is a part of the stricter AppStream validation
 requirements.
@@ -11,25 +11,102 @@ this metadata for all applications. With this data Flathub and software
 centers can display the version and date of apps. Additionally,
 simple to understand, changelogs can be presented prior to updates.
 ---
- ...om.github.wwmm.pulseeffects.appdata.xml.in | 324 ++++++++++++++++++
- 1 file changed, 324 insertions(+)
+ ...om.github.wwmm.pulseeffects.appdata.xml.in | 401 ++++++++++++++++++
+ 1 file changed, 401 insertions(+)
 
 diff --git a/data/com.github.wwmm.pulseeffects.appdata.xml.in b/data/com.github.wwmm.pulseeffects.appdata.xml.in
-index abe58b7..64bf6fc 100644
+index 219ce8d..7e4c3ba 100644
 --- a/data/com.github.wwmm.pulseeffects.appdata.xml.in
 +++ b/data/com.github.wwmm.pulseeffects.appdata.xml.in
-@@ -56,6 +56,330 @@
+@@ -56,6 +56,407 @@
        <caption>Calibration</caption>
      </screenshot>
    </screenshots>
 +  <releases>
++    <release version="4.0.8" date="2018-06-19">
++      <description>
++        <p>Fixed:</p>
++        <ul>
++          <li>Bug fixes (minor memory leaks)</li>
++          <li>The presets menu list is scrollable again</li>
++        </ul>
++      </description>
++    </release>
++    <release version="4.0.7" date="2018-06-17">
++      <description>
++        <p>Fixed:</p>
++        <ul>
++          <li>The limit parameter of the limiter plugin is no longer reset to default upon loading a preset</li>
++        </ul>
++      </description>
++    </release>
++    <release version="4.0.6" date="2018-06-16">
++      <description>
++        <p>Added:</p>
++        <ul>
++          <li>Users can change the height of the spectrum</li>
++        </ul>
++        <p>
++          More parameters are saved to the user preset: buffer, latency and spectrum parameters.
++          It is particularly useful to have the buffer value saved to the preset because a few devices
++          like bluetooth headphones need values that are very different than the ones used in soundcards.
++        </p>
++        <p>Fixed:</p>
++        <ul>
++          <li>Crashes upon loading a preset not containing features present in newer versions of PulseEffects</li>
++          <li>Spectrum not being enabled upon launching PulseEffects, while service mode is running</li>
++        </ul>
++      </description>
++    </release>
++    <release version="4.0.5" date="2018-06-15">
++      <description>
++        <p>Added:</p>
++        <ul>
++          <li>Expander from Linux Studio Plugins (Proprietary)</li>
++          <li>Optimizations to memory usage</li>
++        </ul>
++        <p>
++          Note that the Expander plugin is proprietary and due to license issues and Flathub
++          policies it cannot be included in the Flatpak release.
++        </p>
++        <p>Fixed:</p>
++        <ul>
++          <li>Some system memory not being freed upon closing PulseEffects</li>
++          <li>Crashes when the pitch plugin was re-ordered, with the webrtc plugin bellow it</li>
++        </ul>
++      </description>
++    </release>
++    <release version="4.0.4" date="2018-06-12">
++      <description>
++        <p>Fixed:</p>
++        <ul>
++          <li>Applications not being removed from PulseEffects after having been closed</li>
++        </ul>
++      </description>
++    </release>
++    <release version="4.0.3" date="2018-06-12">
++      <description>
++        <p>Added:</p>
++        <ul>
++          <li>Optimizations to how plugins are enabled, disabled, or re-ordered</li>
++        </ul>
++        <p>Changes:</p>
++        <ul>
++          <li>Default buffer values increased from 100 ms to 200 ms, due to distortions with bluetooth headphones</li>
++        </ul>
++        <p>Fixes:</p>
++        <ul>
++          <li>Bug fixes (potential memory leaks)</li>
++        </ul>
++      </description>
++    </release>
 +    <release version="4.0.2" date="2018-06-08">
 +      <description>
 +        <p>Added:</p>
 +        <ul>
 +          <li>Optimizations to how plugins are enabled, disabled, or re-ordered</li>
 +        </ul>
-+        <p>Fixes:</p>
++        <p>Fixed:</p>
 +        <ul>
 +          <li>Spectrum widget being shown even when it is disabled</li>
 +          <li>Excessive level meters readings</li>
@@ -346,9 +423,9 @@ index abe58b7..64bf6fc 100644
 +    <release version="0.2" date="2017-03-23"/>
 +    <release version="0.1" date="2017-03-21"/>
 +  </releases>
-   <update_contact>contact_AT_hembas.se</update_contact>
-   <translation type="gettext">PulseEffects</translation>
- </component>
+   <content_rating type="oars-1.0">
+     <content_attribute id="violence-cartoon">none</content_attribute>
+     <content_attribute id="violence-fantasy">none</content_attribute>
 -- 
 2.17.1
 

@@ -55,12 +55,12 @@ modules:
     sources:
       - type: git
         url: 'https://github.com/wwmm/pulseeffects.git'
-        tag: v4.0.2
-        commit: 00306d2d29276fa93dc894320cad8b172d0334e8
+        tag: v4.0.8
+        commit: 1d6838f55a59a6a00e9f0aacf79a04b69dcc6ace
       - type: patch
-        path: patch/pulseeffects/0001-Add-AppStream-appdata-releases.patch
+        path: patch/pulseeffects/0001-Add-OARS-1.0-data-to-AppStream-file.patch
       - type: patch
-        path: patch/pulseeffects/0002-Add-OARS-1.0-data-to-AppStream-file.patch
+        path: patch/pulseeffects/0002-Add-AppStream-release-data.patch
     post-install:
       - install -Dm644 -t /app/share/licenses/com.github.wwmm.pulseeffects ../LICENSE.md
       - install -d /app/extensions
