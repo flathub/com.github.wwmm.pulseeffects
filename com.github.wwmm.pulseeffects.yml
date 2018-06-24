@@ -366,6 +366,8 @@ modules:
               - type: archive
                 url: 'https://calf-studio-gear.org/files/calf-0.90.0.tar.gz'
                 sha256: 2b32007c4769b0bcc9898c088d26562b1ab1d57a68130d0235e7d27da4d83236
+              - type: patch
+                path: patch/calf/0001-Limiter-try-to-fix-memleak.patch
             post-install:
               - install -Dm644 -t /app/share/licenses/calf COPYING
             cleanup:
