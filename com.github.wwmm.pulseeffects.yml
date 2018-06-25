@@ -1,4 +1,5 @@
-app-id: com.github.wwmm.pulseeffects
+id: com.github.wwmm.pulseeffects
+branch: stable
 runtime: org.gnome.Platform
 runtime-version: 3.28
 sdk: org.gnome.Sdk
@@ -22,7 +23,7 @@ finish-args:
     # LADSPA Plugin PATH
   - --env=LADSPA_PATH=/app/lib/ladspa
     # LV2 Plugin PATH
-  - --env=LV2_PATH=/app/lib/lv2
+  - --env=LV2_PATH=/app/lib/lv2:/app/extensions/lib/lv2
 build-options:
   cflags: -O2 -g
   env: { V: '1' }
@@ -32,6 +33,17 @@ cleanup:
   - '*.la'
   - /include
   - /lib/pkgconfig
+
+add-extensions:
+  com.github.wwmm.pulseeffects.plugin:
+    version: "4"
+    directory: extensions
+    add-ld-path: lib
+    merge-dirs: lib/lv2
+    subdirectories: true
+    no-auto-download: true
+    autodelete: true
+
 modules:
   - name: pulseeffects
     buildsystem: meson
@@ -43,14 +55,15 @@ modules:
     sources:
       - type: git
         url: 'https://github.com/wwmm/pulseeffects.git'
-        tag: v4.0.2
-        commit: 00306d2d29276fa93dc894320cad8b172d0334e8
+        tag: v4.0.8
+        commit: 1d6838f55a59a6a00e9f0aacf79a04b69dcc6ace
       - type: patch
-        path: patch/pulseeffects/0001-Add-AppStream-appdata-releases.patch
+        path: patch/pulseeffects/0001-Add-OARS-1.0-data-to-AppStream-file.patch
       - type: patch
-        path: patch/pulseeffects/0002-Add-OARS-1.0-data-to-AppStream-file.patch
+        path: patch/pulseeffects/0002-Add-AppStream-release-data.patch
     post-install:
       - install -Dm644 -t /app/share/licenses/com.github.wwmm.pulseeffects ../LICENSE.md
+      - install -d /app/extensions
     modules:
 
       - name: boost
@@ -353,6 +366,8 @@ modules:
               - type: archive
                 url: 'https://calf-studio-gear.org/files/calf-0.90.0.tar.gz'
                 sha256: 2b32007c4769b0bcc9898c088d26562b1ab1d57a68130d0235e7d27da4d83236
+              - type: patch
+                path: patch/calf/0001-Limiter-try-to-fix-memleak.patch
             post-install:
               - install -Dm644 -t /app/share/licenses/calf COPYING
             cleanup:
@@ -410,21 +425,6 @@ modules:
             cleanup:
               - /lib/lv2
               - /lib/vst
-
-            # TODO Patch makefiles to support arm, aarch64 and i386
-            # For now architecture support for the "Delay Compensator" is limited
-          - name: lsp-plugins
-            no-autogen: true
-            only-arches:
-              - x86_64
-            sources:
-              - type: archive
-                url: 'https://sourceforge.net/projects/lsp-plugins/files/scr/scr-1.0.4/lsp-plugins-src-scr-1.0.4.tar.gz'
-                sha256: 29df4a42f029cde2036ce499a24b00854069a5f2da78940809d64094809e8bf8
-              - type: patch
-                path: patch/lsp-plugins/001-fix-makefile.patch
-            post-install:
-              - install -Dm644 -t /app/share/licenses/lsp-plugins LICENSE.txt
 
           # Other Plugin Types
           - name: bs2b

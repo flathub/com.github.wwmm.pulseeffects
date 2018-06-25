@@ -1,7 +1,7 @@
-From 0b9a36d5cb44f625cf593ec641e1cb5efc4bb3cd Mon Sep 17 00:00:00 2001
+From 6d4ad869d993c8f522d1648612f51328b6f490dc Mon Sep 17 00:00:00 2001
 From: AsavarTzeth <asavartzeth@gmail.com>
 Date: Tue, 12 Jun 2018 20:44:19 +0200
-Subject: [PATCH 2/2] Add OARS 1.0 data to AppStream file
+Subject: [PATCH 1/2] Add OARS 1.0 data to AppStream file
 
 The "Open Age Ratings Service" free and commercial software to
 inform users about data collection, and content that may be violent or
@@ -18,13 +18,13 @@ a submission requirement at Flathub.
  1 file changed, 22 insertions(+)
 
 diff --git a/data/com.github.wwmm.pulseeffects.appdata.xml.in b/data/com.github.wwmm.pulseeffects.appdata.xml.in
-index 64bf6fc..e2a9944 100644
+index abe58b7..219ce8d 100644
 --- a/data/com.github.wwmm.pulseeffects.appdata.xml.in
 +++ b/data/com.github.wwmm.pulseeffects.appdata.xml.in
-@@ -380,6 +380,28 @@
-     <release version="0.2" date="2017-03-23"/>
-     <release version="0.1" date="2017-03-21"/>
-   </releases>
+@@ -56,6 +56,28 @@
+       <caption>Calibration</caption>
+     </screenshot>
+   </screenshots>
 +  <content_rating type="oars-1.0">
 +    <content_attribute id="violence-cartoon">none</content_attribute>
 +    <content_attribute id="violence-fantasy">none</content_attribute>
