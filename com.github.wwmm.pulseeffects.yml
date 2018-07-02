@@ -1,5 +1,4 @@
 id: com.github.wwmm.pulseeffects
-branch: stable
 runtime: org.gnome.Platform
 runtime-version: 3.28
 sdk: org.gnome.Sdk
@@ -23,7 +22,7 @@ finish-args:
     # LADSPA Plugin PATH
   - --env=LADSPA_PATH=/app/lib/ladspa
     # LV2 Plugin PATH
-  - --env=LV2_PATH=/app/lib/lv2:/app/extensions/lib/lv2
+  - --env=LV2_PATH=/app/lib/lv2
 build-options:
   cflags: -O2 -g
   env: { V: '1' }
@@ -33,16 +32,6 @@ cleanup:
   - '*.la'
   - /include
   - /lib/pkgconfig
-
-add-extensions:
-  com.github.wwmm.pulseeffects.plugin:
-    version: "4"
-    directory: extensions
-    add-ld-path: lib
-    merge-dirs: lib/lv2
-    subdirectories: true
-    no-auto-download: true
-    autodelete: true
 
 modules:
   - name: pulseeffects
@@ -63,7 +52,6 @@ modules:
         path: patch/pulseeffects/0002-Add-AppStream-release-data.patch
     post-install:
       - install -Dm644 -t /app/share/licenses/com.github.wwmm.pulseeffects ../LICENSE.md
-      - install -d /app/extensions
     modules:
 
       - name: boost
