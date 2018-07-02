@@ -452,3 +452,16 @@ modules:
                 sha256: 756e291d4f557d88cd50c4fe3b8454ec238362d22cedb3e6173240d90f0a80fa
             post-install:
               - install -Dm644 -t /app/share/licenses/webrtc-audio-processing COPYING
+
+          - name: mda.lv2
+            buildsystem: simple
+            build-commands:
+              - python3 ./waf configure --prefix=/app
+              - python3 ./waf build -j 4
+              - python3 ./waf install
+            sources:
+              - type: archive
+                url: 'https://download.drobilla.net/mda-lv2-1.2.2.tar.bz2'
+                sha256: a476c31ed9f8b009ebacc32a02d06ba9584c0d0d03f03dd62b1354d10a030442
+            post-install:
+              - install -Dm644 -t /app/share/licenses/mda.lv2 COPYING
