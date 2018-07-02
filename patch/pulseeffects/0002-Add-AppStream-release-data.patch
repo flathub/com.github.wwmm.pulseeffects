@@ -1,4 +1,4 @@
-From 92f9501c3436212735a08daf0b31f1cea94b7bbc Mon Sep 17 00:00:00 2001
+From 8554ec78eebed9bf863fcbc574bf89e4d6ed0fa9 Mon Sep 17 00:00:00 2001
 From: AsavarTzeth <asavartzeth@gmail.com>
 Date: Tue, 12 Jun 2018 20:30:06 +0200
 Subject: [PATCH 2/2] Add AppStream release data
@@ -11,18 +11,71 @@ this metadata for all applications. With this data Flathub and software
 centers can display the version and date of apps. Additionally,
 simple to understand, changelogs can be presented prior to updates.
 ---
- ...om.github.wwmm.pulseeffects.appdata.xml.in | 401 ++++++++++++++++++
- 1 file changed, 401 insertions(+)
+ ...om.github.wwmm.pulseeffects.appdata.xml.in | 454 ++++++++++++++++++
+ 1 file changed, 454 insertions(+)
 
 diff --git a/data/com.github.wwmm.pulseeffects.appdata.xml.in b/data/com.github.wwmm.pulseeffects.appdata.xml.in
-index 219ce8d..7e4c3ba 100644
+index 219ce8d..161e29e 100644
 --- a/data/com.github.wwmm.pulseeffects.appdata.xml.in
 +++ b/data/com.github.wwmm.pulseeffects.appdata.xml.in
-@@ -56,6 +56,407 @@
+@@ -56,6 +56,460 @@
        <caption>Calibration</caption>
      </screenshot>
    </screenshots>
 +  <releases>
++    <release version="4.1.2" date="2018-07-01">
++      <description>
++        <p>Added:</p>
++        <ul>
++          <li>Multiband gate plugin from Calf Studio</li>
++          <li>Stereo Tools plugin from Calf Studio</li>
++          <li>The Presets menu is now labeled, using the name of the last selected preset</li>
++          <li>The Deesser can be used in both pipelines</li>
++          <li>The so called "perfect eq" preset (no such thing as actually perfect)</li>
++        </ul>
++        <p>Fixed:</p>
++        <ul>
++          <li>Deesser "listen" control was not working</li>
++        </ul>
++        <p>Changed:</p>
++        <ul>
++          <li>Expander plugin has been replaced by Calf Gate from Calf Studio, due to being proprietary</li>
++          <li>Delay plugin has been replaced by Calf Sterio Tools from Calf Studio, due to unpermissive licensing</li>
++          <li>Panorama plugin, uses functionality which is also offered by Calf Stereo Tools</li>
++        </ul>
++      </description>
++    </release>
++    <release version="4.1.1" date="2018-06-27">
++      <description>
++        <p>Added:</p>
++        <ul>
++          <li>Loudness plugin from MDA.LV2</li>
++        </ul>
++      </description>
++    </release>
++    <release version="4.1.0" date="2018-06-24">
++      <description>
++        <p>Fixed:</p>
++        <ul>
++          <li>Multiband compressor schema not being installed</li>
++        </ul>
++      </description>
++    </release>
++    <release version="4.0.9" date="2018-06-24">
++      <description>
++        <p>Added:</p>
++        <ul>
++          <li>GStreamer 10 bands equalizer presets: rock, soft, pop, etc</li>
++          <li>Input gain and output gain controls for the equalizer</li>
++          <li>Calf Multiband compressor</li>
++        </ul>
++        <p>Fixed:</p>
++        <ul>
++          <li>The compressor and gate plugin knee parameter was always at its default value</li>
++          <li>Bug fixes (minor memory leaks)</li>
++        </ul>
++      </description>
++    </release>
 +    <release version="4.0.8" date="2018-06-19">
 +      <description>
 +        <p>Fixed:</p>
@@ -427,5 +480,5 @@ index 219ce8d..7e4c3ba 100644
      <content_attribute id="violence-cartoon">none</content_attribute>
      <content_attribute id="violence-fantasy">none</content_attribute>
 -- 
-2.17.1
+2.18.0
 

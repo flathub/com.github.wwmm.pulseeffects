@@ -55,8 +55,8 @@ modules:
     sources:
       - type: git
         url: 'https://github.com/wwmm/pulseeffects.git'
-        tag: v4.0.8
-        commit: 1d6838f55a59a6a00e9f0aacf79a04b69dcc6ace
+        tag: v4.1.2
+        commit: 44959a2b417478f40be8c428440181091f003a0c
       - type: patch
         path: patch/pulseeffects/0001-Add-OARS-1.0-data-to-AppStream-file.patch
       - type: patch
