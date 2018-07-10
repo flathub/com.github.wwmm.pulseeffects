@@ -1,4 +1,4 @@
-From 8554ec78eebed9bf863fcbc574bf89e4d6ed0fa9 Mon Sep 17 00:00:00 2001
+From d77da1298554da46f06d8a60af4aa82e05230ceb Mon Sep 17 00:00:00 2001
 From: AsavarTzeth <asavartzeth@gmail.com>
 Date: Tue, 12 Jun 2018 20:30:06 +0200
 Subject: [PATCH 2/2] Add AppStream release data
@@ -11,18 +11,24 @@ this metadata for all applications. With this data Flathub and software
 centers can display the version and date of apps. Additionally,
 simple to understand, changelogs can be presented prior to updates.
 ---
- ...om.github.wwmm.pulseeffects.appdata.xml.in | 454 ++++++++++++++++++
- 1 file changed, 454 insertions(+)
+ ...om.github.wwmm.pulseeffects.appdata.xml.in | 460 ++++++++++++++++++
+ 1 file changed, 460 insertions(+)
 
 diff --git a/data/com.github.wwmm.pulseeffects.appdata.xml.in b/data/com.github.wwmm.pulseeffects.appdata.xml.in
-index 219ce8d..161e29e 100644
+index 219ce8d..8806b1f 100644
 --- a/data/com.github.wwmm.pulseeffects.appdata.xml.in
 +++ b/data/com.github.wwmm.pulseeffects.appdata.xml.in
-@@ -56,6 +56,460 @@
+@@ -56,6 +56,466 @@
        <caption>Calibration</caption>
      </screenshot>
    </screenshots>
 +  <releases>
++    <release version="4.1.3" date="2018-07-06">
++      <description>
++        <p>Fixed:</p>
++        <ul>
++          <li>Equalizer presets occasionally not being applied</li>
++        </ul>
 +    <release version="4.1.2" date="2018-07-01">
 +      <description>
 +        <p>Added:</p>
