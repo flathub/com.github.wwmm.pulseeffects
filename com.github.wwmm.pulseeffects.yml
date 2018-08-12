@@ -459,3 +459,16 @@ modules:
                 url: 'https://github.com/jiixyj/libebur128.git'
                 tag: v1.2.4
                 commit: 55968729b09439888c7768054d76a773d23857d1
+
+          - name: zita-convolver
+            no-autogen: true
+            subdir: libs
+            make-install-args:
+              - PREFIX=/app
+              - LIBDIR=lib
+            sources:
+              - type: archive
+                url: 'https://kokkinizita.linuxaudio.org/linuxaudio/downloads/zita-convolver-4.0.0.tar.bz2'
+                sha512: 249c87bc662d92ffbba6030bb7c1b1d78d573a7f8cb2178f162c3cd82738b16555234c7fe609d976a294d2bb169a00bf828f1505852cf005860d57d688aa6de5
+              - type: patch
+                path: patch/zita-convolver/0001-Fix-makefile.patch
