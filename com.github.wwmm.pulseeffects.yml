@@ -448,3 +448,14 @@ modules:
                 sha256: a476c31ed9f8b009ebacc32a02d06ba9584c0d0d03f03dd62b1354d10a030442
             post-install:
               - install -Dm644 -t /app/share/licenses/mda.lv2 COPYING
+
+          - name: libebur128
+            buildsystem: cmake-ninja
+            config-opts:
+              - -DCMAKE_BUILD_TYPE=Release
+              - -DBUILD_STATIC_LIBS=OFF
+            sources:
+              - type: git
+                url: 'https://github.com/jiixyj/libebur128.git'
+                tag: v1.2.4
+                commit: 55968729b09439888c7768054d76a773d23857d1
