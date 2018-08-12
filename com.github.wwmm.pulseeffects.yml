@@ -212,8 +212,8 @@ modules:
                     - --enable-sse
             sources:
               - type: archive
-                url: 'http://www.fftw.org/fftw-3.3.7.tar.gz'
-                md5: 0d5915d7d39b3253c1cc05030d79ac47
+                url: 'http://www.fftw.org/fftw-3.3.8.tar.gz'
+                md5: 8aac833c943d8e90d51b697b27d4384d
             post-install:
               - install -Dm644 -t /app/share/licenses/fftw COPYING COPYRIGHT
             cleanup:
@@ -252,8 +252,8 @@ modules:
                         - --enable-sse2
                 sources:
                   - type: archive
-                    url: 'http://www.fftw.org/fftw-3.3.7.tar.gz'
-                    md5: 0d5915d7d39b3253c1cc05030d79ac47
+                    url: 'http://www.fftw.org/fftw-3.3.8.tar.gz'
+                    md5: 8aac833c943d8e90d51b697b27d4384d
                 cleanup:
                   - /bin
                   - /share/man
