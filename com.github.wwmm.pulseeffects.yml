@@ -23,9 +23,6 @@ finish-args:
   - --env=LADSPA_PATH=/app/lib/ladspa
     # LV2 Plugin PATH
   - --env=LV2_PATH=/app/lib/lv2
-build-options:
-  cflags: -O2 -g
-  env: { V: '1' }
 cleanup:
   - '*.a'
   - '*.h'
