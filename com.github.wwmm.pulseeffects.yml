@@ -190,7 +190,6 @@ modules:
             # Single precision build
           - name: fftw3f
             config-opts:
-              - F77=/usr/lib/sdk/gcc7/bin/gfortran
               - --disable-doc
               - --enable-shared
               - --enable-threads
@@ -231,7 +230,6 @@ modules:
                 # Double precision build
               - name: fftw3
                 config-opts:
-                  - F77=/usr/lib/sdk/gcc7/bin/gfortran
                   - --disable-doc
                   - --enable-shared
                   - --enable-threads
