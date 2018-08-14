@@ -35,8 +35,9 @@ modules:
     buildsystem: meson
     builddir: true
     build-options:
-      cxxflags: -O2 -g -no-pie
+      prepend-path: /usr/lib/sdk/gcc8/bin
       env:
+        CC: /usr/lib/sdk/gcc8/bin/gcc
         CXX: /usr/lib/sdk/gcc8/bin/g++
     sources:
       - type: git
@@ -47,6 +48,9 @@ modules:
         path: patch/pulseeffects/0001-Add-OARS-1.0-data-to-AppStream-file.patch
       - type: patch
         path: patch/pulseeffects/0002-Add-AppStream-release-data.patch
+      - type: shell
+        commands:
+          - /usr/lib/sdk/gcc8/install_runtime_libs.sh
     post-install:
       - install -Dm644 -t /app/share/licenses/com.github.wwmm.pulseeffects ../LICENSE.md
     modules:
