@@ -1,6 +1,6 @@
 id: com.github.wwmm.pulseeffects
 runtime: org.gnome.Platform
-runtime-version: 3.28
+runtime-version: '3.28'
 sdk: org.gnome.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.gcc8
