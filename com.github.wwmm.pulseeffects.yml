@@ -42,8 +42,7 @@ modules:
     sources:
       - type: git
         url: 'https://github.com/wwmm/pulseeffects.git'
-        tag: v4.3.1
-        commit: 9dcfa8a4cfba0259f2b46480ed1b56faf275bb4a
+        branch: master
       - type: shell
         commands:
           - /usr/lib/sdk/gcc8/install_runtime_libs.sh
