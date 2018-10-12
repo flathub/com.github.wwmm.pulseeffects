@@ -258,9 +258,9 @@ modules:
           - name: lv2
             buildsystem: simple
             build-commands:
-              - python3 ./waf configure --prefix=/app --lv2dir=/app/lib/lv2
-              - python3 ./waf build -j 4
-              - python3 ./waf install
+              - python2 ./waf configure --prefix=/app --lv2dir=/app/lib/lv2
+              - python2 ./waf build -j 4
+              - python2 ./waf install
             sources:
               - type: archive
                 url: 'http://lv2plug.in/spec/lv2-1.14.0.tar.bz2'
@@ -427,9 +427,9 @@ modules:
           - name: mda.lv2
             buildsystem: simple
             build-commands:
-              - python3 ./waf configure --prefix=/app
-              - python3 ./waf build -j 4
-              - python3 ./waf install
+              - python2 ./waf configure --prefix=/app
+              - python2 ./waf build -j 4
+              - python2 ./waf install
             sources:
               - type: archive
                 url: 'https://download.drobilla.net/mda-lv2-1.2.2.tar.bz2'
