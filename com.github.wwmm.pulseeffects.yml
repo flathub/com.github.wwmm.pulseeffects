@@ -1,9 +1,7 @@
 id: com.github.wwmm.pulseeffects
 runtime: org.gnome.Platform
-runtime-version: '3.28'
+runtime-version: '3.30'
 sdk: org.gnome.Sdk
-sdk-extensions:
-  - org.freedesktop.Sdk.Extension.gcc8
 command: pulseeffects
 rename-icon: pulseeffects
 finish-args:
@@ -34,19 +32,11 @@ modules:
   - name: pulseeffects
     buildsystem: meson
     builddir: true
-    build-options:
-      prepend-path: /usr/lib/sdk/gcc8/bin
-      env:
-        CC: /usr/lib/sdk/gcc8/bin/gcc
-        CXX: /usr/lib/sdk/gcc8/bin/g++
     sources:
       - type: git
         url: 'https://github.com/wwmm/pulseeffects.git'
         tag: v4.3.4
         commit: ce04d26e7b202eec752624b4523694bb55ec7b5e
-      - type: shell
-        commands:
-          - /usr/lib/sdk/gcc8/install_runtime_libs.sh
     post-install:
       - install -Dm644 -t /app/share/licenses/com.github.wwmm.pulseeffects ../LICENSE.md
     modules:
