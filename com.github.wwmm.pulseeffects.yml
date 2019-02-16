@@ -248,8 +248,8 @@ modules:
                 sources:
                   - type: git
                     url: 'https://github.com/c4dm/vamp-plugin-sdk'
-                    tag: vamp-plugin-sdk-v2.7.1
-                    commit: 10be490c9902d874e9d772d94bf91448303d9b06
+                    tag: vamp-plugin-sdk-v2.8
+                    commit: ccb482dc739a1854b0ecb8c3391edb34f7f450eb
                 post-install:
                   - install -Dm644 -t /app/share/licenses/vamp-plugin-sdk COPYING
                 cleanup:
