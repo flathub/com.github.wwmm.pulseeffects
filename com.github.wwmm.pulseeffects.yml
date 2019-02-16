@@ -342,10 +342,16 @@ modules:
                   - install -Dm644 -t /app/share/licenses/sratom COPYING
 
           - name: calf
+            build-options:
+              env:
+                - NOCONFIGURE=1
+            rm-configure: true
             sources:
               - type: archive
                 url: 'https://calf-studio-gear.org/files/calf-0.90.1.tar.gz'
                 sha256: eb3ac2e48952cf68b2d87151ce4cf58ea1fcd4433629ff0628b6e4165fe9dc7e
+              - type: patch
+                path: patch/calf/0001-Fix-detection-of-LV2-for-latest-git.patch
             post-install:
               - install -Dm644 -t /app/share/licenses/calf COPYING
             cleanup:
