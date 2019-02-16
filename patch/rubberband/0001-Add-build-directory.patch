@@ -1,0 +1,85 @@
+From 31ef00e6e56cac4acf55cf8082be4ce9de026db8 Mon Sep 17 00:00:00 2001
+From: AsavarTzeth <asavartzeth@gmail.com>
+Date: Sat, 16 Feb 2019 14:51:57 +0100
+Subject: [PATCH] Add build directory
+
+Everything is now built within a single build directory, making cleanup
+easier. This also fixes an issue with this directory not existing
+causing all builds to fail.
+---
+ Makefile.in | 23 ++++++++++++++++-------
+ 1 file changed, 16 insertions(+), 7 deletions(-)
+
+diff --git a/Makefile.in b/Makefile.in
+index 3a70a71..f319c4c 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -18,6 +18,7 @@ LADSPA_PLUGIN_LIBS	:= $(LIBRARY_LIBS)
+ MKDIR			:= mkdir
+ AR			:= ar
+ 
++BUILDDIR		:= build
+ INSTALL_BINDIR		:= $(PREFIX)/bin
+ INSTALL_INCDIR		:= $(PREFIX)/include/rubberband
+ INSTALL_LIBDIR		:= $(PREFIX)/lib
+@@ -37,13 +38,13 @@ DYNAMIC_LDFLAGS		:= -shared -Wl,-Bsymbolic -Wl,-soname=$(LIBNAME)$(DYNAMIC_EXTEN
+ VAMP_LDFLAGS		:= -shared -Wl,-Bsymbolic -Wl,--version-script=vamp/vamp-plugin.map
+ LADSPA_LDFLAGS		:= -shared -Wl,-Bsymbolic -Wl,--version-script=ladspa/ladspa-plugin.map
+ 
+-PROGRAM_TARGET 		:= bin/rubberband
+-STATIC_TARGET  		:= lib/$(LIBNAME).a
+-DYNAMIC_TARGET 		:= lib/$(LIBNAME)$(DYNAMIC_EXTENSION)
+-JNI_TARGET		:= lib/$(JNINAME)$(DYNAMIC_EXTENSION)
+-JAR_TARGET		:= lib/$(JARNAME)
+-VAMP_TARGET    		:= lib/vamp-rubberband$(DYNAMIC_EXTENSION)
+-LADSPA_TARGET  		:= lib/ladspa-rubberband$(DYNAMIC_EXTENSION)
++PROGRAM_TARGET		:= $(BUILDDIR)/bin/rubberband
++STATIC_TARGET		:= $(BUILDDIR)/lib/$(LIBNAME).a
++DYNAMIC_TARGET		:= $(BUILDDIR)/lib/$(LIBNAME)$(DYNAMIC_EXTENSION)
++JNI_TARGET		:= $(BUILDDIR)/lib/$(JNINAME)$(DYNAMIC_EXTENSION)
++JAR_TARGET		:= $(BUILDDIR)/lib/$(JARNAME)
++VAMP_TARGET		:= $(BUILDDIR)/lib/vamp-rubberband$(DYNAMIC_EXTENSION)
++LADSPA_TARGET		:= $(BUILDDIR)/lib/ladspa-rubberband$(DYNAMIC_EXTENSION)
+ 
+ all:	bin lib $(PROGRAM_TARGET) $(STATIC_TARGET) $(DYNAMIC_TARGET) $(VAMP_TARGET) $(LADSPA_TARGET)
+ 
+@@ -137,28 +138,36 @@ VAMP_OBJECTS    := $(VAMP_SOURCES:.cpp=.o)
+ LADSPA_OBJECTS  := $(LADSPA_SOURCES:.cpp=.o)
+ 
+ $(PROGRAM_TARGET):	$(LIBRARY_OBJECTS) $(PROGRAM_OBJECTS)
++	$(MKDIR) -p $(BUILDDIR)/bin
+ 	$(CXX) -o $@ $^ $(PROGRAM_LIBS) $(LDFLAGS)
+ 
+ $(STATIC_TARGET):	$(LIBRARY_OBJECTS)
++	$(MKDIR) -p $(BUILDDIR)/lib
+ 	$(AR) rsc $@ $^
+ 
+ $(DYNAMIC_TARGET):	$(LIBRARY_OBJECTS)
++	$(MKDIR) -p $(BUILDDIR)/lib
+ 	$(CXX) $(DYNAMIC_LDFLAGS) $^ -o $@ $(LIBRARY_LIBS) $(LDFLAGS)
+ 
+ $(JNI_OBJECT):	$(JNI_SOURCE)
++	$(MKDIR) -p $(BUILDDIR)/lib
+ 	$(CXX) -c $(JNI_CXXFLAGS) $(CXXFLAGS) $^ -o $@
+ 
+ $(JNI_TARGET):	$(LIBRARY_OBJECTS) $(JNI_OBJECT)
++	$(MKDIR) -p $(BUILDDIR)/lib
+ 	$(CXX) $(DYNAMIC_LDFLAGS) $^ -o $@ $(LIBRARY_LIBS) $(LDFLAGS)
+ 
+ $(JAR_TARGET):	$(JAVA_SOURCE)
++	$(MKDIR) -p $(BUILDDIR)/lib
+ 	$(JAVAC) $^
+ 	$(JAR) cvf $@ $(JAVA_OBJECT)
+ 
+ $(VAMP_TARGET):		$(LIBRARY_OBJECTS) $(VAMP_OBJECTS)
++	$(MKDIR) -p $(BUILDDIR)/lib
+ 	$(CXX) $(VAMP_LDFLAGS) -o $@ $^ $(VAMP_PLUGIN_LIBS) $(LDFLAGS)
+ 
+ $(LADSPA_TARGET):	$(LIBRARY_OBJECTS) $(LADSPA_OBJECTS)
++	$(MKDIR) -p $(BUILDDIR)/lib
+ 	$(CXX) $(LADSPA_LDFLAGS) -o $@ $^ $(LADSPA_PLUGIN_LIBS) $(LDFLAGS)
+ 
+ bin:
+-- 
+2.20.1
+

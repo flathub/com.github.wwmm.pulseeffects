@@ -208,14 +208,19 @@ modules:
               - /share/man
 
           - name: rubberband
+            make-args:
+              - ladspa
+            no-make-install: true
             sources:
               - type: archive
                 url: 'https://bitbucket.org/breakfastquay/rubberband/get/v1.8.2.tar.gz'
                 sha256: 17c67f0aa6fd682e3c5d79bb1bab0f0d93f3d38d9c54424abb0852b66daa2072
+              - type: patch
+                path: patch/rubberband/0001-Add-build-directory.patch
             post-install:
               - install -Dm644 -t /app/share/licenses/rubberband COPYING
+              - install -Dm644 -t /app/lib/ladspa build/lib/ladspa-rubberband.so
             cleanup:
-              - /bin
               - /share/ladspa
             modules:
                 # Double precision build
