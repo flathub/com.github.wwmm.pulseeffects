@@ -60,8 +60,8 @@ modules:
           - --disable-documentation
         sources:
           - type: archive
-            url: 'https://ftp.gnome.org/pub/GNOME/sources/glibmm/2.56/glibmm-2.56.0.tar.xz'
-            sha256: 6e74fcba0d245451c58fc8a196e9d103789bc510e1eee1a9b1e816c5209e79a9
+            url: 'https://ftp.gnome.org/pub/GNOME/sources/glibmm/2.58/glibmm-2.58.0.tar.xz'
+            sha256: d34189237b99e88228e6f557f7d6e62f767fe356f395a244f5ad0e486254b645
         post-install:
           - install -Dm644 -t /app/share/licenses/glibmm COPYING COPYING.tools
         cleanup:
@@ -86,8 +86,8 @@ modules:
           - --disable-documentation
         sources:
           - type: archive
-            url: 'https://ftp.gnome.org/pub/GNOME/sources/gtkmm/3.22/gtkmm-3.22.2.tar.xz'
-            sha256: 91afd98a31519536f5f397c2d79696e3d53143b80b75778521ca7b48cb280090
+            url: 'https://ftp.gnome.org/pub/GNOME/sources/gtkmm/3.24/gtkmm-3.24.0.tar.xz'
+            sha256: cf5fc92805e581c8303e08d54519457ba07f15b766e9b1edde4862993ac1aa43
         post-install:
           - install -Dm644 -t /app/share/licenses/gtkmm COPYING COPYING.tools
         cleanup:
@@ -100,8 +100,8 @@ modules:
               - --disable-documentation
             sources:
               - type: archive
-                url: 'https://ftp.gnome.org/pub/GNOME/sources/atkmm/2.24/atkmm-2.24.2.tar.xz'
-                sha256: ff95385759e2af23828d4056356f25376cfabc41e690ac1df055371537e458bd
+                url: 'https://ftp.gnome.org/pub/GNOME/sources/atkmm/2.28/atkmm-2.28.0.tar.xz'
+                sha256: 4c4cfc917fd42d3879ce997b463428d6982affa0fb660cafcc0bc2d9afcedd3a
             post-install:
               - install -Dm644 -t /app/share/licenses/atkmm COPYING COPYING.tools
             cleanup:
@@ -124,8 +124,8 @@ modules:
               - --disable-documentation
             sources:
               - type: archive
-                url: 'https://ftp.gnome.org/pub/GNOME/sources/pangomm/2.40/pangomm-2.40.1.tar.xz'
-                sha256: 9762ee2a2d5781be6797448d4dd2383ce14907159b30bc12bf6b08e7227be3af
+                url: 'https://ftp.gnome.org/pub/GNOME/sources/pangomm/2.42/pangomm-2.42.0.tar.xz'
+                sha256: ca6da067ff93a6445780c0b4b226eb84f484ab104b8391fb744a45cbc7edbf56
             post-install:
               - install -Dm644 -t /app/share/licenses/pangomm COPYING COPYING.tools
             cleanup:
