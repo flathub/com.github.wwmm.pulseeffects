@@ -414,6 +414,7 @@ modules:
             make-args:
               - PREFIX=/app
               - build_lv2
+              - BUILD_PROFILE=armv7a
             make-install-args:
               - PREFIX=/app
             install-rule: install_lv2
