@@ -1,4 +1,4 @@
-From 7def96745f67641ea0fd9e99e7df44f396a7ac03 Mon Sep 17 00:00:00 2001
+From 6e967c5341b5627a08cd3df14f0994d8994ee2a0 Mon Sep 17 00:00:00 2001
 From: AsavarTzeth <asavartzeth@gmail.com>
 Date: Sun, 17 Feb 2019 11:20:37 +0100
 Subject: [PATCH 3/3] Workaround arm build failures
@@ -16,14 +16,14 @@ Not sure why, but this seems like a good workaround.
  2 files changed, 8 insertions(+)
 
 diff --git a/src/container/Makefile b/src/container/Makefile
-index b63b6120..d04a1188 100644
+index b63b6120..371217e8 100644
 --- a/src/container/Makefile
 +++ b/src/container/Makefile
 @@ -34,6 +34,10 @@ ifneq ($(LSP_TESTING),1)
    endif
  endif
  
-+ifeq ($(BUILD_PROFILE), armv7a)
++ifeq ($(BUILD_PROFILE),$(filter $(BUILD_PROFILE),armv7a armv8a))
 +	CPPFLAGS	+= -Wa,-mimplicit-it=thumb
 +endif
 +
@@ -31,14 +31,14 @@ index b63b6120..d04a1188 100644
  UI_LIBS                 = $(LIBS) $(XLIB_LIBS) $(CAIRO_LIBS)
  
 diff --git a/src/core/Makefile b/src/core/Makefile
-index 1db86033..80be708e 100644
+index 1db86033..0da3c326 100644
 --- a/src/core/Makefile
 +++ b/src/core/Makefile
 @@ -2,6 +2,10 @@ rwildcard				= $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2) $(filter $(s
  FILES                   = $(addprefix $(OBJDIR)/, $(patsubst %.cpp, %.o, $(call rwildcard, , *.cpp)))
  FILE                    = $(@:$(OBJDIR)/%.o=%.cpp)
  
-+ifeq ($(BUILD_PROFILE), armv7a)
++ifeq ($(BUILD_PROFILE),$(filter $(BUILD_PROFILE),armv7a armv8a))
 +CPPFLAGS		+= -Wa,-mimplicit-it=thumb
 +endif
 +

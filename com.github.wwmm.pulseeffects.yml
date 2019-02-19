@@ -418,6 +418,11 @@ modules:
               - PREFIX=/app
             install-rule: install_lv2
             # lsp-plugins lacks support for aarch64
+            build-options:
+              arch:
+                arm:
+                  env:
+                    - BUILD_PROFILE=armv7a
             only-arches:
               - i386
               - x86_64
