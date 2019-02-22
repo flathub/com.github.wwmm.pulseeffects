@@ -264,7 +264,7 @@ modules:
             buildsystem: simple
             build-commands:
               - python3 ./waf configure --prefix=/app --lv2dir=/app/lib/lv2
-              - python3 ./waf build -j 4
+              - python3 ./waf build -j $FLATPAK_BUILDER_N_JOBS
               - python3 ./waf install
             sources:
               - type: git
@@ -281,7 +281,7 @@ modules:
             buildsystem: simple
             build-commands:
               - python3 ./waf configure --prefix=/app
-              - python3 ./waf build -j 4
+              - python3 ./waf build -j $FLATPAK_BUILDER_N_JOBS
               - python3 ./waf install
             sources:
               - type: archive
@@ -299,7 +299,7 @@ modules:
                 buildsystem: simple
                 build-commands:
                   - python3 ./waf configure --prefix=/app
-                  - python3 ./waf build -j 4
+                  - python3 ./waf build -j $FLATPAK_BUILDER_N_JOBS
                   - python3 ./waf install
                 sources:
                   - type: archive
@@ -315,7 +315,7 @@ modules:
                 buildsystem: simple
                 build-commands:
                   - python3 ./waf configure --prefix=/app
-                  - python3 ./waf build -j 4
+                  - python3 ./waf build -j $FLATPAK_BUILDER_N_JOBS
                   - python3 ./waf install
                 sources:
                   - type: archive
@@ -331,7 +331,7 @@ modules:
                 buildsystem: simple
                 build-commands:
                   - python3 ./waf configure --prefix=/app
-                  - python3 ./waf build -j 4
+                  - python3 ./waf build -j $FLATPAK_BUILDER_N_JOBS
                   - python3 ./waf install
                 sources:
                   - type: archive
