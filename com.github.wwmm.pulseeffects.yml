@@ -263,7 +263,9 @@ modules:
           - name: lv2
             buildsystem: simple
             build-commands:
-              - python3 ./waf configure --prefix=/app --lv2dir=/app/lib/lv2
+              - python3 ./waf configure --prefix=/app
+                                        --lv2dir=/app/lib/lv2
+                                        --no-plugins
               - python3 ./waf build -j $FLATPAK_BUILDER_N_JOBS
               - python3 ./waf install
             sources:
@@ -281,6 +283,9 @@ modules:
             buildsystem: simple
             build-commands:
               - python3 ./waf configure --prefix=/app
+                                        --default-lv2-path=/app/lib/lv2
+                                        --no-bash-completion
+                                        --no-utils
               - python3 ./waf build -j $FLATPAK_BUILDER_N_JOBS
               - python3 ./waf install
             sources:
@@ -290,15 +295,13 @@ modules:
             post-install:
               - install -Dm644 -t /app/share/licenses/lilv COPYING
             cleanup:
-              - /bin
-              - /etc
               - /share/man
             modules:
 
               - name: serd
                 buildsystem: simple
                 build-commands:
-                  - python3 ./waf configure --prefix=/app
+                  - python3 ./waf configure --prefix=/app --no-utils
                   - python3 ./waf build -j $FLATPAK_BUILDER_N_JOBS
                   - python3 ./waf install
                 sources:
@@ -308,13 +311,12 @@ modules:
                 post-install:
                   - install -Dm644 -t /app/share/licenses/serd COPYING
                 cleanup:
-                  - /bin
                   - /share/man
 
               - name: sord
                 buildsystem: simple
                 build-commands:
-                  - python3 ./waf configure --prefix=/app
+                  - python3 ./waf configure --prefix=/app --no-utils
                   - python3 ./waf build -j $FLATPAK_BUILDER_N_JOBS
                   - python3 ./waf install
                 sources:
@@ -324,7 +326,6 @@ modules:
                 post-install:
                   - install -Dm644 -t /app/share/licenses/sord COPYING
                 cleanup:
-                  - /bin
                   - /share/man
 
               - name: sratom
@@ -368,6 +369,9 @@ modules:
                 config-opts:
                   - -DCMAKE_BUILD_TYPE=Release
                   - -Denable-ladspa=ON
+                  - -Denable-oss=OFF
+                  - -Denable-network=OFF
+                  - -Denable-ipv6=OFF
                   - -DLIB_SUFFIX=''
                 sources:
                   - type: git
