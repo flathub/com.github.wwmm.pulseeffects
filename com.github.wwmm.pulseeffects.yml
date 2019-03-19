@@ -406,31 +406,15 @@ modules:
             no-autogen: true
             make-args:
               - PREFIX=/app
-              - build_lv2
+              - BUILD_MODULES=lv2
             make-install-args:
               - PREFIX=/app
             install-rule: install_lv2
-            # lsp-plugins lacks support for aarch64
-            build-options:
-              arch:
-                arm:
-                  env:
-                    - BUILD_PROFILE=armv7a
-            only-arches:
-              - i386
-              - x86_64
-              - arm
             sources:
               - type: git
                 url: 'https://github.com/sadko4u/lsp-plugins.git'
-                tag: lsp-plugins-1.1.5
-                commit: 1d41a52f6b2236f38670c2d3a28ab97c419a4754
-              - type: patch
-                path: patch/lsp-plugins/0001-Fix-building-installing-only-lv2.patch
-              - type: patch
-                path: patch/lsp-plugins/0002-Disable-Advanced-SIMD-or-NEON-on-arm.patch
-              - type: patch
-                path: patch/lsp-plugins/0003-Workaround-arm-build-failures.patch
+                tag: github-issue-35
+                commit: 0598416b7603d9a973abe13ebf355ded86dab368
             post-install:
               - install -Dm644 -t /app/share/licenses/lsp-plugins LICENSE.txt
 
