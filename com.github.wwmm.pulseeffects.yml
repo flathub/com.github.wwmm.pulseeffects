@@ -38,8 +38,8 @@ modules:
     sources:
       - type: git
         url: 'https://github.com/wwmm/pulseeffects.git'
-        tag: v4.5.3
-        commit: 1ec130ce1840faea0708fe6b7187950d9f879a59
+        tag: v4.5.7
+        commit: 80e1a5e38380cd251e0deeb06acc85fc818f0127
     post-install:
       - install -Dm644 -t /app/share/licenses/com.github.wwmm.pulseeffects ../LICENSE.md
     modules:
