@@ -1,7 +1,7 @@
-From a20ade2a28292f233664a2992de5d202b7cce96c Mon Sep 17 00:00:00 2001
+From ed84ba82deb53f2403e7a7d120dbece208abc533 Mon Sep 17 00:00:00 2001
 From: AsavarTzeth <asavartzeth@gmail.com>
 Date: Sat, 23 Feb 2019 08:16:00 +0100
-Subject: [PATCH] Improve flexibility of build system
+Subject: [PATCH] Improve flexibility with autoconf
 
 Add easy-to-use options to configure.ac that simplify configuration
 of compile-time features.
@@ -20,9 +20,10 @@ Some noteworthy changes:
 - Add modular install targets which can either be used directly, or
   based upon conditions set by the configure script.
 
-- Add --with-jni flag and remove the need to use "make; make jni" when
-  one might expect make alone to build all targets. Instead if jni.h is
-  not found, configure will act as before and ignore it.
+- Add --with-jni flag, thus removing an additional "make jni"
+  invocation. One might expect "jni" to be included in the "all" target.
+  But just in case, if jni.h is not found configure will act as before
+  and ignore it.
 
 - Fix make install target assuming that jni target is built, even though
   it is not a part of the "all" target.
@@ -31,15 +32,17 @@ Some noteworthy changes:
   According to travis documentation $JAVA_HOME should be set
   appropriately, presumably by the "jdk" addon.
 
-- Add --enable-static and --enable-shared flags. This would mainly be
-  used to disable the static version of librubberband. It could also be
-  used with other options to only build librubberband.a. However, what
-  this won't do is affect the jni, ladspa and vamp targets, which still
-  always build as shared/dynamic libraries.
+- Add --enable-static and --enable-shared flags. This only affects the
+  main librubberband library. All other libraries are still always
+  dynamic/shared.
 
-- Make all header checks (like ladspa.h, pthread.h) actually cause an
-  error if not found. This is in contrast to soft failing which can
-  lead to failures during make.
+  It can be used alone or in combination with other flags. For example
+  to build only librubberband.so, or only librubberband.a, or neither
+  if only the plugins are required.
+
+- Make all header and dependency checks properly handle things if a
+  dependency is not found. Currently all checks always soft fail, which
+  will instead cause make to fail.
 
 - Add --disable-program flag, which is useful when only libraries are
   required.
@@ -54,14 +57,17 @@ Some noteworthy changes:
 
 - Use a program variable for all file installations, and set it to use
   the install command by default. This is adheres to best practices,
-  yet allows a user to override the command if necessary.
+  such as allowing a user to override the command if necessary.
+
+- Declare .PHONY targets, which brings a slight increase in reliability
+  and performance. It improves clarity if nothing else.
 ---
  .hgignore    |   1 +
  .travis.yml  |   3 +-
- Makefile.in  | 122 ++++++++++---
+ Makefile.in  | 129 +++++++++++---
  configure    | 495 ++++++++++++++++++++++++++++++++++-----------------
  configure.ac | 162 +++++++++++++++--
- 5 files changed, 577 insertions(+), 206 deletions(-)
+ 5 files changed, 584 insertions(+), 206 deletions(-)
 
 diff --git a/.hgignore b/.hgignore
 index 2aef9ed..8517ecf 100644
@@ -90,7 +96,7 @@ index 1ddce82..f957a51 100644
    - if [[ "$TRAVIS_OS_NAME" = "osx" ]] ; then brew update ; brew install libsndfile ; fi
  
 diff --git a/Makefile.in b/Makefile.in
-index 3a70a71..313913c 100644
+index 3a70a71..ef3d4ee 100644
 --- a/Makefile.in
 +++ b/Makefile.in
 @@ -2,13 +2,13 @@
@@ -122,7 +128,7 @@ index 3a70a71..313913c 100644
  
  INSTALL_BINDIR		:= $(PREFIX)/bin
  INSTALL_INCDIR		:= $(PREFIX)/include/rubberband
-@@ -45,7 +48,49 @@ JAR_TARGET		:= lib/$(JARNAME)
+@@ -45,7 +48,51 @@ JAR_TARGET		:= lib/$(JARNAME)
  VAMP_TARGET    		:= lib/vamp-rubberband$(DYNAMIC_EXTENSION)
  LADSPA_TARGET  		:= lib/ladspa-rubberband$(DYNAMIC_EXTENSION)
  
@@ -169,11 +175,13 @@ index 3a70a71..313913c 100644
 +OPT_INSTALL		+= install_ladspa
 +endif
 +
++.PHONY: all static dynamic library jni program vamp ladspa
++
 +all:	bin lib $(OPT_TARGETS)
  
  static:		$(STATIC_TARGET)
  dynamic:	$(DYNAMIC_TARGET)
-@@ -128,6 +173,17 @@ LADSPA_SOURCES := \
+@@ -128,6 +175,17 @@ LADSPA_SOURCES := \
  	ladspa/RubberBandPitchShifter.cpp \
  	ladspa/libmain.cpp
  
@@ -191,11 +199,14 @@ index 3a70a71..313913c 100644
  LIBRARY_OBJECTS := $(LIBRARY_SOURCES:.cpp=.o)
  LIBRARY_OBJECTS := $(LIBRARY_OBJECTS:.c=.o)
  JNI_OBJECT	:= $(JNI_SOURCE:.cpp=.o)
-@@ -166,31 +222,47 @@ bin:
+@@ -166,31 +224,52 @@ bin:
  lib:
  	$(MKDIR) $@
  
 -install:	all
++.PHONY: install install_program install_static install_dynamic install_lib_common \
++	install_jni install_vamp install_ladspa
++
 +install:		all $(OPT_INSTALL)
 +
 +install_program:	program
@@ -210,11 +221,11 @@ index 3a70a71..313913c 100644
 +	$(INSTALL_DATA) rubberband.pc $(DESTDIR)$(INSTALL_PKGDIR)
 +
 +install_static:		static install_lib_common
- 	$(MKDIR) -p $(DESTDIR)$(INSTALL_LIBDIR)
++	$(MKDIR) -p $(DESTDIR)$(INSTALL_LIBDIR)
 +	$(INSTALL_PROGRAM) $(STATIC_TARGET) $(DESTDIR)$(INSTALL_LIBDIR)
 +
 +install_dynamic:	dynamic install_lib_common
-+	$(MKDIR) -p $(DESTDIR)$(INSTALL_LIBDIR)
+ 	$(MKDIR) -p $(DESTDIR)$(INSTALL_LIBDIR)
 +	$(INSTALL_PROGRAM) $(DYNAMIC_TARGET) \
 +		$(DESTDIR)$(INSTALL_LIBDIR)/$(LIBNAME)$(DYNAMIC_EXTENSION).$(DYNAMIC_FULL_VERSION)
 +	ln -sf $(LIBNAME)$(DYNAMIC_EXTENSION).$(DYNAMIC_FULL_VERSION) \
@@ -255,6 +266,8 @@ index 3a70a71..313913c 100644
 +	$(INSTALL_PROGRAM) $(LADSPA_TARGET) $(DESTDIR)$(INSTALL_LADSPADIR)
 +	$(INSTALL_DATA) ladspa/ladspa-rubberband.cat $(DESTDIR)$(INSTALL_LADSPADIR)
 +	$(INSTALL_DATA) ladspa/ladspa-rubberband.rdf $(DESTDIR)$(INSTALL_LRDFDIR)
++
++.PHONY: clean distclean depend
  
  clean:
  	rm -f $(LIBRARY_OBJECTS) $(JNI_OBJECT) $(JAVA_OBJECT) $(PROGRAM_OBJECTS) $(LADSPA_OBJECTS) $(VAMP_OBJECTS)
