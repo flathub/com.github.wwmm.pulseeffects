@@ -413,8 +413,7 @@ modules:
             sources:
               - type: git
                 url: 'https://github.com/sadko4u/lsp-plugins.git'
-                branch: devel
-                commit: 666599e8ca1c5867f24083812742b96e3c07b44e
+                commit: f01e98b9a1263d6cf44cbea8c8c3d6d3fb3eb607
             post-install:
               - install -Dm644 -t /app/share/licenses/lsp-plugins LICENSE.txt
 
