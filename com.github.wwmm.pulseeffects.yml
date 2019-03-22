@@ -44,6 +44,42 @@ modules:
       - install -Dm644 -t /app/share/licenses/com.github.wwmm.pulseeffects ../LICENSE.md
     modules:
 
+      # LV2 Plugins
+      - name: lv2
+        buildsystem: simple
+        build-commands:
+          - python3 ./waf configure --prefix=/app
+                                    --lv2dir=/app/lib/lv2
+                                    --no-plugins
+          - python3 ./waf build -j $FLATPAK_BUILDER_N_JOBS
+          - python3 ./waf install
+        sources:
+          - type: git
+            url: 'https://github.com/drobilla/lv2.git'
+            tag: v1.16.0
+            commit: 0fa4d4847eb6d5bb0f58da889933c94c37ecb730
+        post-install:
+          - install -Dm644 -t /app/share/licenses/lv2 COPYING
+        cleanup:
+          - /bin
+          - /share/lv2specgen
+
+      - name: lsp-plugins
+        no-autogen: true
+        make-args:
+          - PREFIX=/app
+          - BUILD_MODULES=lv2
+          - SHELL=bash -x
+        make-install-args:
+          - PREFIX=/app
+        install-rule: install_lv2
+        sources:
+          - type: git
+            url: 'https://github.com/sadko4u/lsp-plugins.git'
+            commit: 6bb93d7e2e15fc113e868b0efa1a3c61043c1e69
+        post-install:
+          - install -Dm644 -t /app/share/licenses/lsp-plugins LICENSE.txt
+
       - name: boost
         buildsystem: simple
         build-commands:
@@ -247,41 +283,6 @@ modules:
                 cleanup:
                   - /bin
                   - /share/man
-
-          # LV2 Plugins
-          - name: lv2
-            buildsystem: simple
-            build-commands:
-              - python3 ./waf configure --prefix=/app
-                                        --lv2dir=/app/lib/lv2
-                                        --no-plugins
-              - python3 ./waf build -j $FLATPAK_BUILDER_N_JOBS
-              - python3 ./waf install
-            sources:
-              - type: git
-                url: 'https://github.com/drobilla/lv2.git'
-                tag: v1.16.0
-                commit: 0fa4d4847eb6d5bb0f58da889933c94c37ecb730
-            post-install:
-              - install -Dm644 -t /app/share/licenses/lv2 COPYING
-            cleanup:
-              - /bin
-              - /share/lv2specgen
-
-          - name: lsp-plugins
-            no-autogen: true
-            make-args:
-              - PREFIX=/app
-              - BUILD_MODULES=lv2
-            make-install-args:
-              - PREFIX=/app
-            install-rule: install_lv2
-            sources:
-              - type: git
-                url: 'https://github.com/sadko4u/lsp-plugins.git'
-                commit: 6bb93d7e2e15fc113e868b0efa1a3c61043c1e69
-            post-install:
-              - install -Dm644 -t /app/share/licenses/lsp-plugins LICENSE.txt
 
           - name: lilv
             buildsystem: simple
