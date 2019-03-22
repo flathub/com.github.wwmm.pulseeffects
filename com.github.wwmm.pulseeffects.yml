@@ -68,6 +68,7 @@ modules:
         no-autogen: true
         make-args:
           - PREFIX=/app
+          - BUILD_MODULES=lv2
           - SHELL=bash -x
         make-install-args:
           - PREFIX=/app
