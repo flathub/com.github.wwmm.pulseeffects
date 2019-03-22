@@ -268,6 +268,21 @@ modules:
               - /bin
               - /share/lv2specgen
 
+          - name: lsp-plugins
+            no-autogen: true
+            make-args:
+              - PREFIX=/app
+              - BUILD_MODULES=lv2
+            make-install-args:
+              - PREFIX=/app
+            install-rule: install_lv2
+            sources:
+              - type: git
+                url: 'https://github.com/sadko4u/lsp-plugins.git'
+                commit: f01e98b9a1263d6cf44cbea8c8c3d6d3fb3eb607
+            post-install:
+              - install -Dm644 -t /app/share/licenses/lsp-plugins LICENSE.txt
+
           - name: lilv
             buildsystem: simple
             build-commands:
@@ -401,21 +416,6 @@ modules:
             cleanup:
               - /lib/lv2
               - /lib/vst
-
-          - name: lsp-plugins
-            no-autogen: true
-            make-args:
-              - PREFIX=/app
-              - BUILD_MODULES=lv2
-            make-install-args:
-              - PREFIX=/app
-            install-rule: install_lv2
-            sources:
-              - type: git
-                url: 'https://github.com/sadko4u/lsp-plugins.git'
-                commit: f01e98b9a1263d6cf44cbea8c8c3d6d3fb3eb607
-            post-install:
-              - install -Dm644 -t /app/share/licenses/lsp-plugins LICENSE.txt
 
           # Other Plugin Types
           - name: bs2b
