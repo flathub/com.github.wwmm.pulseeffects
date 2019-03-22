@@ -71,10 +71,11 @@ modules:
           - SHELL=bash -x
         make-install-args:
           - PREFIX=/app
-            #        build-options:
-            #          arch:
-            #            arm:
-            #              - BUILD_PROFILE=armv7a
+        build-options:
+          arch:
+            arm:
+              make-args:
+                - BUILD_PROFILE=armv7a
         sources:
           - type: git
             url: 'https://github.com/sadko4u/lsp-plugins.git'
