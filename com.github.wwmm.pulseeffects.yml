@@ -70,6 +70,7 @@ modules:
           - PREFIX=/app
           - BUILD_MODULES=lv2
           - SHELL=bash -x
+          - -j1
         make-install-args:
           - PREFIX=/app
         install-rule: install_lv2
