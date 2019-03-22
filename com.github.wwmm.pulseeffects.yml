@@ -69,11 +69,16 @@ modules:
         make-args:
           - PREFIX=/app
           - SHELL=bash -x
-          - install
+        make-install-args:
+          - PREFIX=/app
+            #        build-options:
+            #          arch:
+            #            arm:
+            #              - BUILD_PROFILE=armv7a
         sources:
           - type: git
             url: 'https://github.com/sadko4u/lsp-plugins.git'
-            commit: 6bb93d7e2e15fc113e868b0efa1a3c61043c1e69
+            commit: 8048363753ed78fb866dfe25a980ad954d84dfaf
         post-install:
           - install -Dm644 -t /app/share/licenses/lsp-plugins LICENSE.txt
 
