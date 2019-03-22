@@ -71,6 +71,7 @@ modules:
           - SHELL=bash -x
         make-install-args:
           - PREFIX=/app
+        install_rule: install_lv2
         build-options:
           arch:
             arm:
