@@ -66,9 +66,6 @@ modules:
             sha256: a3a1b1c9805479a16c0018acd84b3bfff23a122aee9e3c5013bb81231aeef2bc
         post-install:
           - install -Dm644 -t /app/share/licenses/glibmm COPYING COPYING.tools
-        cleanup:
-          - '/lib/glibmm-*'
-          - '/lib/giomm-*'
         modules:
 
           - name: libsigcplusplus
@@ -80,8 +77,6 @@ modules:
                 sha256: c9a25f26178c6cbb147f9904d8c533b5a5c5111a41ac2eb781eb734eea446003
             post-install:
               - install -Dm644 -t /app/share/licenses/libsigcplusplus COPYING
-            cleanup:
-              - '/lib/sigc++-*'
 
       - name: gtkmm
         config-opts:
@@ -92,9 +87,6 @@ modules:
             sha256: cf5fc92805e581c8303e08d54519457ba07f15b766e9b1edde4862993ac1aa43
         post-install:
           - install -Dm644 -t /app/share/licenses/gtkmm COPYING COPYING.tools
-        cleanup:
-          - '/lib/gtkmm-*'
-          - '/lib/gdkmm-*'
         modules:
 
           - name: atkmm
@@ -106,8 +98,6 @@ modules:
                 sha256: 4c4cfc917fd42d3879ce997b463428d6982affa0fb660cafcc0bc2d9afcedd3a
             post-install:
               - install -Dm644 -t /app/share/licenses/atkmm COPYING COPYING.tools
-            cleanup:
-              - '/lib/atkmm-*'
 
           - name: cairomm
             config-opts:
@@ -118,8 +108,6 @@ modules:
                 sha256: 45c47fd4d0aa77464a75cdca011143fea3ef795c4753f6e860057da5fb8bd599
             post-install:
               - install -Dm644 -t /app/share/licenses/cairomm COPYING
-            cleanup:
-              - '/lib/cairomm-*'
 
           - name: pangomm
             config-opts:
@@ -130,8 +118,6 @@ modules:
                 sha256: ca6da067ff93a6445780c0b4b226eb84f484ab104b8391fb744a45cbc7edbf56
             post-install:
               - install -Dm644 -t /app/share/licenses/pangomm COPYING COPYING.tools
-            cleanup:
-              - '/lib/pangomm-*'
 
       - name: gst-plugins-bad
         builddir: true
