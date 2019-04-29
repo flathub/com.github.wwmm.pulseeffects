@@ -67,8 +67,9 @@ modules:
         post-install:
           - install -Dm644 -t /app/share/licenses/glibmm COPYING COPYING.tools
         cleanup:
-          - '/lib/glibmm-*'
-          - '/lib/giomm-*'
+          - '/lib/glibmm-*/include'
+          - '/lib/glibmm-*/m4'
+          - '/lib/giomm-*/include'
         modules:
 
           - name: libsigcplusplus
@@ -81,7 +82,7 @@ modules:
             post-install:
               - install -Dm644 -t /app/share/licenses/libsigcplusplus COPYING
             cleanup:
-              - '/lib/sigc++-*'
+              - '/lib/sigc++-*/include'
 
       - name: gtkmm
         config-opts:
@@ -93,8 +94,9 @@ modules:
         post-install:
           - install -Dm644 -t /app/share/licenses/gtkmm COPYING COPYING.tools
         cleanup:
-          - '/lib/gtkmm-*'
-          - '/lib/gdkmm-*'
+          - '/lib/gtkmm-*/include'
+          - '/lib/gdkmm-*/include'
+          - '/lib/gtkmm-*/proc/m4'
         modules:
 
           - name: atkmm
@@ -107,7 +109,8 @@ modules:
             post-install:
               - install -Dm644 -t /app/share/licenses/atkmm COPYING COPYING.tools
             cleanup:
-              - '/lib/atkmm-*'
+              - '/lib/atkmm-*/include'
+              - '/lib/atkmm-*/proc/m4'
 
           - name: cairomm
             config-opts:
@@ -119,7 +122,7 @@ modules:
             post-install:
               - install -Dm644 -t /app/share/licenses/cairomm COPYING
             cleanup:
-              - '/lib/cairomm-*'
+              - '/lib/cairomm-*/include'
 
           - name: pangomm
             config-opts:
@@ -131,7 +134,8 @@ modules:
             post-install:
               - install -Dm644 -t /app/share/licenses/pangomm COPYING COPYING.tools
             cleanup:
-              - '/lib/pangomm-*'
+              - '/lib/pangomm-*/include'
+              - '/lib/pangomm-*/proc/m4'
 
       - name: gst-plugins-bad
         builddir: true
