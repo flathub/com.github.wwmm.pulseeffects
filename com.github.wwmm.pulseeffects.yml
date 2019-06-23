@@ -72,13 +72,13 @@ modules:
           - '/lib/giomm-*/include'
         modules:
 
-          - name: libsigcplusplus
+          - name: libsigc++
             config-opts:
               - --disable-documentation
             sources:
               - type: archive
-                url: 'https://github.com/libsigcplusplus/libsigcplusplus/releases/download/2.10.1/libsigcplusplus-2.10.1.tar.xz'
-                sha256: c9a25f26178c6cbb147f9904d8c533b5a5c5111a41ac2eb781eb734eea446003
+                url: 'https://github.com/libsigcplusplus/libsigcplusplus/releases/download/2.10.2/libsigc++-2.10.2.tar.xz'
+                sha256: b1ca0253379596f9c19f070c83d362b12dfd39c0a3ea1dd813e8e21c1a097a98
             post-install:
               - install -Dm644 -t /app/share/licenses/libsigcplusplus COPYING
             cleanup:
