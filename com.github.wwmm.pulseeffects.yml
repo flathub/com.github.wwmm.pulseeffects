@@ -225,6 +225,8 @@ modules:
                 path: patch/rubberband/0001-Improve-flexibility-with-autoconf.patch
             post-install:
               - install -Dm644 -t /app/share/licenses/rubberband COPYING
+            cleanup:
+              - /share/ladspa
             modules:
                 # Double precision build
               - name: fftw3
@@ -313,6 +315,7 @@ modules:
             post-install:
               - install -Dm644 -t /app/share/licenses/lilv COPYING
             cleanup:
+              - /bin
               - /share/man
             modules:
 
