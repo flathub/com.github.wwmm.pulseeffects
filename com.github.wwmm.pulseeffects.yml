@@ -22,8 +22,6 @@ finish-args:
   - --env=LADSPA_PATH=/app/lib/ladspa
     # LV2 Plugin PATH
   - --env=LV2_PATH=/app/lib/lv2
-    # RealtimeKit
-  - --system-talk-name=org.freedesktop.RealtimeKit1
 cleanup:
   - '*.a'
   - '*.h'
