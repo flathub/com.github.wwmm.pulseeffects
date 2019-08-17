@@ -367,8 +367,8 @@ modules:
             rm-configure: true
             sources:
               - type: archive
-                url: 'https://calf-studio-gear.org/files/calf-0.90.2.tar.gz'
-                sha256: f0e9d36990ece7ae6334166ced5a2e02bbd8bcd2aa2ecad0efce0b4e6790c42e
+                url: 'https://calf-studio-gear.org/files/calf-0.90.3.tar.gz'
+                sha256: e32bc23fb68f88729bdef361614fd9ac38627c774c35cd3c4eb611fca887a49f
             post-install:
               - install -Dm644 -t /app/share/licenses/calf COPYING
             cleanup:
