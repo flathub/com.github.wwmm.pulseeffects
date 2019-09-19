@@ -50,8 +50,8 @@ modules:
             toolset=gcc variant=release link=shared threading=multi install
         sources:
           - type: archive
-            url: 'https://dl.bintray.com/boostorg/release/1.70.0/source/boost_1_70_0.tar.gz'
-            sha256: 882b48708d211a5f48e60b0124cf5863c1534cd544ecd0664bb534a4b5d506e9
+            url: 'https://dl.bintray.com/boostorg/release/1.71.0/source/boost_1_71_0.tar.gz'
+            sha256: 96b34f7468f26a141f6020efb813f1a2f3dfb9797ecf76a7d7cbd843cc95f5bd
         post-install:
           - install -Dm644 -t /app/share/licenses/boost LICENSE_1_0.txt
 
