@@ -460,13 +460,15 @@ modules:
           - name: mda.lv2
             buildsystem: simple
             build-commands:
-              - python2 ./waf configure --prefix=/app
-              - python2 ./waf build -j 4
-              - python2 ./waf install
+              - python3 ./waf configure --prefix=/app
+              - python3 ./waf build -j 4
+              - python3 ./waf install
             sources:
-              - type: archive
-                url: 'https://download.drobilla.net/mda-lv2-1.2.2.tar.bz2'
-                sha256: a476c31ed9f8b009ebacc32a02d06ba9584c0d0d03f03dd62b1354d10a030442
+              - type: git
+                url: 'https://git.drobilla.net/mda.lv2.git'
+                branch: master
+                commit: a065b13b94e2f08eddbec9a64d97c653618e7207
+                disable-shallow-clone: true
             post-install:
               - install -Dm644 -t /app/share/licenses/mda.lv2 COPYING
 
