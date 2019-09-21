@@ -457,9 +457,13 @@ modules:
           - name: mda.lv2
             buildsystem: simple
             build-commands:
+              # PulseEffects only requires the Loudness plugin
+              - sed -ni '/Loudness/,+1p;29,$d;p' mda.lv2/manifest.ttl.in
               - python3 ./waf configure --prefix=/app --libdir=/app/lib
-              - python3 ./waf build -j 4
+              - python3 ./waf build -j $FLATPAK_BUILDER_N_JOBS
+                  --targets=Loudness,lv2/mda.lv2/Loudness.ttl,lv2/mda.lv2/manifest.ttl
               - python3 ./waf install
+                  --targets=Loudness,lv2/mda.lv2/Loudness.ttl,lv2/mda.lv2/manifest.ttl
             sources:
               - type: git
                 url: 'https://git.drobilla.net/mda.lv2.git'
