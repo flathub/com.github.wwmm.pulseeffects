@@ -457,7 +457,7 @@ modules:
           - name: mda.lv2
             buildsystem: simple
             build-commands:
-              - python3 ./waf configure --prefix=/app
+              - python3 ./waf configure --prefix=/app --libdir=/app/lib
               - python3 ./waf build -j 4
               - python3 ./waf install
             sources:
