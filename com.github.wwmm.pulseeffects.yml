@@ -33,8 +33,8 @@ modules:
     sources:
       - type: git
         url: 'https://github.com/wwmm/pulseeffects.git'
-        tag: v4.7.0
-        commit: e9be0c0660fe929d76c2a5e3d9fa0ea1f98237a8
+        tag: v4.7.1
+        commit: e34462d7f8e34ab2a5c89d06ad5c174c4952a21f
     post-install:
       - install -Dm644 -t /app/share/licenses/com.github.wwmm.pulseeffects ../LICENSE.md
     modules:
@@ -47,8 +47,8 @@ modules:
             toolset=gcc variant=release link=shared threading=multi install
         sources:
           - type: archive
-            url: 'https://dl.bintray.com/boostorg/release/1.71.0/source/boost_1_71_0.tar.gz'
-            sha256: 96b34f7468f26a141f6020efb813f1a2f3dfb9797ecf76a7d7cbd843cc95f5bd
+            url: 'https://dl.bintray.com/boostorg/release/1.72.0/source/boost_1_72_0.tar.gz'
+            sha256: c66e88d5786f2ca4dbebb14e06b566fb642a1a6947ad8cc9091f9f445134143f
         post-install:
           - install -Dm644 -t /app/share/licenses/boost LICENSE_1_0.txt
 
@@ -57,8 +57,8 @@ modules:
           - --disable-documentation
         sources:
           - type: archive
-            url: 'https://ftp.gnome.org/pub/GNOME/sources/glibmm/2.60/glibmm-2.60.0.tar.xz'
-            sha256: a3a1b1c9805479a16c0018acd84b3bfff23a122aee9e3c5013bb81231aeef2bc
+            url: 'https://ftp.gnome.org/pub/GNOME/sources/glibmm/2.62/glibmm-2.62.0.tar.xz'
+            sha256: 36659f13cc73282392d1305858f3bbca46fbd1ce2f078cc9db8b9f79b2e93cfe
         post-install:
           - install -Dm644 -t /app/share/licenses/glibmm COPYING COPYING.tools
         cleanup:
@@ -72,8 +72,8 @@ modules:
               - --disable-documentation
             sources:
               - type: archive
-                url: 'https://github.com/libsigcplusplus/libsigcplusplus/releases/download/2.10.2/libsigc++-2.10.2.tar.xz'
-                sha256: b1ca0253379596f9c19f070c83d362b12dfd39c0a3ea1dd813e8e21c1a097a98
+                url: 'https://ftp.gnome.org/pub/GNOME/sources/libsigc++/3.0/libsigc++-3.0.2.tar.xz'
+                sha256: 4b77676de1e74774ec456bcc6ac6f04a2791a12cc1fe07f8305d4c3c86e2f339
             post-install:
               - install -Dm644 -t /app/share/licenses/libsigcplusplus COPYING
             cleanup:
@@ -84,8 +84,8 @@ modules:
           - --disable-documentation
         sources:
           - type: archive
-            url: 'https://ftp.gnome.org/pub/GNOME/sources/gtkmm/3.24/gtkmm-3.24.1.tar.xz'
-            sha256: ddfe42ed2458a20a34de252854bcf4b52d3f0c671c045f56b42aa27c7542d2fd
+            url: 'https://ftp.gnome.org/pub/GNOME/sources/gtkmm/3.24/gtkmm-3.24.2.tar.xz'
+            sha256: 6d71091bcd1863133460d4188d04102810e9123de19706fb656b7bb915b4adc3
         post-install:
           - install -Dm644 -t /app/share/licenses/gtkmm COPYING COPYING.tools
         cleanup:
@@ -112,8 +112,8 @@ modules:
               - --disable-documentation
             sources:
               - type: archive
-                url: 'https://www.cairographics.org/releases/cairomm-1.12.2.tar.gz'
-                sha256: 45c47fd4d0aa77464a75cdca011143fea3ef795c4753f6e860057da5fb8bd599
+                url: 'https://www.cairographics.org/releases/cairomm-1.15.5.tar.gz'
+                sha256: 8db629f44378cac62b4931f725520334024e62c1951c4396682f1add63c1e3d1
             post-install:
               - install -Dm644 -t /app/share/licenses/cairomm COPYING
             cleanup:
@@ -143,8 +143,8 @@ modules:
           - ext/webrtcdsp/libgstwebrtcdsp.so
         sources:
           - type: archive
-            url: 'https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.14.5.tar.xz'
-            sha256: 44da47126349fde90aed6c5ed0915f3b43f1d8802cd827139eb15a1fff1c6ad2
+            url: 'https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.2.tar.xz'
+            sha256: f1cb7aa2389569a5343661aae473f0a940a90b872001824bc47fa8072a041e74
           - type: patch
             path: patch/gst-plugins-bad/0001-meson-enable-bs2b-compilation.patch
         post-install:
@@ -168,7 +168,7 @@ modules:
             subdir: src
             sources:
               - type: archive
-                url: 'http://www.ladspa.org/download/ladspa_sdk_1.15.tgz'
+                url: 'https://www.ladspa.org/download/ladspa_sdk_1.15.tgz'
                 sha256: 4229959b09d20c88c8c86f4aa76427843011705df22d9c28b38359fd1829fded
               - type: patch
                 path: patch/ladspa-sdk/001-fix-memleak.patch
@@ -198,7 +198,7 @@ modules:
             sources:
               - type: archive
                 url: 'http://www.fftw.org/fftw-3.3.8.tar.gz'
-                md5: 8aac833c943d8e90d51b697b27d4384d
+                sha256: 6113262f6e92c5bd474f2875fa1b01054c4ad5040f6b0da7c03c98821d9ae303
             post-install:
               - install -Dm644 -t /app/share/licenses/fftw COPYING COPYRIGHT
             cleanup:
@@ -244,7 +244,7 @@ modules:
                 sources:
                   - type: archive
                     url: 'http://www.fftw.org/fftw-3.3.8.tar.gz'
-                    md5: 8aac833c943d8e90d51b697b27d4384d
+                    sha256: 6113262f6e92c5bd474f2875fa1b01054c4ad5040f6b0da7c03c98821d9ae303
                 cleanup:
                   - /bin
                   - /share/man
@@ -289,8 +289,8 @@ modules:
             sources:
               - type: git
                 url: 'https://github.com/sadko4u/lsp-plugins.git'
-                tag: lsp-plugins-1.1.10
-                commit: 543e17e9de3b8dc9de6e31438d1223d792054626
+                tag: lsp-plugins-1.1.13
+                commit: 6a598435b35e9faf10de621cc40c460021c4eccc
             post-install:
               - install -Dm644 -t /app/share/licenses/lsp-plugins LICENSE.txt
 
@@ -305,8 +305,8 @@ modules:
               - python3 ./waf install
             sources:
               - type: archive
-                url: 'https://download.drobilla.net/lilv-0.24.4.tar.bz2'
-                sha256: c33b84b7a6e8e8fffb412fbcd6f69e59ca297ef3e29d829249b4ccc94f634438
+                url: 'https://download.drobilla.net/lilv-0.24.6.tar.bz2'
+                sha256: 5f544cf79656e0782a03a2cc7ab1d31a93f36d71d4187bd427ade8d7b55370dc
             post-install:
               - install -Dm644 -t /app/share/licenses/lilv COPYING
             cleanup:
@@ -322,8 +322,8 @@ modules:
                   - python3 ./waf install
                 sources:
                   - type: archive
-                    url: 'https://download.drobilla.net/serd-0.30.0.tar.bz2'
-                    sha256: 6efb0efa5c2155e6bbac941cddeeabb7ed26d70a57d24178894ff169d8f6cefb
+                    url: 'https://download.drobilla.net/serd-0.30.2.tar.bz2'
+                    sha256: 9d3102701172804f823f2215ca3147c50eba992641f9fbe014272355f4937202
                 post-install:
                   - install -Dm644 -t /app/share/licenses/serd COPYING
                 cleanup:
@@ -337,8 +337,8 @@ modules:
                   - python3 ./waf install
                 sources:
                   - type: archive
-                    url: 'https://download.drobilla.net/sord-0.16.2.tar.bz2'
-                    sha256: 09f51174dd8f3efbd95f44f0bb0b165f08e066e052d40095de59de787987da8d
+                    url: 'https://download.drobilla.net/sord-0.16.4.tar.bz2'
+                    sha256: b15998f4e7ad958201346009477d6696e90ee5d3e9aff25e7e9be074372690d7
                 post-install:
                   - install -Dm644 -t /app/share/licenses/sord COPYING
                 cleanup:
@@ -352,8 +352,8 @@ modules:
                   - python3 ./waf install
                 sources:
                   - type: archive
-                    url: 'https://download.drobilla.net/sratom-0.6.2.tar.bz2'
-                    sha256: 0a514a55d6b6cb7b5d6f32d1dcb78a1e6e54537fa22fce533e4ef6adf240e853
+                    url: 'https://download.drobilla.net/sratom-0.6.4.tar.bz2'
+                    sha256: 146c8f14b8902ac3c8fa8c2e0a014eb8a38fab60090c5adbfbff3e3b7c5c006e
                 post-install:
                   - install -Dm644 -t /app/share/licenses/sratom COPYING
 
@@ -390,8 +390,8 @@ modules:
                 sources:
                   - type: git
                     url: 'https://github.com/FluidSynth/fluidsynth.git'
-                    tag: v2.0.6
-                    commit: f78486a50bd785200412ea16434b38edc4a45a6c
+                    tag: v2.1.0
+                    commit: 37c9ae2bf431a764032f023b3b2c0c0b86b7c272
                 post-install:
                   - install -Dm644 -t /app/share/licenses/fluidsynth LICENSE
                 cleanup:
@@ -419,8 +419,8 @@ modules:
             sources:
               - type: git
                 url: 'https://github.com/zamaudio/zam-plugins.git'
-                tag: '3.11'
-                commit: af338057e42dd5d07cba1889bfc74eda517c6147
+                tag: '3.12'
+                commit: 87fdee6e87dbee75c1088e2327ea59c1ab1522e4
             post-install:
               - install -Dm644 -t /app/share/licenses/zam-plugins COPYING
             cleanup:
@@ -468,7 +468,7 @@ modules:
               - type: git
                 url: 'https://git.drobilla.net/mda.lv2.git'
                 branch: master
-                commit: a065b13b94e2f08eddbec9a64d97c653618e7207
+                commit: 659d2450d0a38f632bbed33aa83a7031f03cc9c9
                 disable-shallow-clone: true
             post-install:
               - install -Dm644 -t /app/share/licenses/mda.lv2 COPYING
@@ -493,7 +493,7 @@ modules:
               - LIBDIR=lib
             sources:
               - type: archive
-                url: 'https://kokkinizita.linuxaudio.org/linuxaudio/downloads/zita-convolver-4.0.0.tar.bz2'
-                sha512: 249c87bc662d92ffbba6030bb7c1b1d78d573a7f8cb2178f162c3cd82738b16555234c7fe609d976a294d2bb169a00bf828f1505852cf005860d57d688aa6de5
+                url: 'https://kokkinizita.linuxaudio.org/linuxaudio/downloads/zita-convolver-4.0.3.tar.bz2'
+                sha512: 62d7841757f10c094e43ed755e187f947c5743f302ed2a1ee6064a850c18921466f4505d8a2a7b3ad23619db7f1ad7307e1dfb2e8a1e7685e60ece2ffff4f6ca
               - type: patch
                 path: patch/zita-convolver/0001-Fix-makefile.patch
