@@ -145,8 +145,6 @@ modules:
           - type: archive
             url: 'https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.2.tar.xz'
             sha256: f1cb7aa2389569a5343661aae473f0a940a90b872001824bc47fa8072a041e74
-          - type: patch
-            path: patch/gst-plugins-bad/0001-meson-enable-bs2b-compilation.patch
         post-install:
           - install -Dm755 -t /app/lib/gstreamer-1.0
                                ext/bs2b/libgstbs2b.so
