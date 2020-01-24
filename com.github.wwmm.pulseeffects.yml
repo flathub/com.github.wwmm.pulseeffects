@@ -72,8 +72,8 @@ modules:
               - --disable-documentation
             sources:
               - type: archive
-                url: 'https://ftp.gnome.org/pub/GNOME/sources/libsigc++/3.0/libsigc++-3.0.2.tar.xz'
-                sha256: 4b77676de1e74774ec456bcc6ac6f04a2791a12cc1fe07f8305d4c3c86e2f339
+                url: 'https://github.com/libsigcplusplus/libsigcplusplus/releases/download/2.10.2/libsigc++-2.10.2.tar.xz'
+                sha256: b1ca0253379596f9c19f070c83d362b12dfd39c0a3ea1dd813e8e21c1a097a98
             post-install:
               - install -Dm644 -t /app/share/licenses/libsigcplusplus COPYING
             cleanup:
