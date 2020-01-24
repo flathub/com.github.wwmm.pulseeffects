@@ -466,7 +466,7 @@ modules:
               - type: git
                 url: 'https://git.drobilla.net/mda.lv2.git'
                 branch: master
-                commit: 659d2450d0a38f632bbed33aa83a7031f03cc9c9
+                commit: a065b13b94e2f08eddbec9a64d97c653618e7207
                 disable-shallow-clone: true
             post-install:
               - install -Dm644 -t /app/share/licenses/mda.lv2 COPYING
