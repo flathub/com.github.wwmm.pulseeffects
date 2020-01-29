@@ -10,7 +10,7 @@ Subject: [PATCH] Fix makefile
  1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/source/Makefile b/source/Makefile
-index 776c067..a15bea9 100644
+index 776c067..54a08e9 100644
 --- a/source/Makefile
 +++ b/source/Makefile
 @@ -34,7 +34,6 @@ VERSION = $(MAJVERS).$(MINVERS)
@@ -21,7 +21,7 @@ index 776c067..a15bea9 100644
  LDLFAGS += 
  LDLIBS +=
  
-@@ -56,8 +55,8 @@ install:	$(ZITA-CONVOLVER_MIN)
+@@ -56,13 +55,10 @@ install:	$(ZITA-CONVOLVER_MIN)
  	install -d $(DESTDIR)$(LIBDIR)
  	install -m 644 $(ZITA-CONVOLVER_H) $(DESTDIR)$(INCDIR)
  	install -m 755 $(ZITA-CONVOLVER_MIN) $(DESTDIR)$(LIBDIR)
@@ -31,3 +31,8 @@ index 776c067..a15bea9 100644
  
  uninstall:
  	rm -rf $(DESTDIR)$(INCDIR)/$(ZITA-CONVOLVER_H)
+ 	rm -rf $(DESTDIR)$(LIBDIR)/libzita-convolver*
+ 
+-clean:
+-	/bin/rm -f *~ *.o *.a *.d *.so.*
+-
