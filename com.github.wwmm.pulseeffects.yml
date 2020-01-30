@@ -488,7 +488,6 @@ modules:
             subdir: source
             make-install-args:
               - PREFIX=/app
-              - LIBDIR=lib
             sources:
               - type: archive
                 url: 'https://kokkinizita.linuxaudio.org/linuxaudio/downloads/zita-convolver-4.0.3.tar.bz2'
