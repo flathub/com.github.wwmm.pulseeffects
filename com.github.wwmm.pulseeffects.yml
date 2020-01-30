@@ -485,7 +485,7 @@ modules:
 
           - name: zita-convolver
             no-autogen: true
-            subdir: libs
+            subdir: source
             make-install-args:
               - PREFIX=/app
               - LIBDIR=lib
