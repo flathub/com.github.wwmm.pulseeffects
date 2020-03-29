@@ -1,6 +1,6 @@
 id: com.github.wwmm.pulseeffects
 runtime: org.gnome.Platform
-runtime-version: '3.34'
+runtime-version: '3.36'
 sdk: org.gnome.Sdk
 command: pulseeffects
 rename-icon: pulseeffects
@@ -388,8 +388,8 @@ modules:
                 sources:
                   - type: git
                     url: 'https://github.com/FluidSynth/fluidsynth.git'
-                    tag: v2.1.0
-                    commit: 37c9ae2bf431a764032f023b3b2c0c0b86b7c272
+                    tag: v2.1.1
+                    commit: 3b851da6f721fcf15ec0b935eba72707bdb53d7b
                 post-install:
                   - install -Dm644 -t /app/share/licenses/fluidsynth LICENSE
                 cleanup:
