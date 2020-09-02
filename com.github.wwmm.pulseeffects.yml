@@ -388,8 +388,8 @@ modules:
                 sources:
                   - type: git
                     url: 'https://github.com/FluidSynth/fluidsynth.git'
-                    tag: v2.1.1
-                    commit: 3b851da6f721fcf15ec0b935eba72707bdb53d7b
+                    tag: v2.1.4
+                    commit: 2393aef3bd0b4e78084cfe16735d402bc1497edd
                 post-install:
                   - install -Dm644 -t /app/share/licenses/fluidsynth LICENSE
                 cleanup:
