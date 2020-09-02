@@ -72,8 +72,8 @@ modules:
               - --disable-documentation
             sources:
               - type: archive
-                url: 'https://github.com/libsigcplusplus/libsigcplusplus/releases/download/2.10.2/libsigc++-2.10.2.tar.xz'
-                sha256: b1ca0253379596f9c19f070c83d362b12dfd39c0a3ea1dd813e8e21c1a097a98
+                url: 'https://github.com/libsigcplusplus/libsigcplusplus/releases/download/2.10.3/libsigc++-2.10.3.tar.xz'
+                sha256: 0b68dfc6313c6cc90ac989c6d722a1bf0585ad13846e79746aa87cb265904786
             post-install:
               - install -Dm644 -t /app/share/licenses/libsigcplusplus COPYING
             cleanup:
