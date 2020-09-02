@@ -417,8 +417,8 @@ modules:
             sources:
               - type: git
                 url: 'https://github.com/zamaudio/zam-plugins.git'
-                tag: '3.12'
-                commit: 87fdee6e87dbee75c1088e2327ea59c1ab1522e4
+                tag: '3.13'
+                commit: 8cd23d781018e3ec84159958d3d2dc7038a82736
             post-install:
               - install -Dm644 -t /app/share/licenses/zam-plugins COPYING
             cleanup:
