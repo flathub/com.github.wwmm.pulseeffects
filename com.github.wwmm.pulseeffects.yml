@@ -259,8 +259,8 @@ modules:
             sources:
               - type: git
                 url: 'https://github.com/drobilla/lv2.git'
-                tag: v1.16.0
-                commit: 0fa4d4847eb6d5bb0f58da889933c94c37ecb730
+                tag: v1.18.0
+                commit: 5f40c5c421ffc50783962efb4cab151c8c2519dd
             post-install:
               - install -Dm644 -t /app/share/licenses/lv2 COPYING
             cleanup:
