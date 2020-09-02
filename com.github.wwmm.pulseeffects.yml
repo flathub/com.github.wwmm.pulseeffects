@@ -1,6 +1,6 @@
 id: com.github.wwmm.pulseeffects
 runtime: org.gnome.Platform
-runtime-version: '3.36'
+runtime-version: '3.38'
 sdk: org.gnome.Sdk
 command: pulseeffects
 rename-icon: pulseeffects
@@ -18,67 +18,78 @@ finish-args:
   - --env=LADSPA_PATH=/app/lib/ladspa
     # LV2 Plugin PATH
   - --env=LV2_PATH=/app/lib/lv2
-    # Migrate Settings
-  - --metadata=X-DConf=migrate-path=/com/github/wwmm/pulseeffects/
 cleanup:
   - '*.a'
   - '*.h'
   - '*.la'
+  - /bin/analyseplugin
+  - /bin/applyplugin
+  - /bin/listplugins
   - /include
   - /lib/pkgconfig
+  - /lib/python*
+  - /share/info
 
 modules:
   - name: pulseeffects
     buildsystem: meson
-    builddir: true
     sources:
       - type: git
         url: 'https://github.com/wwmm/pulseeffects.git'
         tag: v4.8.2
         commit: 51ec2051c093c8bdd5992cd083bb87ebf942bc8f
     post-install:
-      - install -Dm644 -t /app/share/licenses/com.github.wwmm.pulseeffects ../LICENSE.md
+      - install -Dm644 -t $FLATPAK_DEST/share/licenses/com.github.wwmm.pulseeffects ../LICENSE.md
     modules:
 
       - name: boost
         buildsystem: simple
         build-commands:
-          - ./bootstrap.sh --prefix=/app --with-libraries=filesystem,system --with-toolset=gcc
+          - ./bootstrap.sh --prefix=$FLATPAK_DEST --with-libraries=filesystem,system --with-toolset=gcc
           - ./b2 --build-type=minimal -j $FLATPAK_BUILDER_N_JOBS
             toolset=gcc variant=release link=shared threading=multi install
         sources:
           - type: archive
-            url: 'https://dl.bintray.com/boostorg/release/1.72.0/source/boost_1_72_0.tar.gz'
-            sha256: c66e88d5786f2ca4dbebb14e06b566fb642a1a6947ad8cc9091f9f445134143f
+            url: 'https://dl.bintray.com/boostorg/release/1.74.0/source/boost_1_74_0.tar.gz'
+            sha256: afff36d392885120bcac079148c177d1f6f7730ec3d47233aa51b0afa4db94a5
         post-install:
-          - install -Dm644 -t /app/share/licenses/boost LICENSE_1_0.txt
+          - install -Dm644 -t $FLATPAK_DEST/share/licenses/boost LICENSE_1_0.txt
+        cleanup:
+          - /lib/cmake
 
       - name: glibmm
+        buildsystem: meson
         config-opts:
-          - --disable-documentation
+          - -Dbuild-documentation=false
         sources:
-          - type: archive
-            url: 'https://ftp.gnome.org/pub/GNOME/sources/glibmm/2.62/glibmm-2.62.0.tar.xz'
-            sha256: 36659f13cc73282392d1305858f3bbca46fbd1ce2f078cc9db8b9f79b2e93cfe
-        post-install:
-          - install -Dm644 -t /app/share/licenses/glibmm COPYING COPYING.tools
+          - type: git
+            url: 'https://gitlab.gnome.org/GNOME/glibmm.git'
+            tag: 2.64.2
+            commit: e775940669cb6d93f37ddc2b4cd7da446dfa482c
         cleanup:
-          - '/lib/glibmm-*/include'
-          - '/lib/glibmm-*/m4'
-          - '/lib/giomm-*/include'
+          - '/lib/glibmm*'
+          - '/lib/giomm*'
         modules:
 
-          - name: libsigc++
-            config-opts:
-              - --disable-documentation
+          - name: mm-common
+            buildsystem: meson
             sources:
               - type: archive
-                url: 'https://github.com/libsigcplusplus/libsigcplusplus/releases/download/2.10.3/libsigc++-2.10.3.tar.xz'
-                sha256: 0b68dfc6313c6cc90ac989c6d722a1bf0585ad13846e79746aa87cb265904786
-            post-install:
-              - install -Dm644 -t /app/share/licenses/libsigcplusplus COPYING
+                url: 'https://download.gnome.org/sources/mm-common/1.0/mm-common-1.0.2.tar.xz'
+                sha256: a2a99f3fa943cf662f189163ed39a2cfc19a428d906dd4f92b387d3659d1641d
             cleanup:
-              - '/lib/sigc++-*/include'
+              - '*'
+
+          - name: libsigc++
+            buildsystem: meson
+            config-opts:
+              - -Dbuild-examples=false
+            sources:
+              - type: archive
+                url: 'https://github.com/libsigcplusplus/libsigcplusplus/releases/download/2.10.4/libsigc++-2.10.4.tar.xz'
+                sha256: 1f5874358d9a21379024a4f4edba80a8a3aeb33f0531b192a6b1c35ed7dbfa3e
+            cleanup:
+              - '/lib/sigc++*'
 
       - name: gtkmm
         config-opts:
@@ -90,9 +101,8 @@ modules:
         post-install:
           - install -Dm644 -t /app/share/licenses/gtkmm COPYING COPYING.tools
         cleanup:
-          - '/lib/gtkmm-*/include'
-          - '/lib/gdkmm-*/include'
-          - '/lib/gtkmm-*/proc/m4'
+          - '/lib/gdkmm*'
+          - '/lib/gtkmm*'
         modules:
 
           - name: atkmm
@@ -102,39 +112,64 @@ modules:
               - type: archive
                 url: 'https://ftp.gnome.org/pub/GNOME/sources/atkmm/2.28/atkmm-2.28.0.tar.xz'
                 sha256: 4c4cfc917fd42d3879ce997b463428d6982affa0fb660cafcc0bc2d9afcedd3a
-            post-install:
-              - install -Dm644 -t /app/share/licenses/atkmm COPYING COPYING.tools
             cleanup:
-              - '/lib/atkmm-*/include'
-              - '/lib/atkmm-*/proc/m4'
+              - '/lib/atkmm*'
 
           - name: cairomm
             config-opts:
               - --disable-documentation
             sources:
+              # cairomm >= 1.14.0 requires sigc++ 3.0 and other modules require cairomm < 1.13.0
               - type: archive
                 url: 'https://www.cairographics.org/releases/cairomm-1.12.2.tar.gz'
                 sha256: 45c47fd4d0aa77464a75cdca011143fea3ef795c4753f6e860057da5fb8bd599
             post-install:
               - install -Dm644 -t /app/share/licenses/cairomm COPYING
             cleanup:
-              - '/lib/cairomm-*/include'
+              - '/lib/cairomm*'
 
           - name: pangomm
+            buildsystem: meson
             config-opts:
-              - --disable-documentation
+              - -Dbuild-documentation=false
             sources:
-              - type: archive
-                url: 'https://ftp.gnome.org/pub/GNOME/sources/pangomm/2.42/pangomm-2.42.0.tar.xz'
-                sha256: ca6da067ff93a6445780c0b4b226eb84f484ab104b8391fb744a45cbc7edbf56
-            post-install:
-              - install -Dm644 -t /app/share/licenses/pangomm COPYING COPYING.tools
+              - type: git
+                url: 'https://gitlab.gnome.org/GNOME/pangomm.git'
+                tag: 2.42.1
+                commit: 7dfc6c3372faaa4a7c492d08f09881b02095145b
             cleanup:
-              - '/lib/pangomm-*/include'
-              - '/lib/pangomm-*/proc/m4'
+              - '/lib/pangomm*'
+
+      - name: libebur128
+        buildsystem: cmake-ninja
+        config-opts:
+          - -DCMAKE_BUILD_TYPE=Release
+          - -DBUILD_STATIC_LIBS=OFF
+          - -DCMAKE_INSTALL_LIBDIR=lib
+        sources:
+          - type: git
+            url: 'https://github.com/jiixyj/libebur128.git'
+            tag: v1.2.4
+            commit: 55968729b09439888c7768054d76a773d23857d1
+        post-install:
+          - install -Dm644 -t $FLATPAK_DEST/share/licenses/libebur128 COPYING
+
+      - name: zita-convolver
+        no-autogen: true
+        subdir: source
+        make-install-args:
+          - "PREFIX=${FLATPAK_DEST}"
+          - "LIBDIR=${FLATPAK_DEST}/lib"
+        sources:
+          - type: archive
+            url: 'https://kokkinizita.linuxaudio.org/linuxaudio/downloads/zita-convolver-4.0.3.tar.bz2'
+            sha512: 62d7841757f10c094e43ed755e187f947c5743f302ed2a1ee6064a850c18921466f4505d8a2a7b3ad23619db7f1ad7307e1dfb2e8a1e7685e60ece2ffff4f6ca
+          - type: patch
+            path: patch/zita-convolver/0001-Fix-makefile.patch
+        modules:
+          - "shared-modules/linux-audio/fftw3f.json"
 
       - name: gst-plugins-bad
-        builddir: true
         buildsystem: meson
         no-make-install: true
         make-args:
@@ -144,140 +179,93 @@ modules:
           - ext/webrtcdsp/libgstwebrtcdsp.so
         sources:
           - type: archive
-            url: 'https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.2.tar.xz'
-            sha256: f1cb7aa2389569a5343661aae473f0a940a90b872001824bc47fa8072a041e74
+            url: 'https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.3.tar.xz'
+            sha256: 84efe57011658f0a53a5d5b20f64ef109f5105dccb0808c21e069e946673514d
         post-install:
-          - install -Dm755 -t /app/lib/gstreamer-1.0
-                               ext/bs2b/libgstbs2b.so
+          - install -Dm755 -t $FLATPAK_DEST/lib/gstreamer-1.0
                                ext/ladspa/libgstladspa.so
                                ext/lv2/libgstlv2.so
+                               ext/bs2b/libgstbs2b.so
                                ext/webrtcdsp/libgstwebrtcdsp.so
-          - install -Dm644 -t /app/share/licenses/gst-plugins-bad ../COPYING ../COPYING.LIB
+          - install -Dm644 -t $FLATPAK_DEST/share/licenses/gst-plugins-bad ../COPYING ../COPYING.LIB
         modules:
+          - "shared-modules/linux-audio/ladspa.json"
+          - "shared-modules/linux-audio/lv2.json"
+          - "shared-modules/linux-audio/lilv.json" # Required by libgstlv2.so
 
-          # LADSPA Plugins
-          - name: ladspa-sdk
-            make-args:
-              - targets
-            make-install-args:
-              - INSTALL_BINARY_DIR=/app/bin
-              - INSTALL_INCLUDE_DIR=/app/include
-              - INSTALL_PLUGINS_DIR=/app/lib/ladspa
-            no-autogen: true
-            subdir: src
+          - name: bs2b
+            rm-configure: true
             sources:
               - type: archive
-                url: 'https://www.ladspa.org/download/ladspa_sdk_1.15.tgz'
-                sha256: 4229959b09d20c88c8c86f4aa76427843011705df22d9c28b38359fd1829fded
+                url: 'https://downloads.sourceforge.net/sourceforge/bs2b/libbs2b-3.1.0.tar.gz'
+                sha256: 6aaafd81aae3898ee40148dd1349aab348db9bfae9767d0e66e0b07ddd4b2528
+              - type: script
+                dest-filename: autogen.sh
+                commands:
+                  - cp -p /usr/share/automake-*/config.{sub,guess} build-aux
+                  - autoreconf -vfi
               - type: patch
-                path: patch/ladspa-sdk/001-fix-memleak.patch
-                strip-components: 0
-            cleanup:
-              - '*'
-
-            # Single precision build
-          - name: fftw3f
-            config-opts:
-              - --disable-doc
-              - --enable-shared
-              - --enable-threads
-              - --enable-float
-            build-options:
-              arch:
-                i386:
-                  config-opts:
-                    - --enable-avx
-                    - --enable-openmp
-                    - --enable-sse
-                x86_64:
-                  config-opts:
-                    - --enable-avx
-                    - --enable-openmp
-                    - --enable-sse
-            sources:
-              - type: archive
-                url: 'http://www.fftw.org/fftw-3.3.8.tar.gz'
-                sha256: 6113262f6e92c5bd474f2875fa1b01054c4ad5040f6b0da7c03c98821d9ae303
+                path: patch/bs2b/001-fix-automake-dist-lzma.patch
             post-install:
-              - install -Dm644 -t /app/share/licenses/fftw COPYING COPYRIGHT
+              - install -Dm644 -t $FLATPAK_DEST/share/licenses/bs2b COPYING
             cleanup:
               - /bin
-              - /share/man
+
+          - name: webrtc-audio-processing
+            sources:
+              - type: archive
+                url: 'https://freedesktop.org/software/pulseaudio/webrtc-audio-processing/webrtc-audio-processing-0.3.1.tar.xz'
+                sha256: a0fdd938fd85272d67e81572c5a4d9e200a0c104753cb3c209ded175ce3c5dbf
+            post-install:
+              - install -Dm644 -t $FLATPAK_DEST/share/licenses/webrtc-audio-processing COPYING
+
+          # Ladspa & LV2 Plugins
 
           - name: rubberband
             config-opts:
-              - --disable-program
-              - --disable-static
-              - --disable-shared
-              - --with-ladspa
-              - --without-vamp
+              - --disable-programs
+              - --disable-vamp
             sources:
               - type: archive
-                url: 'https://breakfastquay.com/files/releases/rubberband-1.8.2.tar.bz2'
-                sha256: 86bed06b7115b64441d32ae53634fcc0539a50b9b648ef87443f936782f6c3ca
-              - type: patch
-                path: patch/rubberband/0001-Improve-flexibility-with-autoconf.patch
+                url: 'https://breakfastquay.com/files/releases/rubberband-1.9.0.tar.bz2'
+                sha256: 4f5b9509364ea876b4052fc390c079a3ad4ab63a2683aad09662fb905c2dc026
             post-install:
-              - install -Dm644 -t /app/share/licenses/rubberband COPYING
+              - install -Dm644 -t $FLATPAK_DEST/share/licenses/rubberband COPYING
             cleanup:
+              - /lib/librubberband.*
               - /share/ladspa
-            modules:
-                # Double precision build
-              - name: fftw3
-                config-opts:
-                  - --disable-doc
-                  - --enable-shared
-                  - --enable-threads
-                build-options:
-                  arch:
-                    i386:
-                      config-opts:
-                        - --enable-avx
-                        - --enable-openmp
-                        - --enable-sse2
-                    x86_64:
-                      config-opts:
-                        - --enable-avx
-                        - --enable-openmp
-                        - --enable-sse2
-                sources:
-                  - type: archive
-                    url: 'http://www.fftw.org/fftw-3.3.8.tar.gz'
-                    sha256: 6113262f6e92c5bd474f2875fa1b01054c4ad5040f6b0da7c03c98821d9ae303
-                cleanup:
-                  - /bin
-                  - /share/man
 
-          # LV2 Plugins
-          - name: lv2
-            buildsystem: simple
-            build-commands:
-              - python3 ./waf configure --prefix=/app
-                                        --lv2dir=/app/lib/lv2
-                                        --no-plugins
-              - python3 ./waf build -j $FLATPAK_BUILDER_N_JOBS
-              - python3 ./waf install
+          - name: calf
+            build-options:
+              env:
+                - NOCONFIGURE=1
+            rm-configure: true
             sources:
-              - type: git
-                url: 'https://github.com/drobilla/lv2.git'
-                tag: v1.18.0
-                commit: 5f40c5c421ffc50783962efb4cab151c8c2519dd
+              - type: archive
+                url: 'https://calf-studio-gear.org/files/calf-0.90.3.tar.gz'
+                sha256: e32bc23fb68f88729bdef361614fd9ac38627c774c35cd3c4eb611fca887a49f
             post-install:
-              - install -Dm644 -t /app/share/licenses/lv2 COPYING
+              - install -Dm644 -t $FLATPAK_DEST/share/licenses/calf COPYING
             cleanup:
               - /bin
-              - /share/lv2specgen
+              - /share/applications
+              - /share/bash-completion
+              - /share/calf
+              - /share/doc
+              - /share/icons
+              - /share/man
+            modules:
+              - "shared-modules/linux-audio/fluidsynth2.json"
 
           - name: lsp-plugins
             no-autogen: true
             make-args:
-              - PREFIX=/app
-              - BUILD_MODULES=lv2 # Don't build docs (which require php)
+              - "PREFIX=${FLATPAK_DEST}"
+              - BUILD_MODULES=lv2 # Don't build docs to avoid php dependency
             make-install-args:
-              - PREFIX=/app
+              - "PREFIX=${FLATPAK_DEST}"
             install-rule: install_lv2
             build-options:
-            # Auto-detection sometimes fail for arm, so ensure build consistency
               arch:
                 aarch64:
                   make-args:
@@ -291,121 +279,15 @@ modules:
                 tag: lsp-plugins-1.1.24
                 commit: c95e356aee1c967f666823943553c21033d0b683
             post-install:
-              - install -Dm644 -t /app/share/licenses/lsp-plugins LICENSE.txt
+              - install -Dm644 -t $FLATPAK_DEST/share/licenses/lsp-plugins LICENSE.txt
 
-          - name: lilv
-            buildsystem: simple
-            build-commands:
-              - python3 ./waf configure --prefix=/app
-                                        --default-lv2-path=/app/lib/lv2
-                                        --no-bash-completion
-                                        --no-utils
-              - python3 ./waf build -j $FLATPAK_BUILDER_N_JOBS
-              - python3 ./waf install
-            sources:
-              - type: archive
-                url: 'https://download.drobilla.net/lilv-0.24.8.tar.bz2'
-                sha256: cadc3654c481aec6a6db504439cf8c0572c06128a6fbca1953a30df77e89c300
-            post-install:
-              - install -Dm644 -t /app/share/licenses/lilv COPYING
-            cleanup:
-              - /bin
-              - /share/man
-            modules:
-
-              - name: serd
-                buildsystem: simple
-                build-commands:
-                  - python3 ./waf configure --prefix=/app --no-utils
-                  - python3 ./waf build -j $FLATPAK_BUILDER_N_JOBS
-                  - python3 ./waf install
-                sources:
-                  - type: archive
-                    url: 'https://download.drobilla.net/serd-0.30.4.tar.bz2'
-                    sha256: 0c95616a6587bee5e728e026190f4acd5ab6e2400e8890d5c2a93031eab01999
-                post-install:
-                  - install -Dm644 -t /app/share/licenses/serd COPYING
-                cleanup:
-                  - /share/man
-
-              - name: sord
-                buildsystem: simple
-                build-commands:
-                  - python3 ./waf configure --prefix=/app --no-utils
-                  - python3 ./waf build -j $FLATPAK_BUILDER_N_JOBS
-                  - python3 ./waf install
-                sources:
-                  - type: archive
-                    url: 'https://download.drobilla.net/sord-0.16.4.tar.bz2'
-                    sha256: b15998f4e7ad958201346009477d6696e90ee5d3e9aff25e7e9be074372690d7
-                post-install:
-                  - install -Dm644 -t /app/share/licenses/sord COPYING
-                cleanup:
-                  - /share/man
-
-              - name: sratom
-                buildsystem: simple
-                build-commands:
-                  - python3 ./waf configure --prefix=/app
-                  - python3 ./waf build -j $FLATPAK_BUILDER_N_JOBS
-                  - python3 ./waf install
-                sources:
-                  - type: archive
-                    url: 'https://download.drobilla.net/sratom-0.6.4.tar.bz2'
-                    sha256: 146c8f14b8902ac3c8fa8c2e0a014eb8a38fab60090c5adbfbff3e3b7c5c006e
-                post-install:
-                  - install -Dm644 -t /app/share/licenses/sratom COPYING
-
-          - name: calf
-            build-options:
-              env:
-                - NOCONFIGURE=1
-            rm-configure: true
-            sources:
-              - type: archive
-                url: 'https://calf-studio-gear.org/files/calf-0.90.3.tar.gz'
-                sha256: e32bc23fb68f88729bdef361614fd9ac38627c774c35cd3c4eb611fca887a49f
-            post-install:
-              - install -Dm644 -t /app/share/licenses/calf COPYING
-            cleanup:
-              - /bin
-              - /share/applications
-              - /share/bash-completion
-              - /share/calf
-              - /share/doc
-              - /share/icons
-              - /share/man
-            modules:
-
-              - name: fluidsynth
-                buildsystem: cmake-ninja
-                config-opts:
-                  - -DCMAKE_BUILD_TYPE=Release
-                  - -Denable-ladspa=ON
-                  - -Denable-oss=OFF
-                  - -Denable-network=OFF
-                  - -Denable-ipv6=OFF
-                  - -DLIB_SUFFIX=''
-                sources:
-                  - type: git
-                    url: 'https://github.com/FluidSynth/fluidsynth.git'
-                    tag: v2.1.4
-                    commit: 2393aef3bd0b4e78084cfe16735d402bc1497edd
-                post-install:
-                  - install -Dm644 -t /app/share/licenses/fluidsynth LICENSE
-                cleanup:
-                  - /bin
-                  - /share/man
-
-            # Note: gst-inspect-1.0 cannot find the lv2 versions
-            # For that reason pulseeffects uses the ladspa versions
           - name: zam-plugins
             no-autogen: true
             make-args:
-              - PREFIX=/app
+              - "PREFIX=${FLATPAK_DEST}"
               - PLUGINS=ZaMaximX2
             make-install-args:
-              - PREFIX=/app
+              - "PREFIX=${FLATPAK_DEST}"
               - PLUGINS=ZaMaximX2
             build-options:
               arch:
@@ -421,59 +303,7 @@ modules:
                 tag: '3.13'
                 commit: 8cd23d781018e3ec84159958d3d2dc7038a82736
             post-install:
-              - install -Dm644 -t /app/share/licenses/zam-plugins COPYING
+              - install -Dm644 -t $FLATPAK_DEST/share/licenses/zam-plugins COPYING
             cleanup:
               - /lib/lv2
               - /lib/vst
-
-          # Other Plugin Types
-          - name: bs2b
-            rm-configure: true
-            sources:
-              - type: archive
-                url: 'https://downloads.sourceforge.net/sourceforge/bs2b/libbs2b-3.1.0.tar.gz'
-                sha256: 6aaafd81aae3898ee40148dd1349aab348db9bfae9767d0e66e0b07ddd4b2528
-              - type: script
-                dest-filename: autogen.sh
-                commands:
-                  - cp -p /usr/share/automake-*/config.{sub,guess} build-aux
-                  - autoreconf -vfi
-              - type: patch
-                path: patch/bs2b/001-fix-automake-dist-lzma.patch
-            post-install:
-              - install -Dm644 -t /app/share/licenses/bs2b COPYING
-            cleanup:
-              - /bin
-
-          - name: webrtc-audio-processing
-            sources:
-              - type: archive
-                url: 'https://freedesktop.org/software/pulseaudio/webrtc-audio-processing/webrtc-audio-processing-0.3.1.tar.xz'
-                sha256: a0fdd938fd85272d67e81572c5a4d9e200a0c104753cb3c209ded175ce3c5dbf
-            post-install:
-              - install -Dm644 -t /app/share/licenses/webrtc-audio-processing COPYING
-
-          - name: libebur128
-            buildsystem: cmake-ninja
-            config-opts:
-              - -DCMAKE_BUILD_TYPE=Release
-              - -DBUILD_STATIC_LIBS=OFF
-              - -DCMAKE_INSTALL_LIBDIR=lib
-            sources:
-              - type: git
-                url: 'https://github.com/jiixyj/libebur128.git'
-                tag: v1.2.4
-                commit: 55968729b09439888c7768054d76a773d23857d1
-
-          - name: zita-convolver
-            no-autogen: true
-            subdir: source
-            make-install-args:
-              - PREFIX=/app
-              - LIBDIR=/app/lib
-            sources:
-              - type: archive
-                url: 'https://kokkinizita.linuxaudio.org/linuxaudio/downloads/zita-convolver-4.0.3.tar.bz2'
-                sha512: 62d7841757f10c094e43ed755e187f947c5743f302ed2a1ee6064a850c18921466f4505d8a2a7b3ad23619db7f1ad7307e1dfb2e8a1e7685e60ece2ffff4f6ca
-              - type: patch
-                path: patch/zita-convolver/0001-Fix-makefile.patch
