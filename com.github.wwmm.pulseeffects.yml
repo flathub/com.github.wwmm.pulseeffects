@@ -15,9 +15,9 @@ finish-args:
     # Sound access
   - --socket=pulseaudio
     # LADSPA Plugin PATH
-  - --env=LADSPA_PATH=/app/lib/ladspa
+  - --env=LADSPA_PATH=/app/lib/ladspa:/app/extensions/Plugins/ladspa
     # LV2 Plugin PATH
-  - --env=LV2_PATH=/app/lib/lv2
+  - --env=LV2_PATH=/app/lib/lv2:/app/extensions/Plugins/lv2
 cleanup:
   - '*.a'
   - '*.h'
@@ -30,6 +30,15 @@ cleanup:
   - /lib/python*
   - /share/info
 
+add-extensions:
+  org.freedesktop.LinuxAudio.Plugins:
+    directory: extensions/Plugins
+    version: "20.08"
+    add-ld-path: lib
+    merge-dirs: ladspa;dssi;lv2;lxvst;vst3
+    subdirectories: true
+    no-autodownload: true
+
 modules:
   - name: pulseeffects
     buildsystem: meson
@@ -40,6 +49,7 @@ modules:
         commit: 51ec2051c093c8bdd5992cd083bb87ebf942bc8f
     post-install:
       - install -Dm644 -t $FLATPAK_DEST/share/licenses/com.github.wwmm.pulseeffects ../LICENSE.md
+      - mkdir -pm755 /app/extensions/Plugins
     modules:
 
       - name: boost
