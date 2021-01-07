@@ -45,8 +45,8 @@ modules:
     sources:
       - type: git
         url: 'https://github.com/wwmm/pulseeffects.git'
-        tag: v4.8.2
-        commit: 51ec2051c093c8bdd5992cd083bb87ebf942bc8f
+        tag: v4.8.4
+        commit: 4e7532f72ea59b9001d2d1ae544f03fca6c73a34
     post-install:
       - install -Dm644 -t $FLATPAK_DEST/share/licenses/com.github.wwmm.pulseeffects ../LICENSE.md
       - mkdir -pm755 /app/extensions/Plugins
