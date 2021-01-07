@@ -45,8 +45,8 @@ modules:
     sources:
       - type: git
         url: 'https://github.com/wwmm/pulseeffects.git'
-        tag: v4.8.2
-        commit: 51ec2051c093c8bdd5992cd083bb87ebf942bc8f
+        tag: v4.8.3
+        commit: f5f83831f3713a5268356286f8044e1db2950834
     post-install:
       - install -Dm644 -t $FLATPAK_DEST/share/licenses/com.github.wwmm.pulseeffects ../LICENSE.md
       - mkdir -pm755 /app/extensions/Plugins
@@ -317,3 +317,12 @@ modules:
             cleanup:
               - /lib/lv2
               - /lib/vst
+
+      - name: rnnoise
+        buildsystem: autotools
+        sources:
+          - type: git
+            url: 'https://github.com/xiph/rnnoise.git'
+            commit: 90ec41ef659fd82cfec2103e9bb7fc235e9ea66c
+        cleanup:
+          - /share/doc/rnnoise
