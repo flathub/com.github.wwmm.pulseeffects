@@ -345,6 +345,6 @@ modules:
         sources:
           - type: git
             url: 'https://github.com/xiph/rnnoise.git'
-            commit: 90ec41ef659fd82cfec2103e9bb7fc235e9ea66c
+            commit: 1cbdbcf1283499bbb2230a6b0f126eb9b236defd
         cleanup:
           - /share/doc/rnnoise
