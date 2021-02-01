@@ -74,8 +74,8 @@ modules:
         sources:
           - type: git
             url: 'https://gitlab.gnome.org/GNOME/glibmm.git'
-            tag: 2.64.2
-            commit: e775940669cb6d93f37ddc2b4cd7da446dfa482c
+            tag: 2.66.0
+            commit: 78430275553a79f845dd6f4919a5a50a203d0862
         cleanup:
           - '/lib/glibmm*'
           - '/lib/giomm*'
