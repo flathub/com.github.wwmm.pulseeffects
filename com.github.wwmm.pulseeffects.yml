@@ -333,8 +333,8 @@ modules:
             sources:
               - type: git
                 url: 'https://github.com/zamaudio/zam-plugins.git'
-                tag: '3.13'
-                commit: 8cd23d781018e3ec84159958d3d2dc7038a82736
+                tag: '3.14'
+                commit: e7077fcc0b7f60daa7471eae42015ffc9cba73d9
             post-install:
               - install -Dm644 -t $FLATPAK_DEST/share/licenses/zam-plugins COPYING
             cleanup:
