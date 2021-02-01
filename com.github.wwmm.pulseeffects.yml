@@ -146,8 +146,8 @@ modules:
             sources:
               - type: git
                 url: 'https://gitlab.gnome.org/GNOME/pangomm.git'
-                tag: 2.42.1
-                commit: 7dfc6c3372faaa4a7c492d08f09881b02095145b
+                tag: 2.46.0
+                commit: 3170a5300b6617bfe9f461f57c34f1705e0c679e
             cleanup:
               - '/lib/pangomm*'
 
