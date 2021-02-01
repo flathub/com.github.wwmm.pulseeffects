@@ -309,8 +309,8 @@ modules:
             sources:
               - type: git
                 url: 'https://github.com/sadko4u/lsp-plugins.git'
-                tag: lsp-plugins-1.1.24
-                commit: c95e356aee1c967f666823943553c21033d0b683
+                tag: 1.1.29
+                commit: 663223c8075c3b4476f06c7d712c2716cec9daa5
             post-install:
               - install -Dm644 -t $FLATPAK_DEST/share/licenses/lsp-plugins LICENSE.txt
 
