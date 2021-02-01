@@ -102,14 +102,14 @@ modules:
               - '/lib/sigc++*'
 
       - name: gtkmm
+        buildsystem: meson
         config-opts:
-          - --disable-documentation
+          - -Dbuild-documentation=false
         sources:
-          - type: archive
-            url: 'https://ftp.gnome.org/pub/GNOME/sources/gtkmm/3.24/gtkmm-3.24.2.tar.xz'
-            sha256: 6d71091bcd1863133460d4188d04102810e9123de19706fb656b7bb915b4adc3
-        post-install:
-          - install -Dm644 -t /app/share/licenses/gtkmm COPYING COPYING.tools
+          - type: git
+            url: 'https://gitlab.gnome.org/GNOME/gtkmm.git'
+            tag: 3.24.3
+            commit: a99220925b22a02d58e02fb1c5020d0c1d3ba389
         cleanup:
           - '/lib/gdkmm*'
           - '/lib/gtkmm*'
