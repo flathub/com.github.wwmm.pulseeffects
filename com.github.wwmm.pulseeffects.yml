@@ -60,8 +60,8 @@ modules:
             toolset=gcc variant=release link=shared threading=multi install
         sources:
           - type: archive
-            url: 'https://dl.bintray.com/boostorg/release/1.74.0/source/boost_1_74_0.tar.gz'
-            sha256: afff36d392885120bcac079148c177d1f6f7730ec3d47233aa51b0afa4db94a5
+            url: 'https://dl.bintray.com/boostorg/release/1.75.0/source/boost_1_75_0.tar.gz'
+            sha256: aeb26f80e80945e82ee93e5939baebdca47b9dee80a07d3144be1e1a6a66dd6a
         post-install:
           - install -Dm644 -t $FLATPAK_DEST/share/licenses/boost LICENSE_1_0.txt
         cleanup:
