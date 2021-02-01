@@ -223,12 +223,34 @@ modules:
               - /bin
 
           - name: webrtc-audio-processing
+            buildsystem: meson
+            config-opts:
+              - -Dcmake_prefix_path=/app  # or cmake only does dependency lookup in '/' and '/usr'
             sources:
               - type: archive
-                url: 'https://freedesktop.org/software/pulseaudio/webrtc-audio-processing/webrtc-audio-processing-0.3.1.tar.xz'
-                sha256: a0fdd938fd85272d67e81572c5a4d9e200a0c104753cb3c209ded175ce3c5dbf
+                url: 'http://freedesktop.org/software/pulseaudio/webrtc-audio-processing/webrtc-audio-processing-1.0.tar.gz'
+                sha256: 441a30d2717b2eb4145c6eb96c2d5a270fe0b4bc71aebf76716750c47be1936f
+              - type: patch
+                path: patch/webrtc-audio-processing/0001-build-Use-cmake-to-look-up-abseil-dependency.patch
             post-install:
-              - install -Dm644 -t $FLATPAK_DEST/share/licenses/webrtc-audio-processing COPYING
+              - install -Dm644 -t $FLATPAK_DEST/share/licenses/webrtc-audio-processing ../COPYING
+            modules:
+              - name: abseil-cpp
+                buildsystem: cmake-ninja
+                config-opts:
+                  - -DCMAKE_BUILD_TYPE=Release
+                  - -DBUILD_SHARED_LIBS=ON
+                  - -DABSL_RUN_TESTS=OFF
+                make-args:
+                  - libabsl_base.so
+                  - libabsl_flags_parse.so
+                  - libabsl_strings.so
+                  - libabsl_synchronization.so
+                sources:
+                  - type: git
+                    url: 'https://github.com/abseil/abseil-cpp.git'
+                    tag: '20200923.3'
+                    commit: 6f9d96a1f41439ac172ee2ef7ccd8edf0e5d068c
 
           # Ladspa & LV2 Plugins
 
