@@ -5,15 +5,11 @@ sdk: org.gnome.Sdk
 command: pulseeffects
 rename-icon: pulseeffects
 finish-args:
-    # X11 + XShm access
   - --share=ipc
-  - --socket=x11
   - --socket=fallback-x11
-    # Wayland access
   - --socket=wayland
   - --device=dri
-    # Sound access
-  - --socket=pulseaudio
+  - --filesystem=xdg-run/pipewire-0:ro
     # LADSPA Plugin PATH
   - --env=LADSPA_PATH=/app/lib/ladspa:/app/extensions/Plugins/ladspa
     # LV2 Plugin PATH
@@ -45,8 +41,8 @@ modules:
     sources:
       - type: git
         url: 'https://github.com/wwmm/pulseeffects.git'
-        tag: v4.8.4
-        commit: 4e7532f72ea59b9001d2d1ae544f03fca6c73a34
+        tag: v5.0.0
+        commit: 5065bd0c0600cb8db2dafac9bafbed62c5444862
     post-install:
       - install -Dm644 -t $FLATPAK_DEST/share/licenses/com.github.wwmm.pulseeffects ../LICENSE.md
       - mkdir -pm755 /app/extensions/Plugins
