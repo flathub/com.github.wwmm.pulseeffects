@@ -1,6 +1,6 @@
 id: com.github.wwmm.pulseeffects
 runtime: org.gnome.Platform
-runtime-version: '3.38'
+runtime-version: '40'
 sdk: org.gnome.Sdk
 command: pulseeffects
 rename-icon: pulseeffects
@@ -18,6 +18,7 @@ finish-args:
   - --env=LADSPA_PATH=/app/lib/ladspa:/app/extensions/Plugins/ladspa
     # LV2 Plugin PATH
   - --env=LV2_PATH=/app/lib/lv2:/app/extensions/Plugins/lv2
+  - --filesystem=xdg-run/pipewire-0
 cleanup:
   - '*.a'
   - '*.h'
@@ -45,8 +46,8 @@ modules:
     sources:
       - type: git
         url: 'https://github.com/wwmm/pulseeffects.git'
-        tag: v4.8.4
-        commit: 4e7532f72ea59b9001d2d1ae544f03fca6c73a34
+        tag: v5.0.3
+        commit: 720da56136f70aa832ee0ac7370bd0e3c504a88e
     post-install:
       - install -Dm644 -t $FLATPAK_DEST/share/licenses/com.github.wwmm.pulseeffects ../LICENSE.md
       - mkdir -pm755 /app/extensions/Plugins
@@ -348,3 +349,14 @@ modules:
             commit: 1cbdbcf1283499bbb2230a6b0f126eb9b236defd
         cleanup:
           - /share/doc/rnnoise
+
+      - name: pipewire
+        buildsystem: meson
+        config-opts:
+          - -Dgstreamer=false
+          - -Dman=false
+          - -Dsystemd=false
+        sources:
+          - type: git
+            url: 'https://gitlab.freedesktop.org/pipewire/pipewire.git'
+            tag: 0.3.26
