@@ -1,6 +1,6 @@
 id: com.github.wwmm.pulseeffects
 runtime: org.gnome.Platform
-runtime-version: '3.38'
+runtime-version: '40'
 sdk: org.gnome.Sdk
 command: pulseeffects
 rename-icon: pulseeffects
@@ -41,8 +41,8 @@ modules:
     sources:
       - type: git
         url: 'https://github.com/wwmm/pulseeffects.git'
-        tag: v5.0.0
-        commit: 5065bd0c0600cb8db2dafac9bafbed62c5444862
+        tag: v5.0.3
+        commit: 720da56136f70aa832ee0ac7370bd0e3c504a88e
     post-install:
       - install -Dm644 -t $FLATPAK_DEST/share/licenses/com.github.wwmm.pulseeffects ../LICENSE.md
       - mkdir -pm755 /app/extensions/Plugins
@@ -344,3 +344,16 @@ modules:
             commit: 1cbdbcf1283499bbb2230a6b0f126eb9b236defd
         cleanup:
           - /share/doc/rnnoise
+      - name: pipewire
+        buildsystem: meson
+        config-opts:
+          - -Dgstreamer=disabled
+          - -Dman=disabled
+          - -Dsystemd=disabled
+          - -Dudev=disabled
+          - -Dudevrulesdir=disabled
+        sources:
+          - type: git
+            url: https://gitlab.freedesktop.org/pipewire/pipewire.git
+            tag: 0.3.24
+            commit: c81d44e8a9497899d01bcc3054b6aa845e7a066e
