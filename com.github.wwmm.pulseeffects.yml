@@ -355,5 +355,5 @@ modules:
         sources:
           - type: git
             url: https://gitlab.freedesktop.org/pipewire/pipewire.git
-            tag: 0.3.24
-            commit: c81d44e8a9497899d01bcc3054b6aa845e7a066e
+            tag: 0.3.28
+            commit: fb55cc4786ce5e78b0987248dd44e54daec77f80
