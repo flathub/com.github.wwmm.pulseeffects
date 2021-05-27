@@ -1,6 +1,6 @@
 id: com.github.wwmm.pulseeffects
 runtime: org.gnome.Platform
-runtime-version: '3.38'
+runtime-version: '40'
 sdk: org.gnome.Sdk
 command: pulseeffects
 rename-icon: pulseeffects
@@ -41,8 +41,8 @@ modules:
     sources:
       - type: git
         url: 'https://github.com/wwmm/pulseeffects.git'
-        tag: v5.0.0
-        commit: 5065bd0c0600cb8db2dafac9bafbed62c5444862
+        tag: v5.0.3
+        commit: 720da56136f70aa832ee0ac7370bd0e3c504a88e
     post-install:
       - install -Dm644 -t $FLATPAK_DEST/share/licenses/com.github.wwmm.pulseeffects ../LICENSE.md
       - mkdir -pm755 /app/extensions/Plugins
@@ -56,8 +56,8 @@ modules:
             toolset=gcc variant=release link=shared threading=multi install
         sources:
           - type: archive
-            url: 'https://dl.bintray.com/boostorg/release/1.75.0/source/boost_1_75_0.tar.gz'
-            sha256: aeb26f80e80945e82ee93e5939baebdca47b9dee80a07d3144be1e1a6a66dd6a
+            url: 'https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/boost_1_76_0.tar.gz'
+            sha256: 7bd7ddceec1a1dfdcbdb3e609b60d01739c38390a5f956385a12f3122049f0ca
         post-install:
           - install -Dm644 -t $FLATPAK_DEST/share/licenses/boost LICENSE_1_0.txt
         cleanup:
@@ -344,3 +344,16 @@ modules:
             commit: 1cbdbcf1283499bbb2230a6b0f126eb9b236defd
         cleanup:
           - /share/doc/rnnoise
+      - name: pipewire
+        buildsystem: meson
+        config-opts:
+          - -Dgstreamer=disabled
+          - -Dman=disabled
+          - -Dsystemd=disabled
+          - -Dudev=disabled
+          - -Dudevrulesdir=disabled
+        sources:
+          - type: git
+            url: https://gitlab.freedesktop.org/pipewire/pipewire.git
+            tag: 0.3.28
+            commit: fb55cc4786ce5e78b0987248dd44e54daec77f80
