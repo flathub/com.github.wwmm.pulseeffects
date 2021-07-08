@@ -41,7 +41,7 @@ modules:
     sources:
       - type: git
         url: 'https://github.com/wwmm/pulseeffects.git'
-        tag: v5.0.3
+        tag: v5.0.3 # beta should be kept on 5.0.3, seperate Flathub repo for easyeffects should be used for easyeffects 6.
         commit: 720da56136f70aa832ee0ac7370bd0e3c504a88e
     post-install:
       - install -Dm644 -t $FLATPAK_DEST/share/licenses/com.github.wwmm.pulseeffects ../LICENSE.md
