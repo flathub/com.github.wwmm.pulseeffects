@@ -1,0 +1,4 @@
+{
+    "end-of-life": "The PipeWire version of PulseEffects has been superseded by EasyEffects. EasyEffects is actively maintained on Flathub.",
+    "end-of-life-rebase": "com.github.wwmm.easyeffects"
+}
