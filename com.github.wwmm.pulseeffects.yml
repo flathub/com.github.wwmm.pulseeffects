@@ -4,6 +4,7 @@ runtime-version: '41'
 sdk: org.gnome.Sdk
 command: pulseeffects
 rename-icon: pulseeffects
+copy-icon: true
 finish-args:
     # X11 + XShm access
   - --share=ipc
