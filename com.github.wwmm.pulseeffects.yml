@@ -1,7 +1,7 @@
 id: com.github.wwmm.pulseeffects
-runtime: org.gnome.Platform
-runtime-version: '41'
-sdk: org.gnome.Sdk
+runtime: org.freedesktop.Platform
+runtime-version: '21.08'
+sdk: org.freedesktop.Sdk
 command: pulseeffects
 rename-icon: pulseeffects
 copy-icon: true
@@ -16,9 +16,9 @@ finish-args:
     # Sound access
   - --socket=pulseaudio
     # LADSPA Plugin PATH
-  - --env=LADSPA_PATH=/app/lib/ladspa:/app/extensions/Plugins/ladspa
+  - --env=LADSPA_PATH=/app/lib/ladspa
     # LV2 Plugin PATH
-  - --env=LV2_PATH=/app/lib/lv2:/app/extensions/Plugins/lv2
+  - --env=LV2_PATH=/app/lib/lv2
 cleanup:
   - '*.a'
   - '*.h'
@@ -31,15 +31,6 @@ cleanup:
   - /lib/python*
   - /share/info
 
-add-extensions:
-  org.freedesktop.LinuxAudio.Plugins:
-    directory: extensions/Plugins
-    version: "20.08"
-    add-ld-path: lib
-    merge-dirs: ladspa;dssi;lv2;lxvst;vst3
-    subdirectories: true
-    no-autodownload: true
-
 modules:
   - name: pulseeffects
     buildsystem: meson
@@ -50,7 +41,6 @@ modules:
         commit: 848383b5b507d57e5e2370dcdf1fb7a985c3ad2f
     post-install:
       - install -Dm644 -t $FLATPAK_DEST/share/licenses/com.github.wwmm.pulseeffects ../LICENSE.md
-      - mkdir -pm755 /app/extensions/Plugins
     modules:
 
       - name: boost
@@ -302,10 +292,13 @@ modules:
                   make-args:
                     - NOOPT=true
             sources:
+              - type: archive
+                url: 'https://github.com/zamaudio/zam-plugins/archive/refs/tags/3.14.tar.gz'
+                sha256: 4a73a73fa03cc6d7faf2d65840349d2a33e7aaef5a13c6345f534b6c434e7b42
               - type: git
-                url: 'https://github.com/zamaudio/zam-plugins.git'
-                tag: '3.14'
-                commit: e7077fcc0b7f60daa7471eae42015ffc9cba73d9
+                url: https://github.com/DISTRHO/DPF.git
+                commit: 08669d1bc30c6e971fde800eade4ca40104ba8b2 # as used in https://github.com/zamaudio/zam-plugins/tree/3.14
+                dest: dpf
             post-install:
               - install -Dm644 -t $FLATPAK_DEST/share/licenses/zam-plugins COPYING
             cleanup:
