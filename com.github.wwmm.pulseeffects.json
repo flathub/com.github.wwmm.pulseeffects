@@ -1,0 +1,446 @@
+{
+    "id": "com.github.wwmm.pulseeffects",
+    "runtime": "org.freedesktop.Platform",
+    "runtime-version": "21.08",
+    "sdk": "org.freedesktop.Sdk",
+    "command": "pulseeffects",
+    "rename-icon": "pulseeffects",
+    "copy-icon": true,
+    "finish-args": [
+        "--share=ipc",
+        "--socket=x11",
+        "--socket=fallback-x11",
+        "--socket=wayland",
+        "--device=dri",
+        "--socket=pulseaudio",
+        "--env=LADSPA_PATH=/app/lib/ladspa",
+        "--env=LV2_PATH=/app/lib/lv2"
+    ],
+    "cleanup": [
+        "*.a",
+        "*.h",
+        "*.la",
+        "/bin/analyseplugin",
+        "/bin/applyplugin",
+        "/bin/listplugins",
+        "/include",
+        "/lib/pkgconfig",
+        "/lib/python*",
+        "/share/info"
+    ],
+    "modules": [
+        {
+            "name": "pulseeffects",
+            "buildsystem": "meson",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/wwmm/easyeffects.git",
+                    "tag": "v4.8.7",
+                    "commit": "868a42b03167d37c83075aaa52e8e4fa5584d4b1",
+                    "x-checker-data": {
+                        "type": "git",
+                        "tag-pattern": "^v([\\d.]+)$",
+                        "versions": {
+                            "<": "5"
+                        }
+                    }
+                }
+            ],
+            "post-install": [
+                "install -Dm644 -t $FLATPAK_DEST/share/licenses/com.github.wwmm.pulseeffects ../LICENSE.md"
+            ],
+            "modules": [
+                {
+                    "name": "boost",
+                    "buildsystem": "simple",
+                    "build-commands": [
+                        "./bootstrap.sh --prefix=$FLATPAK_DEST --with-libraries=filesystem,system --with-toolset=gcc",
+                        "./b2 --build-type=minimal -j $FLATPAK_BUILDER_N_JOBS toolset=gcc variant=release link=shared threading=multi install"
+                    ],
+                    "sources": [
+                        {
+                            "type": "archive",
+                            "url": "https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/boost_1_76_0.tar.gz",
+                            "sha256": "7bd7ddceec1a1dfdcbdb3e609b60d01739c38390a5f956385a12f3122049f0ca"
+                        }
+                    ],
+                    "post-install": [
+                        "install -Dm644 -t $FLATPAK_DEST/share/licenses/boost LICENSE_1_0.txt"
+                    ],
+                    "cleanup": [
+                        "/lib/cmake"
+                    ]
+                },
+                {
+                    "name": "glibmm",
+                    "buildsystem": "meson",
+                    "config-opts": [
+                        "-Dbuild-documentation=false"
+                    ],
+                    "sources": [
+                        {
+                            "type": "git",
+                            "url": "https://gitlab.gnome.org/GNOME/glibmm.git",
+                            "tag": "2.66.0",
+                            "commit": "78430275553a79f845dd6f4919a5a50a203d0862"
+                        }
+                    ],
+                    "cleanup": [
+                        "/lib/glibmm*",
+                        "/lib/giomm*"
+                    ],
+                    "modules": [
+                        {
+                            "name": "mm-common",
+                            "buildsystem": "meson",
+                            "sources": [
+                                {
+                                    "type": "archive",
+                                    "url": "https://download.gnome.org/sources/mm-common/1.0/mm-common-1.0.2.tar.xz",
+                                    "sha256": "a2a99f3fa943cf662f189163ed39a2cfc19a428d906dd4f92b387d3659d1641d"
+                                }
+                            ],
+                            "cleanup": [
+                                "*"
+                            ]
+                        },
+                        {
+                            "name": "libsigc++",
+                            "buildsystem": "meson",
+                            "config-opts": [
+                                "-Dbuild-examples=false"
+                            ],
+                            "sources": [
+                                {
+                                    "type": "archive",
+                                    "url": "https://github.com/libsigcplusplus/libsigcplusplus/releases/download/2.10.6/libsigc++-2.10.6.tar.xz",
+                                    "sha256": "dda176dc4681bda9d5a2ac1bc55273bdd381662b7a6d49e918267d13e8774e1b"
+                                }
+                            ],
+                            "cleanup": [
+                                "/lib/sigc++*"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "gtkmm",
+                    "buildsystem": "meson",
+                    "config-opts": [
+                        "-Dbuild-documentation=false"
+                    ],
+                    "sources": [
+                        {
+                            "type": "git",
+                            "url": "https://gitlab.gnome.org/GNOME/gtkmm.git",
+                            "tag": "3.24.3",
+                            "commit": "a99220925b22a02d58e02fb1c5020d0c1d3ba389"
+                        }
+                    ],
+                    "cleanup": [
+                        "/lib/gdkmm*",
+                        "/lib/gtkmm*"
+                    ],
+                    "modules": [
+                        {
+                            "name": "atkmm",
+                            "buildsystem": "meson",
+                            "config-opts": [
+                                "-Dbuild-documentation=false"
+                            ],
+                            "sources": [
+                                {
+                                    "type": "archive",
+                                    "url": "https://ftp.gnome.org/pub/GNOME/sources/atkmm/2.28/atkmm-2.28.1.tar.xz",
+                                    "sha256": "116876604770641a450e39c1f50302884848ce9cc48d43c5dc8e8efc31f31bad"
+                                }
+                            ],
+                            "cleanup": [
+                                "/lib/atkmm*"
+                            ]
+                        },
+                        {
+                            "name": "cairomm",
+                            "config-opts": [
+                                "--disable-documentation"
+                            ],
+                            "sources": [
+                                {
+                                    "type": "archive",
+                                    "url": "https://www.cairographics.org/releases/cairomm-1.12.2.tar.gz",
+                                    "sha256": "45c47fd4d0aa77464a75cdca011143fea3ef795c4753f6e860057da5fb8bd599"
+                                }
+                            ],
+                            "post-install": [
+                                "install -Dm644 -t /app/share/licenses/cairomm COPYING"
+                            ],
+                            "cleanup": [
+                                "/lib/cairomm*"
+                            ]
+                        },
+                        {
+                            "name": "pangomm",
+                            "buildsystem": "meson",
+                            "config-opts": [
+                                "-Dbuild-documentation=false"
+                            ],
+                            "sources": [
+                                {
+                                    "type": "git",
+                                    "url": "https://gitlab.gnome.org/GNOME/pangomm.git",
+                                    "tag": "2.46.0",
+                                    "commit": "3170a5300b6617bfe9f461f57c34f1705e0c679e"
+                                }
+                            ],
+                            "cleanup": [
+                                "/lib/pangomm*"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "libebur128",
+                    "buildsystem": "cmake-ninja",
+                    "config-opts": [
+                        "-DCMAKE_BUILD_TYPE=Release",
+                        "-DBUILD_STATIC_LIBS=OFF",
+                        "-DCMAKE_INSTALL_LIBDIR=lib"
+                    ],
+                    "sources": [
+                        {
+                            "type": "git",
+                            "url": "https://github.com/jiixyj/libebur128.git",
+                            "tag": "v1.2.4",
+                            "commit": "55968729b09439888c7768054d76a773d23857d1"
+                        }
+                    ],
+                    "post-install": [
+                        "install -Dm644 -t $FLATPAK_DEST/share/licenses/libebur128 COPYING"
+                    ]
+                },
+                {
+                    "name": "zita-convolver",
+                    "no-autogen": true,
+                    "subdir": "source",
+                    "make-install-args": [
+                        "PREFIX=${FLATPAK_DEST}",
+                        "LIBDIR=${FLATPAK_DEST}/lib"
+                    ],
+                    "sources": [
+                        {
+                            "type": "archive",
+                            "url": "https://kokkinizita.linuxaudio.org/linuxaudio/downloads/zita-convolver-4.0.3.tar.bz2",
+                            "sha512": "62d7841757f10c094e43ed755e187f947c5743f302ed2a1ee6064a850c18921466f4505d8a2a7b3ad23619db7f1ad7307e1dfb2e8a1e7685e60ece2ffff4f6ca"
+                        },
+                        {
+                            "type": "patch",
+                            "path": "patch/zita-convolver/0001-Fix-makefile.patch"
+                        }
+                    ],
+                    "modules": [
+                        "shared-modules/linux-audio/fftw3f.json"
+                    ]
+                },
+                {
+                    "name": "gst-plugins-bad",
+                    "buildsystem": "meson",
+                    "no-make-install": true,
+                    "make-args": [
+                        "ext/bs2b/libgstbs2b.so",
+                        "ext/ladspa/libgstladspa.so",
+                        "ext/lv2/libgstlv2.so",
+                        "ext/webrtcdsp/libgstwebrtcdsp.so"
+                    ],
+                    "sources": [
+                        {
+                            "type": "archive",
+                            "url": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.16.3.tar.xz",
+                            "sha256": "84efe57011658f0a53a5d5b20f64ef109f5105dccb0808c21e069e946673514d"
+                        }
+                    ],
+                    "post-install": [
+                        "install -Dm755 -t $FLATPAK_DEST/lib/gstreamer-1.0 ext/ladspa/libgstladspa.so ext/lv2/libgstlv2.so ext/bs2b/libgstbs2b.so ext/webrtcdsp/libgstwebrtcdsp.so",
+                        "install -Dm644 -t $FLATPAK_DEST/share/licenses/gst-plugins-bad ../COPYING ../COPYING.LIB"
+                    ],
+                    "modules": [
+                        "shared-modules/linux-audio/ladspa.json",
+                        "shared-modules/linux-audio/lv2.json",
+                        "shared-modules/linux-audio/lilv.json",
+                        {
+                            "name": "bs2b",
+                            "rm-configure": true,
+                            "sources": [
+                                {
+                                    "type": "archive",
+                                    "url": "https://downloads.sourceforge.net/sourceforge/bs2b/libbs2b-3.1.0.tar.gz",
+                                    "sha256": "6aaafd81aae3898ee40148dd1349aab348db9bfae9767d0e66e0b07ddd4b2528"
+                                },
+                                {
+                                    "type": "script",
+                                    "dest-filename": "autogen.sh",
+                                    "commands": [
+                                        "cp -p /usr/share/automake-*/config.{sub,guess} build-aux",
+                                        "autoreconf -vfi"
+                                    ]
+                                },
+                                {
+                                    "type": "patch",
+                                    "path": "patch/bs2b/001-fix-automake-dist-lzma.patch"
+                                }
+                            ],
+                            "post-install": [
+                                "install -Dm644 -t $FLATPAK_DEST/share/licenses/bs2b COPYING"
+                            ],
+                            "cleanup": [
+                                "/bin"
+                            ]
+                        },
+                        {
+                            "name": "rubberband",
+                            "config-opts": [
+                                "--disable-programs",
+                                "--disable-vamp"
+                            ],
+                            "sources": [
+                                {
+                                    "type": "archive",
+                                    "url": "https://breakfastquay.com/files/releases/rubberband-1.9.0.tar.bz2",
+                                    "sha256": "4f5b9509364ea876b4052fc390c079a3ad4ab63a2683aad09662fb905c2dc026"
+                                }
+                            ],
+                            "post-install": [
+                                "install -Dm644 -t $FLATPAK_DEST/share/licenses/rubberband COPYING"
+                            ],
+                            "cleanup": [
+                                "/lib/librubberband.*",
+                                "/share/ladspa"
+                            ]
+                        },
+                        {
+                            "name": "calf",
+                            "build-options": {
+                                "env": [
+                                    "NOCONFIGURE=1"
+                                ]
+                            },
+                            "rm-configure": true,
+                            "sources": [
+                                {
+                                    "type": "archive",
+                                    "url": "https://calf-studio-gear.org/files/calf-0.90.3.tar.gz",
+                                    "sha256": "e32bc23fb68f88729bdef361614fd9ac38627c774c35cd3c4eb611fca887a49f"
+                                }
+                            ],
+                            "post-install": [
+                                "install -Dm644 -t $FLATPAK_DEST/share/licenses/calf COPYING"
+                            ],
+                            "cleanup": [
+                                "/bin",
+                                "/share/applications",
+                                "/share/bash-completion",
+                                "/share/calf",
+                                "/share/doc",
+                                "/share/icons",
+                                "/share/man"
+                            ],
+                            "modules": [
+                                "shared-modules/linux-audio/fluidsynth2.json"
+                            ]
+                        },
+                        {
+                            "name": "lsp-plugins",
+                            "no-autogen": true,
+                            "make-args": [
+                                "PREFIX=${FLATPAK_DEST}",
+                                "BUILD_MODULES=lv2"
+                            ],
+                            "make-install-args": [
+                                "PREFIX=${FLATPAK_DEST}"
+                            ],
+                            "install-rule": "install_lv2",
+                            "build-options": {
+                                "arch": {
+                                    "aarch64": {
+                                        "make-args": [
+                                            "BUILD_PROFILE=aarch64"
+                                        ]
+                                    },
+                                    "arm": {
+                                        "make-args": [
+                                            "BUILD_PROFILE=armv7a"
+                                        ]
+                                    }
+                                }
+                            },
+                            "sources": [
+                                {
+                                    "type": "git",
+                                    "url": "https://github.com/sadko4u/lsp-plugins.git",
+                                    "tag": "1.1.29",
+                                    "commit": "663223c8075c3b4476f06c7d712c2716cec9daa5"
+                                }
+                            ],
+                            "post-install": [
+                                "install -Dm644 -t $FLATPAK_DEST/share/licenses/lsp-plugins LICENSE.txt"
+                            ]
+                        },
+                        {
+                            "name": "zam-plugins",
+                            "no-autogen": true,
+                            "make-args": [
+                                "PREFIX=${FLATPAK_DEST}",
+                                "PLUGINS=ZaMaximX2"
+                            ],
+                            "make-install-args": [
+                                "PREFIX=${FLATPAK_DEST}",
+                                "PLUGINS=ZaMaximX2"
+                            ],
+                            "build-options": {
+                                "arch": {
+                                    "aarch64": {
+                                        "make-args": [
+                                            "NOOPT=true"
+                                        ]
+                                    },
+                                    "arm": {
+                                        "make-args": [
+                                            "NOOPT=true"
+                                        ]
+                                    }
+                                }
+                            },
+                            "sources": [
+                                {
+                                    "type": "git",
+                                    "url": "https://github.com/zamaudio/zam-plugins.git",
+                                    "commit": "3f751bed7dfa1e43f7b3bf26f8368eb55c040a55"
+                                }
+                            ],
+                            "post-install": [
+                                "install -Dm644 -t $FLATPAK_DEST/share/licenses/zam-plugins COPYING"
+                            ],
+                            "cleanup": [
+                                "/lib/lv2",
+                                "/lib/vst"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "rnnoise",
+                    "sources": [
+                        {
+                            "type": "git",
+                            "url": "https://github.com/xiph/rnnoise.git",
+                            "commit": "1cbdbcf1283499bbb2230a6b0f126eb9b236defd"
+                        }
+                    ],
+                    "cleanup": [
+                        "/share/doc/rnnoise"
+                    ]
+                }
+            ]
+        }
+    ]
+}
