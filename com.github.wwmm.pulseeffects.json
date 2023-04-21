@@ -406,17 +406,17 @@
                             ]
                         },
                         {
+                            "//": "use older lsp temporarily since newer ones don't install the plugins correctly, https://github.com/wwmm/easyeffects/issues/2284",
                             "name": "lsp-plugins",
                             "no-autogen": true,
                             "make-args": [
-                                "config",
                                 "PREFIX=${FLATPAK_DEST}",
-                                "BUILD_MODULES=lv2",
-                                "FEATURES=lv2"
+                                "BUILD_MODULES=lv2"
                             ],
                             "make-install-args": [
                                 "PREFIX=${FLATPAK_DEST}"
                             ],
+                            "install-rule": "install_lv2",
                             "build-options": {
                                 "arch": {
                                     "aarch64": {
@@ -433,16 +433,14 @@
                             },
                             "sources": [
                                 {
-                                    "type": "archive",
-                                    "url": "https://github.com/sadko4u/lsp-plugins/releases/download/1.2.6/lsp-plugins-src-1.2.6.tar.gz",
-                                    "sha256": "94dac8b175b764d28c170b25e6aa305aa2bf65a09a414025ad2b1c9ec3b1bd58",
-                                    "x-checker-data": {
-                                        "type": "json",
-                                        "url": "https://api.github.com/repos/sadko4u/lsp-plugins/releases/latest",
-                                        "version-query": ".tag_name | sub(\"^lsp-plugins-src-\"; \"\")",
-                                        "url-query": ".assets[] | select(.name==\"lsp-plugins-src-\" + $version + \".tar.gz\") | .browser_download_url"
-                                    }
+                                    "type": "git",
+                                    "url": "https://github.com/sadko4u/lsp-plugins.git",
+                                    "tag": "1.1.29",
+                                    "commit": "663223c8075c3b4476f06c7d712c2716cec9daa5"
                                 }
+                            ],
+                            "post-install": [
+                                "install -Dm644 -t $FLATPAK_DEST/share/licenses/lsp-plugins LICENSE.txt"
                             ]
                         },
                         {
