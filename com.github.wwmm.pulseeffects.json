@@ -90,8 +90,8 @@
                         {
                             "type": "archive",
                             "//": "gtkmm must stay on the gtk 3 version, meaning we must keep gtkmm and a few gtkmm dependencies on older major versions",
-                            "url": "https://download.gnome.org/sources/gtkmm/3.24/gtkmm-3.24.7.tar.xz",
-                            "sha256": "1d7a35af9c5ceccacb244ee3c2deb9b245720d8510ac5c7e6f4b6f9947e6789c",
+                            "url": "https://download.gnome.org/sources/gtkmm/3.24/gtkmm-3.24.8.tar.xz",
+                            "sha256": "d2940c64922e5b958554b23d4c41d1839ea9e43e0d2e5b3819cfb46824a098c4",
                             "x-checker-data": {
                                 "type": "gnome",
                                 "name": "gtkmm",
@@ -300,8 +300,8 @@
                     "sources": [
                         {
                             "type": "archive",
-                            "url": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.20.6.tar.xz",
-                            "sha256": "d98c73fa5cdddb372a91199464515cfc80c89bbe05e3d4387ea4381e4224483a",
+                            "url": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.20.7.tar.xz",
+                            "sha256": "87251beebfd1325e5118cc67774061f6e8971761ca65a9e5957919610080d195",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 21849,
@@ -359,8 +359,8 @@
                             "sources": [
                                 {
                                     "type": "archive",
-                                    "url": "https://breakfastquay.com/files/releases/rubberband-3.2.1.tar.bz2",
-                                    "sha256": "82edacd0c50bfe56a6a85db1fcd4ca3346940ffe02843fc50f8b92f99a97d172",
+                                    "url": "https://breakfastquay.com/files/releases/rubberband-3.3.0.tar.bz2",
+                                    "sha256": "d9ef89e2b8ef9f85b13ac3c2faec30e20acf2c9f3a9c8c45ce637f2bc95e576c",
                                     "x-checker-data": {
                                         "type": "html",
                                         "url": "https://www.breakfastquay.com/rubberband/",
