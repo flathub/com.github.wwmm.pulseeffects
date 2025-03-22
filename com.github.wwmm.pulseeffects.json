@@ -409,13 +409,13 @@
                             "name": "lsp-plugins",
                             "no-autogen": true,
                             "make-args": [
-                                "PREFIX=${FLATPAK_DEST}",
-                                "BUILD_MODULES=lv2"
+                                "config",
+                                "PREFIX=/app",
+                                "FEATURES=lv2"
                             ],
                             "make-install-args": [
-                                "PREFIX=${FLATPAK_DEST}"
+                                "PREFIX=/app"
                             ],
-                            "install-rule": "install_lv2",
                             "build-options": {
                                 "arch": {
                                     "aarch64": {
@@ -432,14 +432,10 @@
                             },
                             "sources": [
                                 {
-                                    "type": "git",
-                                    "url": "https://github.com/sadko4u/lsp-plugins.git",
-                                    "tag": "1.1.29",
-                                    "commit": "663223c8075c3b4476f06c7d712c2716cec9daa5"
+                                    "type": "archive",
+                                    "url": "https://github.com/sadko4u/lsp-plugins/releases/download/1.2.8/lsp-plugins-src-1.2.8.tar.gz",
+                                    "sha256": "b9d558c91eab0ce0802a0829bd8e7c8e3a682e607ac178a2bef77363296413d7"
                                 }
-                            ],
-                            "post-install": [
-                                "install -Dm644 -t $FLATPAK_DEST/share/licenses/lsp-plugins LICENSE.txt"
                             ]
                         },
                         {
