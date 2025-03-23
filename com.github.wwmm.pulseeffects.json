@@ -35,8 +35,7 @@
                 {
                     "type": "git",
                     "url": "https://github.com/wwmm/easyeffects.git",
-                    "tag": "v4.8.7",
-                    "commit": "868a42b03167d37c83075aaa52e8e4fa5584d4b1"
+                    "commit": "fbe0a724c1405cee624802f381476cf003dfcfa5"
                 }
             ],
             "post-install": [
@@ -53,8 +52,8 @@
                     "sources": [
                         {
                             "type": "archive",
-                            "url": "https://archives.boost.io/release/1.84.0/source/boost_1_84_0.tar.gz",
-                            "sha256": "a5800f405508f5df8114558ca9855d2640a2de8f0445f051fa1c7c3383045724",
+                            "url": "https://archives.boost.io/release/1.87.0/source/boost_1_87_0.tar.gz",
+                            "sha256": "f55c340aa49763b1925ccf02b2e83f35fdcf634c9d5164a2acb87540173c741d",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 6845,
@@ -109,8 +108,8 @@
                             "sources": [
                                 {
                                     "type": "archive",
-                                    "url": "https://download.gnome.org/sources/glibmm/2.66/glibmm-2.66.6.tar.xz",
-                                    "sha256": "5358742598181e5351d7bf8da072bf93e6dd5f178d27640d4e462bc8f14e152f",
+                                    "url": "https://download.gnome.org/sources/glibmm/2.66/glibmm-2.66.8.tar.xz",
+                                    "sha256": "64f11d3b95a24e2a8d4166ecff518730f79ecc27222ef41faf7c7e0340fc9329",
                                     "x-checker-data": {
                                         "type": "gnome",
                                         "name": "glibmm",
@@ -291,12 +290,16 @@
                     "sources": [
                         {
                             "type": "archive",
-                            "url": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.20.7.tar.xz",
-                            "sha256": "87251beebfd1325e5118cc67774061f6e8971761ca65a9e5957919610080d195",
+                            "url": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.22.12.tar.xz",
+                            "sha256": "388b4c4412f42e36a38b17cc34119bc11879bd4d9fbd4ff6d03b2c7fc6b4d494",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 21849,
-                                "url-template": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-$version.tar.xz"
+                                "url-template": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-$version.tar.xz",
+                                "//": "newer versions may be ok, but are untested",
+                                "versions": {
+                                    "<": "1.23"
+                                }
                             }
                         }
                     ],
@@ -347,8 +350,8 @@
                             "sources": [
                                 {
                                     "type": "archive",
-                                    "url": "https://breakfastquay.com/files/releases/rubberband-3.3.0.tar.bz2",
-                                    "sha256": "d9ef89e2b8ef9f85b13ac3c2faec30e20acf2c9f3a9c8c45ce637f2bc95e576c",
+                                    "url": "https://breakfastquay.com/files/releases/rubberband-4.0.0.tar.bz2",
+                                    "sha256": "af050313ee63bc18b35b2e064e5dce05b276aaf6d1aa2b8a82ced1fe2f8028e9",
                                     "x-checker-data": {
                                         "type": "html",
                                         "url": "https://www.breakfastquay.com/rubberband/",
@@ -360,17 +363,13 @@
                         },
                         {
                             "name": "calf",
-                            "build-options": {
-                                "env": {
-                                    "NOCONFIGURE": "1"
-                                }
-                            },
+                            "buildsystem": "cmake-ninja",
                             "sources": [
                                 {
                                     "type": "git",
                                     "url": "https://github.com/calf-studio-gear/calf",
-                                    "tag": "0.90.3",
-                                    "commit": "41a2b7fb029cf0099fc05b7a9c569208034018de",
+                                    "tag": "0.90.5",
+                                    "commit": "de27462ee14334711e3e6b49cf81b9bac3883d66",
                                     "x-checker-data": {
                                         "type": "git",
                                         "tag-pattern": "^([\\d.]+)$"
@@ -459,11 +458,12 @@
                                     "tag": "4.2",
                                     "commit": "19307a52906821ad9549b9e4c1fdbd8b70bd228e",
                                     "x-checker-data": {
-                                        "type": "json",
-                                        "url": "https://api.github.com/repos/zamaudio/zam-plugins/releases/latest",
-                                        "tag-query": ".tag_name",
-                                        "version-query": "$tag | sub(\"^jq-\"; \"\")",
-                                        "timestamp-query": ".published_at"
+                                        "type": "git",
+                                        "tag-pattern": "^([\\d.]+)$",
+                                        "//": "newer versions result in runtime warnings like g_settings_bind: no property 'output-ceiling' on class 'ladspa-zamaximx2-ladspa-so-zamaximx2'",
+                                        "versions": {
+                                            "<": "4.3"
+                                        }
                                     }
                                 }
                             ],
