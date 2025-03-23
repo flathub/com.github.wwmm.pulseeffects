@@ -1,14 +1,13 @@
 {
     "id": "com.github.wwmm.pulseeffects",
     "runtime": "org.freedesktop.Platform",
-    "runtime-version": "22.08",
+    "runtime-version": "23.08",
     "sdk": "org.freedesktop.Sdk",
     "command": "pulseeffects",
     "rename-icon": "pulseeffects",
     "copy-icon": true,
     "finish-args": [
         "--share=ipc",
-        "--socket=x11",
         "--socket=fallback-x11",
         "--socket=wayland",
         "--device=dri",
@@ -36,16 +35,7 @@
                 {
                     "type": "git",
                     "url": "https://github.com/wwmm/easyeffects.git",
-                    "tag": "v4.8.7",
-                    "commit": "868a42b03167d37c83075aaa52e8e4fa5584d4b1",
-                    "x-checker-data": {
-                        "type": "git",
-                        "tag-pattern": "^v([\\d.]+)$",
-                        "versions": {
-                            "<": "5"
-                        },
-                        "is-important": true
-                    }
+                    "commit": "fbe0a724c1405cee624802f381476cf003dfcfa5"
                 }
             ],
             "post-install": [
@@ -62,12 +52,12 @@
                     "sources": [
                         {
                             "type": "archive",
-                            "url": "https://boostorg.jfrog.io/artifactory/main/release/1.84.0/source/boost_1_84_0.tar.gz",
-                            "sha256": "a5800f405508f5df8114558ca9855d2640a2de8f0445f051fa1c7c3383045724",
+                            "url": "https://archives.boost.io/release/1.87.0/source/boost_1_87_0.tar.gz",
+                            "sha256": "f55c340aa49763b1925ccf02b2e83f35fdcf634c9d5164a2acb87540173c741d",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 6845,
-                                "url-template": "https://boostorg.jfrog.io/artifactory/main/release/$version/source/boost_${major}_${minor}_${patch}.tar.gz"
+                                "url-template": "https://archives.boost.io/release/$version/source/boost_${major}_${minor}_${patch}.tar.gz"
                             }
                         }
                     ],
@@ -118,8 +108,8 @@
                             "sources": [
                                 {
                                     "type": "archive",
-                                    "url": "https://download.gnome.org/sources/glibmm/2.66/glibmm-2.66.6.tar.xz",
-                                    "sha256": "5358742598181e5351d7bf8da072bf93e6dd5f178d27640d4e462bc8f14e152f",
+                                    "url": "https://download.gnome.org/sources/glibmm/2.66/glibmm-2.66.8.tar.xz",
+                                    "sha256": "64f11d3b95a24e2a8d4166ecff518730f79ecc27222ef41faf7c7e0340fc9329",
                                     "x-checker-data": {
                                         "type": "gnome",
                                         "name": "glibmm",
@@ -149,7 +139,7 @@
                                                 "type": "gnome",
                                                 "name": "libsigc++",
                                                 "versions": {
-                                                    "<": "3"
+                                                    "<": "2.99"
                                                 }
                                             }
                                         }
@@ -300,14 +290,15 @@
                     "sources": [
                         {
                             "type": "archive",
-                            "url": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.20.7.tar.xz",
-                            "sha256": "87251beebfd1325e5118cc67774061f6e8971761ca65a9e5957919610080d195",
+                            "url": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.22.12.tar.xz",
+                            "sha256": "388b4c4412f42e36a38b17cc34119bc11879bd4d9fbd4ff6d03b2c7fc6b4d494",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 21849,
                                 "url-template": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-$version.tar.xz",
+                                "//": "newer versions may be ok, but are untested",
                                 "versions": {
-                                    "<": "1.21"
+                                    "<": "1.23"
                                 }
                             }
                         }
@@ -359,8 +350,8 @@
                             "sources": [
                                 {
                                     "type": "archive",
-                                    "url": "https://breakfastquay.com/files/releases/rubberband-3.3.0.tar.bz2",
-                                    "sha256": "d9ef89e2b8ef9f85b13ac3c2faec30e20acf2c9f3a9c8c45ce637f2bc95e576c",
+                                    "url": "https://breakfastquay.com/files/releases/rubberband-4.0.0.tar.bz2",
+                                    "sha256": "af050313ee63bc18b35b2e064e5dce05b276aaf6d1aa2b8a82ced1fe2f8028e9",
                                     "x-checker-data": {
                                         "type": "html",
                                         "url": "https://www.breakfastquay.com/rubberband/",
@@ -372,17 +363,13 @@
                         },
                         {
                             "name": "calf",
-                            "build-options": {
-                                "env": {
-                                    "NOCONFIGURE": "1"
-                                }
-                            },
+                            "buildsystem": "cmake-ninja",
                             "sources": [
                                 {
                                     "type": "git",
                                     "url": "https://github.com/calf-studio-gear/calf",
-                                    "tag": "0.90.3",
-                                    "commit": "41a2b7fb029cf0099fc05b7a9c569208034018de",
+                                    "tag": "0.90.5",
+                                    "commit": "de27462ee14334711e3e6b49cf81b9bac3883d66",
                                     "x-checker-data": {
                                         "type": "git",
                                         "tag-pattern": "^([\\d.]+)$"
@@ -410,13 +397,13 @@
                             "name": "lsp-plugins",
                             "no-autogen": true,
                             "make-args": [
-                                "PREFIX=${FLATPAK_DEST}",
-                                "BUILD_MODULES=lv2"
+                                "config",
+                                "PREFIX=/app",
+                                "FEATURES=lv2"
                             ],
                             "make-install-args": [
-                                "PREFIX=${FLATPAK_DEST}"
+                                "PREFIX=/app"
                             ],
-                            "install-rule": "install_lv2",
                             "build-options": {
                                 "arch": {
                                     "aarch64": {
@@ -433,14 +420,10 @@
                             },
                             "sources": [
                                 {
-                                    "type": "git",
-                                    "url": "https://github.com/sadko4u/lsp-plugins.git",
-                                    "tag": "1.1.29",
-                                    "commit": "663223c8075c3b4476f06c7d712c2716cec9daa5"
+                                    "type": "archive",
+                                    "url": "https://github.com/sadko4u/lsp-plugins/releases/download/1.2.8/lsp-plugins-src-1.2.8.tar.gz",
+                                    "sha256": "b9d558c91eab0ce0802a0829bd8e7c8e3a682e607ac178a2bef77363296413d7"
                                 }
-                            ],
-                            "post-install": [
-                                "install -Dm644 -t $FLATPAK_DEST/share/licenses/lsp-plugins LICENSE.txt"
                             ]
                         },
                         {
@@ -475,11 +458,12 @@
                                     "tag": "4.2",
                                     "commit": "19307a52906821ad9549b9e4c1fdbd8b70bd228e",
                                     "x-checker-data": {
-                                        "type": "json",
-                                        "url": "https://api.github.com/repos/zamaudio/zam-plugins/releases/latest",
-                                        "tag-query": ".tag_name",
-                                        "version-query": "$tag | sub(\"^jq-\"; \"\")",
-                                        "timestamp-query": ".published_at"
+                                        "type": "git",
+                                        "tag-pattern": "^([\\d.]+)$",
+                                        "//": "newer versions result in runtime warnings like g_settings_bind: no property 'output-ceiling' on class 'ladspa-zamaximx2-ladspa-so-zamaximx2'",
+                                        "versions": {
+                                            "<": "4.3"
+                                        }
                                     }
                                 }
                             ],
@@ -497,16 +481,16 @@
                     "name": "rnnoise",
                     "sources": [
                         {
-                            "type": "git",
-                            "url": "https://github.com/xiph/rnnoise.git",
-                            "commit": "1cbdbcf1283499bbb2230a6b0f126eb9b236defd",
-                            "x-checker-data": {
-                                "type": "json",
-                                "url": "https://api.github.com/repos/xiph/rnnoise/commits",
-                                "commit-query": "first( .[].sha )",
-                                "version-query": "first( .[].sha )",
-                                "timestamp-query": "first( .[].commit.committer.date )"
-                            }
+                            "//": "get latest fixes from upstream to fix aarch64 build",
+                            "type": "archive",
+                            "url": "https://github.com/xiph/rnnoise/archive/2e3c812c62c32b3ac486c3cd4f4894e6f57d45fd.zip",
+                            "sha256": "5bb718f676214097c5cd0b8defbed1cef50f26c4cea981df5bc7a3abd4b4ea15"
+                        },
+                        {
+                            "//": "downloads the file as found by this script https://github.com/xiph/rnnoise/blob/2e3c812c62c32b3ac486c3cd4f4894e6f57d45fd/download_model.sh",
+                            "type": "file",
+                            "url": "https://media.xiph.org/rnnoise/models/rnnoise_data-4ac81c5c0884ec4bd5907026aaae16209b7b76cd9d7f71af582094a2f98f4b43.tar.gz",
+                            "sha256": "4ac81c5c0884ec4bd5907026aaae16209b7b76cd9d7f71af582094a2f98f4b43"
                         }
                     ],
                     "cleanup": [
