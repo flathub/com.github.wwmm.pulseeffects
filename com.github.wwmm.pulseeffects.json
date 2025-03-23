@@ -36,15 +36,7 @@
                     "type": "git",
                     "url": "https://github.com/wwmm/easyeffects.git",
                     "tag": "v4.8.7",
-                    "commit": "868a42b03167d37c83075aaa52e8e4fa5584d4b1",
-                    "x-checker-data": {
-                        "type": "git",
-                        "tag-pattern": "^v([\\d.]+)$",
-                        "versions": {
-                            "<": "5"
-                        },
-                        "is-important": true
-                    }
+                    "commit": "868a42b03167d37c83075aaa52e8e4fa5584d4b1"
                 }
             ],
             "post-install": [
