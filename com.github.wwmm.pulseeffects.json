@@ -304,10 +304,7 @@
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 21849,
-                                "url-template": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-$version.tar.xz",
-                                "versions": {
-                                    "<": "1.21"
-                                }
+                                "url-template": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-$version.tar.xz"
                             }
                         }
                     ],
