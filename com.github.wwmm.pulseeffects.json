@@ -148,7 +148,7 @@
                                                 "type": "gnome",
                                                 "name": "libsigc++",
                                                 "versions": {
-                                                    "<": "3"
+                                                    "<": "2.99"
                                                 }
                                             }
                                         }
