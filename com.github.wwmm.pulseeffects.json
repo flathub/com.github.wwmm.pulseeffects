@@ -1,7 +1,7 @@
 {
     "id": "com.github.wwmm.pulseeffects",
     "runtime": "org.freedesktop.Platform",
-    "runtime-version": "23.08",
+    "runtime-version": "25.08",
     "sdk": "org.freedesktop.Sdk",
     "command": "pulseeffects",
     "rename-icon": "pulseeffects",
@@ -35,7 +35,7 @@
                 {
                     "type": "git",
                     "url": "https://github.com/wwmm/easyeffects.git",
-                    "commit": "fbe0a724c1405cee624802f381476cf003dfcfa5"
+                    "commit": "4c517815a483e8bb88b8762a0f6017218be1cfde"
                 }
             ],
             "modules": [
@@ -49,8 +49,8 @@
                     "sources": [
                         {
                             "type": "archive",
-                            "url": "https://archives.boost.io/release/1.87.0/source/boost_1_87_0.tar.gz",
-                            "sha256": "f55c340aa49763b1925ccf02b2e83f35fdcf634c9d5164a2acb87540173c741d",
+                            "url": "https://archives.boost.io/release/1.89.0/source/boost_1_89_0.tar.gz",
+                            "sha256": "9de758db755e8330a01d995b0a24d09798048400ac25c03fc5ea9be364b13c93",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 6845,
@@ -74,8 +74,8 @@
                         {
                             "type": "archive",
                             "//": "gtkmm must stay on the gtk 3 version, meaning we must keep gtkmm and a few gtkmm dependencies on older major versions",
-                            "url": "https://download.gnome.org/sources/gtkmm/3.24/gtkmm-3.24.9.tar.xz",
-                            "sha256": "30d5bfe404571ce566a8e938c8bac17576420eb508f1e257837da63f14ad44ce",
+                            "url": "https://download.gnome.org/sources/gtkmm/3.24/gtkmm-3.24.10.tar.xz",
+                            "sha256": "7ab7e2266808716e26c39924ace1fb46da86c17ef39d989624c42314b32b5a76",
                             "x-checker-data": {
                                 "type": "gnome",
                                 "name": "gtkmm",
@@ -227,7 +227,8 @@
                     "config-opts": [
                         "-DCMAKE_BUILD_TYPE=Release",
                         "-DBUILD_STATIC_LIBS=OFF",
-                        "-DCMAKE_INSTALL_LIBDIR=lib"
+                        "-DCMAKE_INSTALL_LIBDIR=lib",
+                        "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
                     ],
                     "sources": [
                         {
@@ -281,16 +282,12 @@
                     "sources": [
                         {
                             "type": "archive",
-                            "url": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.22.12.tar.xz",
-                            "sha256": "388b4c4412f42e36a38b17cc34119bc11879bd4d9fbd4ff6d03b2c7fc6b4d494",
+                            "url": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.26.7.tar.xz",
+                            "sha256": "a0ab17dddd4c029ecd7a423c30badd5a3c7599ea42707016d1d57545f5723ccf",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 21849,
-                                "url-template": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-$version.tar.xz",
-                                "//": "newer versions may be ok, but are untested",
-                                "versions": {
-                                    "<": "1.23"
-                                }
+                                "url-template": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-$version.tar.xz"
                             }
                         }
                     ],
@@ -356,8 +353,8 @@
                                 {
                                     "type": "git",
                                     "url": "https://github.com/calf-studio-gear/calf",
-                                    "tag": "0.90.5",
-                                    "commit": "de27462ee14334711e3e6b49cf81b9bac3883d66",
+                                    "tag": "0.90.8",
+                                    "commit": "a17dbe7d290a16901a72fa74daabf24dc3e06301",
                                     "x-checker-data": {
                                         "type": "git",
                                         "tag-pattern": "^([\\d.]+)$"
