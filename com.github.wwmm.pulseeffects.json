@@ -38,9 +38,6 @@
                     "commit": "fbe0a724c1405cee624802f381476cf003dfcfa5"
                 }
             ],
-            "post-install": [
-                "install -Dm644 -t $FLATPAK_DEST/share/licenses/com.github.wwmm.pulseeffects ../LICENSE.md"
-            ],
             "modules": [
                 {
                     "name": "boost",
@@ -60,9 +57,6 @@
                                 "url-template": "https://archives.boost.io/release/$version/source/boost_${major}_${minor}_${patch}.tar.gz"
                             }
                         }
-                    ],
-                    "post-install": [
-                        "install -Dm644 -t $FLATPAK_DEST/share/licenses/boost LICENSE_1_0.txt"
                     ],
                     "cleanup": [
                         "/lib/cmake"
@@ -249,9 +243,6 @@
                                 "timestamp-query": ".published_at"
                             }
                         }
-                    ],
-                    "post-install": [
-                        "install -Dm644 -t $FLATPAK_DEST/share/licenses/libebur128 COPYING"
                     ]
                 },
                 {
@@ -332,9 +323,6 @@
                                     "path": "patch/bs2b/001-fix-automake-dist-lzma.patch"
                                 }
                             ],
-                            "post-install": [
-                                "install -Dm644 -t $FLATPAK_DEST/share/licenses/bs2b COPYING"
-                            ],
                             "cleanup": [
                                 "/bin"
                             ]
@@ -375,9 +363,6 @@
                                         "tag-pattern": "^([\\d.]+)$"
                                     }
                                 }
-                            ],
-                            "post-install": [
-                                "install -Dm644 -t $FLATPAK_DEST/share/licenses/calf COPYING"
                             ],
                             "cleanup": [
                                 "/bin",
@@ -466,9 +451,6 @@
                                         }
                                     }
                                 }
-                            ],
-                            "post-install": [
-                                "install -Dm644 -t $FLATPAK_DEST/share/licenses/zam-plugins COPYING"
                             ],
                             "cleanup": [
                                 "/lib/lv2",
