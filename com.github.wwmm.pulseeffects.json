@@ -74,8 +74,8 @@
                         {
                             "type": "archive",
                             "//": "gtkmm must stay on the gtk 3 version, meaning we must keep gtkmm and a few gtkmm dependencies on older major versions",
-                            "url": "https://download.gnome.org/sources/gtkmm/3.24/gtkmm-3.24.10.tar.xz",
-                            "sha256": "7ab7e2266808716e26c39924ace1fb46da86c17ef39d989624c42314b32b5a76",
+                            "url": "https://download.gnome.org/sources/gtkmm/3.24/gtkmm-3.24.11.tar.xz",
+                            "sha256": "19e383c82d5dd89db275e00b82864e90414d4c3fb3d100b2f996bcc2338a4cc7",
                             "x-checker-data": {
                                 "type": "gnome",
                                 "name": "gtkmm",
@@ -153,8 +153,8 @@
                             "sources": [
                                 {
                                     "type": "archive",
-                                    "url": "https://download.gnome.org/sources/atkmm/2.28/atkmm-2.28.4.tar.xz",
-                                    "sha256": "0a142a8128f83c001efb8014ee463e9a766054ef84686af953135e04d28fdab3",
+                                    "url": "https://download.gnome.org/sources/atkmm/2.28/atkmm-2.28.5.tar.xz",
+                                    "sha256": "ae449192a582a2582a95e0602b15d792bbd639e836339b81ef916aa87540ac5c",
                                     "x-checker-data": {
                                         "type": "gnome",
                                         "name": "atkmm",
@@ -179,8 +179,8 @@
                             "sources": [
                                 {
                                     "type": "archive",
-                                    "url": "https://www.cairographics.org/releases/cairomm-1.14.5.tar.xz",
-                                    "sha256": "70136203540c884e89ce1c9edfb6369b9953937f6cd596d97c78c9758a5d48db",
+                                    "url": "https://www.cairographics.org/releases/cairomm-1.14.6.tar.xz",
+                                    "sha256": "7e0d5c7f29175d573a03ab5c45aef63f48dd91a5caf335a404cd763e4b7cea4a",
                                     "x-checker-data": {
                                         "type": "anitya",
                                         "project-id": 7959,
@@ -353,8 +353,8 @@
                                 {
                                     "type": "git",
                                     "url": "https://github.com/calf-studio-gear/calf",
-                                    "tag": "0.90.8",
-                                    "commit": "a17dbe7d290a16901a72fa74daabf24dc3e06301",
+                                    "tag": "0.90.9",
+                                    "commit": "60c4963333de726f0a6d502d97fffe8d7dec8499",
                                     "x-checker-data": {
                                         "type": "git",
                                         "tag-pattern": "^([\\d.]+)$"
